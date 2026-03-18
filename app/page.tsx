@@ -59,8 +59,8 @@ const FAQS = [
   { q:"How does the performance-based ads plan work?", a:"We run your Meta ads at zero upfront cost. You pay 15% only on closed deals. Perfect for testing before committing to a monthly plan." },
   { q:"What's included in the setup fee?",          a:"The setup fee covers system configuration, AI training on your business, integration testing, and go-live support." },
   { q:"Does the AI sound like a real person?",      a:"Yes. Our voice AI is trained to match your brand's tone and handles natural conversation including interruptions and follow-up questions." },
-  { q:"What does '+ 10% per closed deal' mean?",   a:"On top of the monthly fee, we take a 10% commission on every roofing deal you close through our leads. This aligns our incentives with yours — we only win when you win." },
-  { q:"What happens after the first client on the commission-only plan?", a:"Your first client is 100% commission-only — no upfront cost, just 10% of the closed deal. After that you move to $399/mo + 10% per deal." },
+  { q:"What does '+ 10% per closed deal' mean?",   a:"On plans that include ads (Meta Ads and Full AI System + Lead Gen Ads), we take a 10% commission on every deal closed through our leads. This aligns our incentives with yours — we only win when you win." },
+  { q:"What happens after the first client on the commission-only plan?", a:"Your first client is 100% commission-only — no upfront cost, just 13% of the closed deal. After that you move to $399/mo + 10% per deal." },
 ];
 
 // ─── PRICING PLANS — ordered cheapest to most expensive ──────────────────────
@@ -69,18 +69,18 @@ const PLANS = [
     id:"commission-only",
     n:"01", title:"First Client — Commission Only", price:0, priceDisplay:"$0/mo",
     setup:0, setupDisplay:"No setup fee",
-    commission:"10% per closed deal",
-    desc:"Zero risk to start. We run your full AI system for free — you only pay 10% when a deal closes. First client only.",
-    features:["AI Chat & SMS on your site","Lead qualification","Automated follow-ups","Call routing","10% on closed deals only"],
+    commission:"13% per closed deal",
+    desc:"Zero risk to start. We run your full AI system for free — you only pay 13% when a deal closes. First client only.",
+    features:["AI Chat & SMS on your site","Lead qualification","Automated follow-ups","Call routing","13% on closed deals only"],
     hot:false, custom:false, commissionOnly:true, bundle:false, fullBundle:false,
   },
   {
     id:"ai-website",
     n:"02", title:"AI Website System", price:399, priceDisplay:"$399/mo",
     setup:250, setupDisplay:"$250 setup",
-    commission:"+10% per closed deal",
+    commission:"",
     desc:"High-conversion roofing website with AI chat, lead capture, and analytics — built to convert visitors into booked jobs.",
-    features:["Custom AI-connected landing page","Lead capture form + AI chat","Mobile-first design","Analytics & tracking","+ 10% per closed deal"],
+    features:["Custom AI-connected landing page","Lead capture form + AI chat","Mobile-first design","Analytics & tracking"],
     hot:false, custom:false, commissionOnly:false, bundle:false, fullBundle:false,
   },
   {
@@ -96,23 +96,32 @@ const PLANS = [
     id:"ai-receptionist",
     n:"04", title:"AI Voice & Chat Receptionist", price:699, priceDisplay:"$699/mo",
     setup:350, setupDisplay:"$350 setup",
-    commission:"+10% per closed deal",
+    commission:"",
     desc:"Full AI phone receptionist, WhatsApp & SMS automation, lead qualification, and automated follow-ups — 24/7.",
-    features:["AI phone receptionist (24/7)","WhatsApp & SMS automation","Lead qualification","Automated follow-up sequences","Weekly performance report","+ 10% per closed deal"],
+    features:["AI phone receptionist (24/7)","WhatsApp & SMS automation","Lead qualification","Automated follow-up sequences","Weekly performance report"],
     hot:false, custom:false, commissionOnly:false, bundle:false, fullBundle:false,
   },
   {
+    id:"full-system",
+    n:"05", title:"Full AI System", price:1499, priceDisplay:"$1,499/mo",
+    setup:400, setupDisplay:"$400 setup",
+    commission:"",
+    desc:"AI website, AI receptionist, chat & SMS, automated follow-ups, and lead qualification — without the ads. The complete system.",
+    features:["AI-powered roofing website","AI phone receptionist (24/7)","WhatsApp, SMS & web chat AI","Automated follow-up sequences","Lead qualification","Lead tracking dashboard","Priority support"],
+    hot:true, custom:false, commissionOnly:false, bundle:false, fullBundle:false, fullSystem:true,
+  },
+  {
     id:"full-bundle",
-    n:"05", title:"Full AI System + Lead Gen Ads", price:2400, priceDisplay:"$2,400/mo",
+    n:"06", title:"Full AI System + Lead Gen Ads", price:2400, priceDisplay:"$2,400/mo",
     setup:500, setupDisplay:"$500 setup",
     commission:"+10% per closed deal",
     desc:"Everything in one: Meta ads, AI website, AI receptionist, chat & SMS, and automated follow-ups. The complete roofing machine.",
     features:["AI Lead Generation Ads (Facebook & Instagram)","AI-powered roofing website","AI phone receptionist (24/7)","WhatsApp, SMS & web chat AI","Automated follow-up sequences","Lead tracking dashboard","Priority support","+ 10% per closed deal"],
-    hot:true, custom:false, commissionOnly:false, bundle:false, fullBundle:true,
+    hot:false, custom:false, commissionOnly:false, bundle:false, fullBundle:true,
   },
   {
     id:"custom",
-    n:"06", title:"Custom / n8n", price:0, priceDisplay:"Tailored",
+    n:"07", title:"Custom / n8n", price:0, priceDisplay:"Tailored",
     setup:0, setupDisplay:"Quoted per scope",
     commission:"",
     desc:"Bespoke workflow automation built on n8n — engineered around your exact process.",
@@ -240,7 +249,7 @@ function RoofingBackground() {
       {/* ── Warm cream base ── */}
       <div style={{position:"absolute",inset:0,background:"linear-gradient(165deg,#fffcf8 0%,#fff6ed 40%,#ffecd6 70%,#fff5ec 100%)"}}/>
 
-      {/* ── Layered SVG waves — smooth, blurred, like the reference screenshot ── */}
+      {/* ── Layered SVG waves ── */}
       <svg style={{position:"absolute",bottom:0,left:0,width:"100%",height:"75%",overflow:"visible"}}
         viewBox="0 0 1440 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -249,119 +258,56 @@ function RoofingBackground() {
           <filter id="wb3"><feGaussianBlur stdDeviation="10"/></filter>
           <filter id="wb4"><feGaussianBlur stdDeviation="4"/></filter>
         </defs>
-        {/* Deepest wave — dark burnt orange */}
         <g className="wave-1">
           <path filter="url(#wb1)" fill="rgba(180,50,5,0.14)"
             d="M0,420 C180,320 360,500 540,400 C720,300 900,460 1080,360 C1260,260 1380,400 1440,340 L1440,600 L0,600Z"/>
         </g>
-        {/* Second wave — deep orange */}
         <g className="wave-2">
           <path filter="url(#wb1)" fill="rgba(220,70,10,0.12)"
             d="M0,460 C200,360 420,520 660,420 C900,320 1100,480 1300,380 C1420,320 1440,420 1440,380 L1440,600 L0,600Z"/>
         </g>
-        {/* Third wave — mid orange */}
         <g className="wave-3">
           <path filter="url(#wb2)" fill="rgba(249,115,22,0.11)"
             d="M0,490 C240,400 480,540 720,450 C960,360 1140,500 1340,410 C1420,375 1440,450 1440,430 L1440,600 L0,600Z"/>
         </g>
-        {/* Fourth wave — brighter orange */}
         <g className="wave-4">
           <path filter="url(#wb2)" fill="rgba(251,146,60,0.10)"
             d="M0,510 C200,430 440,560 700,480 C960,400 1160,530 1360,450 C1430,420 1440,490 1440,470 L1440,600 L0,600Z"/>
         </g>
-        {/* Fifth wave — light amber */}
         <g className="wave-5">
           <path filter="url(#wb3)" fill="rgba(253,186,116,0.09)"
             d="M0,530 C240,460 500,570 760,500 C1020,430 1200,550 1400,480 C1435,464 1440,510 1440,500 L1440,600 L0,600Z"/>
         </g>
-        {/* Surface wave — crisp, subtle */}
         <g className="wave-1">
           <path filter="url(#wb4)" fill="rgba(249,115,22,0.06)"
             d="M0,550 C200,500 440,570 720,530 C1000,490 1220,555 1440,520 L1440,600 L0,600Z"/>
         </g>
-        {/* Top ambient wash */}
         <g className="wave-3">
           <path filter="url(#wb1)" fill="rgba(234,88,12,0.07)"
             d="M0,300 C240,200 560,380 840,260 C1120,140 1300,320 1440,220 L1440,600 L0,600Z"/>
         </g>
       </svg>
 
-      {/* ── Scattered roofing illustrations across the background ── */}
+      {/* ── Scattered roofing illustrations ── */}
       <div style={{position:"absolute",inset:0}}>
-
-        {/* House 1 — far left bottom */}
-        <div style={{position:"absolute",bottom:"8%",left:"2%",opacity:0.18}}>
-          <SceneryHouse variant="A" scale={0.9}/>
-        </div>
-
-        {/* House 2 — left-center */}
-        <div style={{position:"absolute",bottom:"6%",left:"14%",opacity:0.14}}>
-          <SceneryHouse variant="B" scale={0.7}/>
-        </div>
-
-        {/* Worker on roof — center-left */}
-        <div style={{position:"absolute",bottom:"18%",left:"22%",opacity:0.15}}>
-          <SceneryWorker/>
-        </div>
-
-        {/* House 3 — center, slightly behind */}
-        <div style={{position:"absolute",bottom:"5%",left:"34%",opacity:0.10}}>
-          <SceneryHouse variant="C" scale={1.1}/>
-        </div>
-
-        {/* Truck — center */}
-        <div style={{position:"absolute",bottom:"7%",left:"46%",opacity:0.16}}>
-          <SceneryTruck/>
-        </div>
-
-        {/* Scaffolding — center-right */}
-        <div style={{position:"absolute",bottom:"6%",left:"58%",opacity:0.14}}>
-          <SceneryScaffolding/>
-        </div>
-
-        {/* House 4 — right side */}
-        <div style={{position:"absolute",bottom:"5%",left:"68%",opacity:0.13}}>
-          <SceneryHouse variant="A" scale={0.85}/>
-        </div>
-
-        {/* Worker 2 on roof — right */}
-        <div style={{position:"absolute",bottom:"17%",left:"75%",opacity:0.14}}>
-          <SceneryWorker flip/>
-        </div>
-
-        {/* House 5 — far right */}
-        <div style={{position:"absolute",bottom:"6%",right:"2%",opacity:0.15}}>
-          <SceneryHouse variant="B" scale={0.95}/>
-        </div>
-
-        {/* Shingle pile — scattered */}
-        <div style={{position:"absolute",bottom:"6.5%",left:"30%",opacity:0.2}}>
-          <SceneryShingles/>
-        </div>
-
-        {/* Ladder — beside right house */}
-        <div style={{position:"absolute",bottom:"6%",left:"65%",opacity:0.18}}>
-          <SceneryLadder/>
-        </div>
-
-        {/* Sun — top right corner */}
-        <div className="anim-sun" style={{position:"absolute",top:"5%",right:"5%",opacity:0.22}}>
-          <ScenerySun/>
-        </div>
-
-        {/* Clouds */}
-        <div className="anim-cloud1" style={{position:"absolute",top:"12%",left:"15%",opacity:0.18}}>
-          <SceneryCloud scale={1.2}/>
-        </div>
-        <div className="anim-cloud2" style={{position:"absolute",top:"8%",left:"55%",opacity:0.14}}>
-          <SceneryCloud scale={0.8}/>
-        </div>
-        <div className="anim-cloud1" style={{position:"absolute",top:"18%",right:"18%",opacity:0.12}}>
-          <SceneryCloud scale={0.6}/>
-        </div>
+        <div style={{position:"absolute",bottom:"8%",left:"2%",opacity:0.18}}><SceneryHouse variant="A" scale={0.9}/></div>
+        <div style={{position:"absolute",bottom:"6%",left:"14%",opacity:0.14}}><SceneryHouse variant="B" scale={0.7}/></div>
+        <div style={{position:"absolute",bottom:"18%",left:"22%",opacity:0.15}}><SceneryWorker/></div>
+        <div style={{position:"absolute",bottom:"5%",left:"34%",opacity:0.10}}><SceneryHouse variant="C" scale={1.1}/></div>
+        <div style={{position:"absolute",bottom:"7%",left:"46%",opacity:0.16}}><SceneryTruck/></div>
+        <div style={{position:"absolute",bottom:"6%",left:"58%",opacity:0.14}}><SceneryScaffolding/></div>
+        <div style={{position:"absolute",bottom:"5%",left:"68%",opacity:0.13}}><SceneryHouse variant="A" scale={0.85}/></div>
+        <div style={{position:"absolute",bottom:"17%",left:"75%",opacity:0.14}}><SceneryWorker flip/></div>
+        <div style={{position:"absolute",bottom:"6%",right:"2%",opacity:0.15}}><SceneryHouse variant="B" scale={0.95}/></div>
+        <div style={{position:"absolute",bottom:"6.5%",left:"30%",opacity:0.2}}><SceneryShingles/></div>
+        <div style={{position:"absolute",bottom:"6%",left:"65%",opacity:0.18}}><SceneryLadder/></div>
+        <div className="anim-sun" style={{position:"absolute",top:"5%",right:"5%",opacity:0.22}}><ScenerySun/></div>
+        <div className="anim-cloud1" style={{position:"absolute",top:"12%",left:"15%",opacity:0.18}}><SceneryCloud scale={1.2}/></div>
+        <div className="anim-cloud2" style={{position:"absolute",top:"8%",left:"55%",opacity:0.14}}><SceneryCloud scale={0.8}/></div>
+        <div className="anim-cloud1" style={{position:"absolute",top:"18%",right:"18%",opacity:0.12}}><SceneryCloud scale={0.6}/></div>
       </div>
 
-      {/* ── Orbs for depth ── */}
+      {/* ── Orbs ── */}
       <div className="orb-1" style={{position:"absolute",top:"-15%",left:"55%",width:800,height:800,borderRadius:"50%",
         background:"radial-gradient(circle,rgba(249,115,22,0.08) 0%,transparent 65%)",filter:"blur(80px)"}}/>
       <div className="orb-2" style={{position:"absolute",top:"25%",left:"-10%",width:600,height:600,borderRadius:"50%",
@@ -374,7 +320,7 @@ function RoofingBackground() {
   );
 }
 
-// ── Scenery pieces ─────────────────────────────────────────────────────────────
+// ── Scenery pieces ──────────────────────────────────────────────────────────────
 const O  = "rgba(249,115,22,1)";
 const OD = "rgba(194,65,12,1)";
 const OM = "rgba(234,88,12,1)";
@@ -384,39 +330,30 @@ function SceneryHouse({ variant="A", scale=1 }: { variant?:"A"|"B"|"C"; scale?:n
   const w = 180*scale, h = 160*scale;
   if (variant === "A") return (
     <svg width={w} height={h} viewBox="0 0 180 160" fill="none">
-      {/* Walls */}
       <rect x="20" y="90" width="140" height="70" fill="rgba(249,115,22,0.15)" stroke={OM} strokeWidth="1.5"/>
-      {/* Roof */}
       <polygon points="8,92 90,28 172,92" fill={OD} opacity="0.55"/>
-      {/* Shingles */}
       {[0,1,2,3,4].map(r=>[0,1,2,3,4,5,6].map(c=>{
         const x=12+c*23-r*2.5, y=46+r*8;
         if(y>91||x<8||x>163) return null;
         return <rect key={`${r}${c}`} x={x} y={y} width="22" height="7" rx="1" fill={r%2===0?OD:OM} opacity="0.65"/>;
       }))}
-      {/* Chimney */}
       <rect x="128" y="46" width="16" height="30" fill="rgba(80,40,20,0.5)" rx="1"/>
       <rect x="125" y="44" width="22" height="5" fill="rgba(60,30,10,0.55)" rx="1"/>
-      {/* Smoke wisps */}
       <path d="M134,44 Q131,36 134,28 Q137,20 134,12" stroke="rgba(249,115,22,0.3)" strokeWidth="2" fill="none" strokeLinecap="round"/>
       <path d="M140,44 Q143,34 140,26" stroke="rgba(249,115,22,0.2)" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
-      {/* Door */}
       <rect x="73" y="118" width="28" height="42" fill="rgba(120,60,20,0.45)" rx="2"/>
       <circle cx="97" cy="139" r="2" fill={O} opacity="0.8"/>
-      {/* Windows */}
       <rect x="28" y="100" width="30" height="24" fill="rgba(135,206,235,0.35)" stroke={OM} strokeWidth="1" rx="1"/>
       <line x1="43" y1="100" x2="43" y2="124" stroke={OM} strokeWidth="0.8" opacity="0.5"/>
       <line x1="28" y1="112" x2="58" y2="112" stroke={OM} strokeWidth="0.8" opacity="0.5"/>
       <rect x="122" y="100" width="30" height="24" fill="rgba(135,206,235,0.35)" stroke={OM} strokeWidth="1" rx="1"/>
       <line x1="137" y1="100" x2="137" y2="124" stroke={OM} strokeWidth="0.8" opacity="0.5"/>
       <line x1="122" y1="112" x2="152" y2="112" stroke={OM} strokeWidth="0.8" opacity="0.5"/>
-      {/* Ground line */}
       <line x1="0" y1="160" x2="180" y2="160" stroke={OM} strokeWidth="1.5" opacity="0.3"/>
     </svg>
   );
   if (variant === "B") return (
     <svg width={w} height={h} viewBox="0 0 180 160" fill="none">
-      {/* Ranch style — wide low roof */}
       <rect x="10" y="100" width="160" height="60" fill="rgba(249,115,22,0.12)" stroke={OM} strokeWidth="1.5"/>
       <polygon points="0,102 90,55 180,102" fill={OM} opacity="0.5"/>
       {[0,1,2,3].map(r=>[0,1,2,3,4,5,6,7].map(c=>{
@@ -433,7 +370,6 @@ function SceneryHouse({ variant="A", scale=1 }: { variant?:"A"|"B"|"C"; scale?:n
       <line x1="0" y1="160" x2="180" y2="160" stroke={OM} strokeWidth="1.5" opacity="0.3"/>
     </svg>
   );
-  // variant C — two-story
   return (
     <svg width={w} height={h} viewBox="0 0 180 160" fill="none">
       <rect x="25" y="70" width="130" height="90" fill="rgba(249,115,22,0.12)" stroke={OM} strokeWidth="1.5"/>
@@ -446,10 +382,8 @@ function SceneryHouse({ variant="A", scale=1 }: { variant?:"A"|"B"|"C"; scale?:n
       <rect x="130" y="30" width="16" height="28" fill="rgba(80,40,20,0.5)" rx="1"/>
       <rect x="127" y="28" width="22" height="5" fill="rgba(60,30,10,0.55)" rx="1"/>
       <rect x="72" y="130" width="30" height="30" fill="rgba(120,60,20,0.4)" rx="2"/>
-      {/* Lower windows */}
       <rect x="32" y="80" width="28" height="22" fill="rgba(135,206,235,0.35)" stroke={OM} strokeWidth="1" rx="1"/>
       <rect x="120" y="80" width="28" height="22" fill="rgba(135,206,235,0.35)" stroke={OM} strokeWidth="1" rx="1"/>
-      {/* Upper windows */}
       <rect x="42" y="108" width="24" height="18" fill="rgba(135,206,235,0.3)" stroke={OM} strokeWidth="1" rx="1"/>
       <rect x="114" y="108" width="24" height="18" fill="rgba(135,206,235,0.3)" stroke={OM} strokeWidth="1" rx="1"/>
       <line x1="0" y1="160" x2="180" y2="160" stroke={OM} strokeWidth="1.5" opacity="0.3"/>
@@ -460,29 +394,20 @@ function SceneryHouse({ variant="A", scale=1 }: { variant?:"A"|"B"|"C"; scale?:n
 function SceneryWorker({ flip=false }: { flip?:boolean }) {
   return (
     <svg width="80" height="100" viewBox="0 0 80 100" fill="none" style={{transform:flip?"scaleX(-1)":"none"}} className="anim-worker">
-      {/* Roof slope they're on */}
       <line x1="0" y1="80" x2="80" y2="44" stroke={OM} strokeWidth="2" opacity="0.5"/>
-      {/* Body */}
       <rect x="34" y="52" width="12" height="18" fill="rgba(40,40,40,0.7)" rx="2"/>
-      {/* Head */}
       <circle cx="40" cy="48" r="8" fill="rgba(220,180,140,0.9)"/>
-      {/* Hard hat */}
       <ellipse cx="40" cy="43" rx="11" ry="6" fill={O} opacity="0.85"/>
       <rect x="30" y="41" width="20" height="4" rx="2" fill={OD} opacity="0.9"/>
-      {/* Hammer arm */}
       <g className="anim-hammer" style={{transformOrigin:"40px 60px"}}>
         <line x1="44" y1="57" x2="60" y2="44" stroke="rgba(40,40,40,0.6)" strokeWidth="3" strokeLinecap="round"/>
         <rect x="58" y="40" width="9" height="6" rx="1.5" fill="rgba(60,60,60,0.8)"/>
       </g>
-      {/* Other arm */}
       <line x1="36" y1="57" x2="24" y2="50" stroke="rgba(220,180,140,0.7)" strokeWidth="2.5" strokeLinecap="round"/>
-      {/* Legs */}
       <line x1="38" y1="70" x2="35" y2="86" stroke="rgba(40,40,40,0.6)" strokeWidth="3.5" strokeLinecap="round"/>
       <line x1="42" y1="70" x2="46" y2="86" stroke="rgba(40,40,40,0.6)" strokeWidth="3.5" strokeLinecap="round"/>
-      {/* Boots */}
       <ellipse cx="34" cy="87" rx="5" ry="3" fill="rgba(30,20,10,0.6)"/>
       <ellipse cx="47" cy="87" rx="5" ry="3" fill="rgba(30,20,10,0.6)"/>
-      {/* Tool belt */}
       <rect x="33" y="65" width="14" height="4" fill={OD} opacity="0.5" rx="1"/>
     </svg>
   );
@@ -491,16 +416,11 @@ function SceneryWorker({ flip=false }: { flip?:boolean }) {
 function SceneryTruck() {
   return (
     <svg width="160" height="80" viewBox="0 0 160 80" fill="none" className="anim-worker">
-      {/* Trailer bed */}
       <rect x="0" y="32" width="110" height="30" fill={OD} opacity="0.45" rx="2"/>
-      {/* Cab */}
       <rect x="110" y="20" width="46" height="42" fill={O} opacity="0.5" rx="3"/>
-      {/* Windshield */}
       <rect x="116" y="24" width="32" height="20" fill="rgba(135,206,235,0.4)" rx="2"/>
-      {/* Company name on truck */}
       <rect x="20" y="38" width="60" height="10" fill="rgba(255,255,255,0.25)" rx="2"/>
       <rect x="28" y="41" width="44" height="4" fill="rgba(255,255,255,0.4)" rx="1"/>
-      {/* Wheels */}
       <circle cx="28" cy="66" r="12" fill="rgba(30,20,10,0.7)"/>
       <circle cx="28" cy="66" r="7" fill="rgba(80,70,60,0.6)"/>
       <circle cx="28" cy="66" r="3" fill="rgba(120,110,100,0.5)"/>
@@ -510,7 +430,6 @@ function SceneryTruck() {
       <circle cx="138" cy="66" r="12" fill="rgba(30,20,10,0.7)"/>
       <circle cx="138" cy="66" r="7" fill="rgba(80,70,60,0.6)"/>
       <circle cx="138" cy="66" r="3" fill="rgba(120,110,100,0.5)"/>
-      {/* Shingles on truck bed */}
       {[0,1,2].map(i=>(
         <rect key={i} x={8+i*28} y={28-i*2} width="24" height="6" rx="1" fill={i%2===0?OD:OM} opacity="0.6" transform={`rotate(-3 ${8+i*28} ${28-i*2})`}/>
       ))}
@@ -521,22 +440,13 @@ function SceneryTruck() {
 function SceneryScaffolding() {
   return (
     <svg width="70" height="140" viewBox="0 0 70 140" fill="none">
-      {/* Vertical poles */}
       <line x1="12" y1="10" x2="12" y2="135" stroke={OM} strokeWidth="3" strokeLinecap="round" opacity="0.6"/>
       <line x1="58" y1="10" x2="58" y2="135" stroke={OM} strokeWidth="3" strokeLinecap="round" opacity="0.6"/>
-      {/* Horizontal bars */}
-      {[25,55,85,115].map(y=>(
-        <line key={y} x1="8" y1={y} x2="62" y2={y} stroke={OM} strokeWidth="2" opacity="0.5"/>
-      ))}
-      {/* Planks */}
-      {[23,53,83,113].map(y=>(
-        <rect key={y} x="6" y={y} width="58" height="5" fill="rgba(140,80,30,0.5)" rx="1"/>
-      ))}
-      {/* Diagonal braces */}
+      {[25,55,85,115].map(y=>(<line key={y} x1="8" y1={y} x2="62" y2={y} stroke={OM} strokeWidth="2" opacity="0.5"/>))}
+      {[23,53,83,113].map(y=>(<rect key={y} x="6" y={y} width="58" height="5" fill="rgba(140,80,30,0.5)" rx="1"/>))}
       <line x1="12" y1="25" x2="58" y2="55" stroke={OM} strokeWidth="1.5" opacity="0.35"/>
       <line x1="58" y1="55" x2="12" y2="85" stroke={OM} strokeWidth="1.5" opacity="0.35"/>
       <line x1="12" y1="85" x2="58" y2="115" stroke={OM} strokeWidth="1.5" opacity="0.35"/>
-      {/* Worker on top plank */}
       <g className="anim-worker" style={{transformOrigin:"35px 20px"}}>
         <rect x="30" y="8" width="10" height="14" fill="rgba(40,40,40,0.65)" rx="2"/>
         <circle cx="35" cy="5" r="6" fill="rgba(220,180,140,0.85)"/>
@@ -602,34 +512,57 @@ function RoofSceneSVG() { return null; }
 
 function RoofHouseIllustration({ size = 200 }: { size?: number }) {
   return (
-    <svg width={size} height={size * 0.85} viewBox="0 0 200 170" fill="none" xmlns="http://www.w3.org/2000/svg"
-      style={{ animation:"roofFloat 6s ease-in-out infinite" }}>
+    <svg width={size} height={size*1.05} viewBox="0 0 200 210" fill="none" xmlns="http://www.w3.org/2000/svg"
+      style={{animation:"roofFloat 6s ease-in-out infinite",filter:"drop-shadow(0 20px 40px rgba(249,115,22,0.18))"}}>
       <defs>
-        <linearGradient id="rGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stopColor="#f97316"/><stop offset="100%" stopColor="#c2410c"/>
+        <linearGradient id="hRoof" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#c2410c"/><stop offset="100%" stopColor="#7c2d12"/>
         </linearGradient>
+        <linearGradient id="hWall" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#fff7f0"/><stop offset="100%" stopColor="#fde8d0"/>
+        </linearGradient>
+        <filter id="hDrop"><feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="rgba(194,65,12,0.2)"/></filter>
       </defs>
-      <rect x="30" y="90" width="140" height="80" rx="2" fill="#f5f5f5" stroke="#ddd" strokeWidth="1.5"/>
-      <polygon points="15,92 100,20 185,92" fill="url(#rGrad)"/>
-      {[0,1,2,3,4].map(row=>[0,1,2,3,4,5,6,7].map(col=>{
-        const x=20+col*21-row*2, y=55+row*8;
-        if(y>=92||x<=15||x>=175) return null;
-        return <rect key={`${row}-${col}`} x={x} y={y} width="20" height="7" rx="1" fill={row%2===0?"#ea580c":"#f97316"} opacity="0.7"/>;
+      <ellipse cx="100" cy="204" rx="70" ry="6" fill="rgba(194,65,12,0.12)"/>
+      <rect x="28" y="108" width="144" height="92" rx="2" fill="url(#hWall)" stroke="rgba(234,88,12,0.2)" strokeWidth="1"/>
+      <polygon points="14,110 100,22 186,110" fill="url(#hRoof)" filter="url(#hDrop)"/>
+      {[0,1,2,3,4,5,6,7].map(r=>[0,1,2,3,4,5,6,7,8,9].map(c=>{
+        const x=18+c*19-r*2.2, y=40+r*9.2;
+        if(y>109||x<13||x>180) return null;
+        return <rect key={`${r}${c}`} x={x} y={y} width="18" height="7.5" rx="1.5"
+          fill={r%2===0?"rgba(154,52,18,0.85)":"rgba(194,65,12,0.75)"}/>;
       }))}
-      <rect x="130" y="35" width="22" height="38" fill="#555" rx="1"/>
-      <rect x="127" y="33" width="28" height="6" rx="1" fill="#444"/>
-      <rect x="83" y="125" width="34" height="45" rx="2" fill="#333"/>
-      <circle cx="113" cy="148" r="2" fill="#f97316"/>
-      <rect x="40" y="105" width="30" height="25" rx="2" fill="#87ceeb" stroke="#ddd" strokeWidth="1"/>
-      <line x1="55" y1="105" x2="55" y2="130" stroke="#ddd" strokeWidth="1"/>
-      <line x1="40" y1="117" x2="70" y2="117" stroke="#ddd" strokeWidth="1"/>
-      <rect x="130" y="105" width="30" height="25" rx="2" fill="#87ceeb" stroke="#ddd" strokeWidth="1"/>
-      <line x1="145" y1="105" x2="145" y2="130" stroke="#ddd" strokeWidth="1"/>
-      <line x1="130" y1="117" x2="160" y2="117" stroke="#ddd" strokeWidth="1"/>
-      <rect x="0" y="168" width="200" height="4" rx="2" fill="rgba(249,115,22,0.3)"/>
+      <line x1="14" y1="110" x2="186" y2="110" stroke="rgba(249,115,22,0.35)" strokeWidth="3"/>
+      <polygon points="42,86 62,64 82,86" fill="rgba(154,52,18,0.9)"/>
+      <rect x="46" y="86" width="32" height="22" fill="rgba(249,115,22,0.1)" stroke="rgba(234,88,12,0.3)" strokeWidth="1"/>
+      <rect x="50" y="88" width="24" height="16" fill="rgba(135,206,235,0.35)" rx="1"/>
+      <polygon points="118,86 138,64 158,86" fill="rgba(154,52,18,0.9)"/>
+      <rect x="122" y="86" width="32" height="22" fill="rgba(249,115,22,0.1)" stroke="rgba(234,88,12,0.3)" strokeWidth="1"/>
+      <rect x="126" y="88" width="24" height="16" fill="rgba(135,206,235,0.35)" rx="1"/>
+      <rect x="148" y="42" width="20" height="46" fill="rgba(100,55,25,0.75)" rx="1"/>
+      <rect x="145" y="40" width="26" height="6" fill="rgba(80,42,18,0.8)" rx="1"/>
+      <path d="M157,40 Q153,30 157,20 Q161,10 157,2" stroke="rgba(249,115,22,0.35)" strokeWidth="3" fill="none" strokeLinecap="round"/>
+      <rect x="80" y="148" width="40" height="52" fill="rgba(120,65,25,0.65)" rx="3"/>
+      <path d="M80,151 Q100,135 120,151" fill="rgba(120,65,25,0.65)"/>
+      <circle cx="116" cy="174" r="3" fill="rgba(249,115,22,0.9)"/>
+      <rect x="64" y="140" width="10" height="60" fill="rgba(255,255,255,0.55)" rx="3"/>
+      <rect x="126" y="140" width="10" height="60" fill="rgba(255,255,255,0.55)" rx="3"/>
+      <rect x="60" y="136" width="18" height="6" fill="rgba(255,255,255,0.4)" rx="1"/>
+      <rect x="122" y="136" width="18" height="6" fill="rgba(255,255,255,0.4)" rx="1"/>
+      <rect x="34" y="122" width="36" height="30" fill="rgba(135,206,235,0.32)" stroke="rgba(234,88,12,0.3)" strokeWidth="1.5" rx="2"/>
+      <line x1="52" y1="122" x2="52" y2="152" stroke="rgba(234,88,12,0.25)" strokeWidth="1"/>
+      <line x1="34" y1="137" x2="70" y2="137" stroke="rgba(234,88,12,0.25)" strokeWidth="1"/>
+      <rect x="130" y="122" width="36" height="30" fill="rgba(135,206,235,0.32)" stroke="rgba(234,88,12,0.3)" strokeWidth="1.5" rx="2"/>
+      <line x1="148" y1="122" x2="148" y2="152" stroke="rgba(234,88,12,0.25)" strokeWidth="1"/>
+      <line x1="130" y1="137" x2="166" y2="137" stroke="rgba(234,88,12,0.25)" strokeWidth="1"/>
+      <circle cx="174" cy="118" r="5" fill="rgba(34,197,94,0.9)"/>
+      <circle cx="174" cy="118" r="9" fill="rgba(34,197,94,0.15)"/>
+      <circle cx="174" cy="118" r="2.5" fill="rgba(255,255,255,0.9)"/>
+      <ellipse cx="100" cy="201" rx="88" ry="4" fill="rgba(34,100,34,0.08)"/>
     </svg>
   );
 }
+
 
 function QZLogo({ size = 36 }: { size?: number }) {
   return (
@@ -1023,7 +956,7 @@ function PricingCard({ plan, annual, goto }: { plan: typeof PLANS[0]; annual: bo
           <div style={{position:"absolute",inset:0,opacity:0.04,backgroundImage:`linear-gradient(rgba(249,115,22,1) 1px,transparent 1px),linear-gradient(90deg,rgba(249,115,22,1) 1px,transparent 1px)`,backgroundSize:"40px 40px"}}/>
           <motion.div className="badge-pulse" initial={{scale:0,rotate:-10}} animate={{scale:1,rotate:0}} transition={{delay:0.5,type:"spring"}}
             style={{position:"absolute",top:-14,left:32,...SF,background:`linear-gradient(135deg,${ORANGE},${ORANGE_DARK})`,padding:"5px 18px",borderRadius:9999,fontSize:11,fontWeight:700,color:"white"}}>
-            Best Value — Full System
+            Best Value — With Ads
           </motion.div>
 
           <div style={{position:"relative",zIndex:2,display:"grid",gap:28}} className="md:grid-cols-[1fr_1.4fr]">
@@ -1042,9 +975,11 @@ function PricingCard({ plan, annual, goto }: { plan: typeof PLANS[0]; annual: bo
                       {annual ? `$${(Math.round(plan.price*0.8)).toLocaleString()}` : `$${plan.price.toLocaleString()}`}
                       <span style={{...SF,fontSize:16,color:"rgba(255,255,255,0.4)",fontStyle:"normal"}}>/mo</span>
                     </p>
+                    {plan.commission && (
                     <div style={{display:"inline-flex",alignItems:"center",gap:6,background:ORANGE_LIGHT,border:`1px solid ${ORANGE_BORDER}`,borderRadius:9999,padding:"3px 10px",marginTop:6}}>
                       <span style={{...SF,color:ORANGE,fontSize:11,fontWeight:700}}>◆ {plan.commission}</span>
                     </div>
+                    )}
                     {annual && <p style={{...SF,color:"rgba(249,115,22,0.8)",fontSize:11,marginTop:6,fontWeight:600}}>Save ${annualSaving.toLocaleString()}/mo with annual</p>}
                   </motion.div>
                 </AnimatePresence>
@@ -1080,6 +1015,162 @@ function PricingCard({ plan, annual, goto }: { plan: typeof PLANS[0]; annual: bo
     );
   }
 
+  if ((plan as any).fullSystem) {
+    const systemFeatures = [
+      { text:"AI-powered roofing website", icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="14" rx="2" stroke={ORANGE} strokeWidth="1.8"/><path d="M3 8h18" stroke={ORANGE} strokeWidth="1.8"/><circle cx="6" cy="6" r="1" fill={ORANGE}/><circle cx="9" cy="6" r="1" fill={ORANGE}/></svg> },
+      { text:"AI phone receptionist — 24/7", icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.58.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.24 1.01L6.6 10.8z" stroke={ORANGE} strokeWidth="1.8" fill="none"/></svg> },
+      { text:"WhatsApp, SMS & web chat AI", icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z" stroke={ORANGE} strokeWidth="1.8" strokeLinejoin="round"/></svg> },
+      { text:"Automated follow-up sequences", icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke={ORANGE} strokeWidth="1.8" strokeLinecap="round"/></svg> },
+      { text:"Lead qualification AI", icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke={ORANGE} strokeWidth="1.8" strokeLinecap="round"/></svg> },
+      { text:"Lead tracking dashboard", icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke={ORANGE} strokeWidth="1.8" strokeLinecap="round"/></svg> },
+      { text:"Priority support", icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke={ORANGE} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg> },
+      { text:"+10% per closed deal", icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke={ORANGE} strokeWidth="1.8" strokeLinecap="round"/></svg> },
+    ];
+    const dp = annual ? Math.round(plan.price*0.8) : plan.price;
+    const saving = annual ? plan.price - Math.round(plan.price*0.8) : 0;
+    return (
+      <Reveal y={40}>
+        <div style={{position:"relative",paddingTop:16}}>
+          <motion.div className="badge-pulse" initial={{scale:0,rotate:-10}} animate={{scale:1,rotate:0}} transition={{delay:0.4,type:"spring"}}
+            style={{position:"absolute",top:0,left:32,zIndex:10,...SF,background:`linear-gradient(135deg,${ORANGE},${ORANGE_DARK})`,padding:"5px 18px",borderRadius:9999,fontSize:11,fontWeight:700,color:"white"}}>
+            Most Popular
+          </motion.div>
+          <motion.div style={{
+            background:"linear-gradient(135deg,#1a0e00 0%,#2d1500 100%)",
+            border:`2px solid ${ORANGE}`,borderRadius:20,padding:"32px",
+            position:"relative",overflow:"hidden",
+            boxShadow:`0 0 50px rgba(249,115,22,0.2),0 0 100px rgba(249,115,22,0.07)`,
+          }} whileHover={{boxShadow:`0 32px 80px rgba(249,115,22,0.28),0 0 60px rgba(249,115,22,0.1)`}}
+          transition={{duration:0.38}}>
+            <div style={{position:"absolute",inset:0,opacity:0.05,backgroundImage:`linear-gradient(rgba(249,115,22,1) 1px,transparent 1px),linear-gradient(90deg,rgba(249,115,22,1) 1px,transparent 1px)`,backgroundSize:"40px 40px"}}/>
+            <div style={{position:"relative",zIndex:2,display:"grid",gap:28}} className="md:grid-cols-[1fr_1.4fr]">
+              {/* Left */}
+              <div>
+                <p style={{...SF,color:ORANGE,fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",marginBottom:6}}>{plan.n}</p>
+                <h2 style={{...IF,fontStyle:"italic",color:"white",fontSize:28,lineHeight:1.1,marginBottom:10}}>Full AI System</h2>
+                <p style={{...SF,color:"rgba(255,255,255,0.5)",fontSize:13,lineHeight:1.7,marginBottom:18}}>{plan.desc}</p>
+                <div style={{marginBottom:16}}>
+                  <p style={{...SF,color:"rgba(255,255,255,0.35)",fontSize:11}}>{plan.setupDisplay}</p>
+                  <AnimatePresence mode="wait">
+                    <motion.div key={annual?"a":"m"} initial={{opacity:0,y:6}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-6}} transition={{duration:0.2}}>
+                      <p style={{...IF,fontStyle:"italic",color:"white",fontSize:42,lineHeight:1}}>
+                        ${dp.toLocaleString()}<span style={{...SF,fontSize:16,color:"rgba(255,255,255,0.4)",fontStyle:"normal"}}>/mo</span>
+                      </p>
+                      {plan.commission && (
+                      <div style={{display:"inline-flex",alignItems:"center",gap:6,background:ORANGE_LIGHT,border:`1px solid ${ORANGE_BORDER}`,borderRadius:9999,padding:"3px 10px",marginTop:6}}>
+                        <span style={{...SF,color:ORANGE,fontSize:11,fontWeight:700}}>◆ {plan.commission}</span>
+                      </div>
+                      )}
+                      {annual && <p style={{...SF,color:"rgba(249,115,22,0.8)",fontSize:11,marginTop:6,fontWeight:600}}>Save ${saving.toLocaleString()}/mo with annual</p>}
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+                <MagBtn orange onClick={()=>{ trackLead(); goto("contact"); }}>Get started →</MagBtn>
+                {/* Features mobile */}
+                <div style={{marginTop:20,borderTop:"1px solid rgba(255,255,255,0.07)",paddingTop:16,display:"flex",flexDirection:"column",gap:8}} className="md:hidden">
+                  {systemFeatures.map(f=>(
+                    <motion.div key={f.text} style={{display:"flex",alignItems:"center",gap:10}} whileHover={{x:4}}>
+                      <span style={{flexShrink:0}}>{f.icon}</span>
+                      <span style={{...SF,color:"rgba(255,255,255,0.7)",fontSize:12,lineHeight:1.5}}>{f.text}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+              {/* Right — desktop */}
+              <div style={{borderLeft:"1px solid rgba(255,255,255,0.07)",paddingLeft:24}} className="hidden md:flex md:flex-col md:justify-center">
+                <p style={{...SF,color:"rgba(255,255,255,0.3)",fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",marginBottom:16}}>What's included</p>
+                <div style={{display:"flex",flexDirection:"column",gap:10}}>
+                  {systemFeatures.map(f=>(
+                    <motion.div key={f.text} style={{display:"flex",alignItems:"center",gap:10}} whileHover={{x:5}}>
+                      <span style={{flexShrink:0}}>{f.icon}</span>
+                      <span style={{...SF,color:"rgba(255,255,255,0.75)",fontSize:13,lineHeight:1.5}}>{f.text}</span>
+                    </motion.div>
+                  ))}
+                </div>
+                <div style={{marginTop:16,padding:"10px 14px",background:"rgba(249,115,22,0.08)",border:`1px solid ${ORANGE_BORDER}`,borderRadius:10}}>
+                  <p style={{...SF,color:ORANGE,fontSize:11,fontWeight:700,marginBottom:2}}>No ads included</p>
+                  <p style={{...SF,color:"rgba(255,255,255,0.4)",fontSize:11,lineHeight:1.5}}>Want Meta ads too? See the Full AI System + Lead Gen Ads plan below.</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </Reveal>
+    );
+  }
+
+  if ((plan as any).fullSystem) {
+    const dp = annual ? Math.round(plan.price*0.8) : plan.price;
+    const saving = annual ? plan.price - Math.round(plan.price*0.8) : 0;
+    const sysFeatures = [
+      { text:"AI-powered roofing website", icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="14" rx="2" stroke={ORANGE} strokeWidth="1.8"/><path d="M3 8h18" stroke={ORANGE} strokeWidth="1.8"/><circle cx="6" cy="6" r="1" fill={ORANGE}/><circle cx="9" cy="6" r="1" fill={ORANGE}/></svg> },
+      { text:"AI phone receptionist — 24/7", icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.58.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.24 1.01L6.6 10.8z" stroke={ORANGE} strokeWidth="1.8" fill="none"/></svg> },
+      { text:"WhatsApp, SMS & web chat AI", icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z" stroke={ORANGE} strokeWidth="1.8" strokeLinejoin="round"/></svg> },
+      { text:"Automated follow-up sequences", icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke={ORANGE} strokeWidth="1.8" strokeLinecap="round"/></svg> },
+      { text:"Lead qualification", icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke={ORANGE} strokeWidth="1.8" strokeLinecap="round"/></svg> },
+      { text:"Lead tracking dashboard", icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke={ORANGE} strokeWidth="1.8" strokeLinecap="round"/></svg> },
+      { text:"Priority support", icon:<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke={ORANGE} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg> },
+    ];
+    return (
+      <Reveal y={40}>
+        <div style={{position:"relative",paddingTop:16}}>
+          <motion.div className="badge-pulse" initial={{scale:0,rotate:-10}} animate={{scale:1,rotate:0}} transition={{delay:0.4,type:"spring"}}
+            style={{position:"absolute",top:0,left:32,zIndex:10,...SF,background:`linear-gradient(135deg,${ORANGE},${ORANGE_DARK})`,padding:"5px 18px",borderRadius:9999,fontSize:11,fontWeight:700,color:"white"}}>
+            Most Popular
+          </motion.div>
+          <motion.div style={{
+            background:"linear-gradient(135deg,#1a0e00 0%,#2d1500 100%)",
+            border:`2px solid ${ORANGE}`,borderRadius:20,padding:"32px",
+            position:"relative",overflow:"hidden",
+            boxShadow:`0 0 50px rgba(249,115,22,0.2)`,
+          }} whileHover={{boxShadow:`0 32px 80px rgba(249,115,22,0.28)`}} transition={{duration:0.38}}>
+            <div style={{position:"absolute",inset:0,opacity:0.05,backgroundImage:`linear-gradient(rgba(249,115,22,1) 1px,transparent 1px),linear-gradient(90deg,rgba(249,115,22,1) 1px,transparent 1px)`,backgroundSize:"40px 40px"}}/>
+            <div style={{position:"relative",zIndex:2,display:"grid",gap:28}} className="md:grid-cols-[1fr_1.4fr]">
+              <div>
+                <p style={{...SF,color:ORANGE,fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",marginBottom:6}}>{plan.n}</p>
+                <h2 style={{...IF,fontStyle:"italic",color:"white",fontSize:28,lineHeight:1.1,marginBottom:10}}>Full AI System</h2>
+                <p style={{...SF,color:"rgba(255,255,255,0.5)",fontSize:13,lineHeight:1.7,marginBottom:18}}>{plan.desc}</p>
+                <div style={{marginBottom:16}}>
+                  <p style={{...SF,color:"rgba(255,255,255,0.35)",fontSize:11}}>{plan.setupDisplay}</p>
+                  <AnimatePresence mode="wait">
+                    <motion.div key={annual?"a":"m"} initial={{opacity:0,y:6}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-6}} transition={{duration:0.2}}>
+                      <p style={{...IF,fontStyle:"italic",color:"white",fontSize:42,lineHeight:1}}>${dp.toLocaleString()}<span style={{...SF,fontSize:16,color:"rgba(255,255,255,0.4)",fontStyle:"normal"}}>/mo</span></p>
+                      {annual && <p style={{...SF,color:"rgba(249,115,22,0.8)",fontSize:11,marginTop:6,fontWeight:600}}>Save ${saving.toLocaleString()}/mo with annual</p>}
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+                <MagBtn orange onClick={()=>{ trackLead(); goto("contact"); }}>Get started →</MagBtn>
+                <div style={{marginTop:20,borderTop:"1px solid rgba(255,255,255,0.07)",paddingTop:16,display:"flex",flexDirection:"column",gap:8}} className="md:hidden">
+                  {sysFeatures.map(f=>(
+                    <motion.div key={f.text} style={{display:"flex",alignItems:"center",gap:10}} whileHover={{x:4}}>
+                      <span style={{flexShrink:0}}>{f.icon}</span>
+                      <span style={{...SF,color:"rgba(255,255,255,0.7)",fontSize:12}}>{f.text}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+              <div style={{borderLeft:"1px solid rgba(255,255,255,0.07)",paddingLeft:24}} className="hidden md:flex md:flex-col md:justify-center">
+                <p style={{...SF,color:"rgba(255,255,255,0.3)",fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",marginBottom:16}}>What's included</p>
+                <div style={{display:"flex",flexDirection:"column",gap:10}}>
+                  {sysFeatures.map(f=>(
+                    <motion.div key={f.text} style={{display:"flex",alignItems:"center",gap:10}} whileHover={{x:5}}>
+                      <span style={{flexShrink:0}}>{f.icon}</span>
+                      <span style={{...SF,color:"rgba(255,255,255,0.75)",fontSize:13}}>{f.text}</span>
+                    </motion.div>
+                  ))}
+                </div>
+                <div style={{marginTop:16,padding:"10px 14px",background:"rgba(249,115,22,0.08)",border:`1px solid ${ORANGE_BORDER}`,borderRadius:10}}>
+                  <p style={{...SF,color:ORANGE,fontSize:11,fontWeight:700,marginBottom:2}}>No ads included</p>
+                  <p style={{...SF,color:"rgba(255,255,255,0.4)",fontSize:11,lineHeight:1.5}}>Want Meta ads too? See the Full AI System + Lead Gen Ads plan below.</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </Reveal>
+    );
+  }
+
   if (plan.commissionOnly) {
     return (
       <Reveal y={55} delay={0}>
@@ -1110,7 +1201,7 @@ function PricingCard({ plan, annual, goto }: { plan: typeof PLANS[0]; annual: bo
               {/* Arrow right */}
               <path d="M72 36h18m-6-6l6 6-6 6" stroke="rgba(16,185,129,0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               {/* 10% text right */}
-              <text x="165" y="38" style={{fontFamily:"'Instrument Serif',serif",fontStyle:"italic"}} fontSize="22" fill="rgba(16,185,129,0.6)" fontWeight="400">10%</text>
+              <text x="165" y="38" style={{fontFamily:"'Instrument Serif',serif",fontStyle:"italic"}} fontSize="22" fill="rgba(16,185,129,0.6)" fontWeight="400">13%</text>
               <text x="165" y="52" fontSize="9" fill="rgba(255,255,255,0.2)" fontFamily="sans-serif" fontWeight="600" letterSpacing="0.08em">ON CLOSE</text>
               {/* Glow orb */}
               <ellipse cx="120" cy="36" rx="20" ry="20" fill="rgba(16,185,129,0.06)"/>
@@ -1135,7 +1226,7 @@ function PricingCard({ plan, annual, goto }: { plan: typeof PLANS[0]; annual: bo
             {/* Info block */}
             <div style={{background:"rgba(16,185,129,0.06)",border:"1px solid rgba(16,185,129,0.15)",borderRadius:10,padding:"10px 12px",marginBottom:14}}>
               <p style={{...SF,color:"rgba(16,185,129,0.9)",fontSize:11,fontWeight:700,marginBottom:4}}>How it works</p>
-              <p style={{...SF,color:"rgba(255,255,255,0.4)",fontSize:11,lineHeight:1.6}}>We run your full AI system at zero cost. You pay <strong style={{color:"rgba(255,255,255,0.65)"}}>10% only when a deal closes</strong>. After your first client, you move to the $399/mo plan.</p>
+              <p style={{...SF,color:"rgba(255,255,255,0.4)",fontSize:11,lineHeight:1.6}}>We run your full AI system at zero cost. You pay <strong style={{color:"rgba(255,255,255,0.65)"}}>13% only when a deal closes</strong>. After your first client, you move to the $399/mo plan.</p>
             </div>
 
             {/* Features */}
@@ -1222,9 +1313,11 @@ function PricingCard({ plan, annual, goto }: { plan: typeof PLANS[0]; annual: bo
                     <p style={{...IF,fontStyle:"italic"}} className="text-3xl text-gray-900">
                       ${displayedPrice?.toLocaleString()}<span style={SF} className="text-base font-normal text-gray-400">/mo</span>
                     </p>
+                    {plan.commission && (
                     <div style={{display:"inline-flex",alignItems:"center",gap:6,background:ORANGE_LIGHT,border:`1px solid ${ORANGE_BORDER}`,borderRadius:9999,padding:"3px 10px",marginTop:6}}>
                       <span style={{...SF,color:ORANGE,fontSize:11,fontWeight:700}}>◆ {plan.commission}</span>
                     </div>
+                    )}
                     {annual && annualSaving > 0 && (
                       <p style={SF} className="text-xs font-medium mt-2 text-emerald-600">Saving ${annualSaving}/mo</p>
                     )}
@@ -1563,7 +1656,7 @@ function PricingPage({ goto }: { goto:(p:Page)=>void }) {
         {/* All plans — sorted cheapest to most expensive, full bundle spans full width */}
         <div className="flex flex-col gap-5 mb-10">
 
-          {/* Row 1: 3 cheapest cards — commission-only, website, meta-ads */}
+          {/* Row 1: 3 cheapest — commission-only, website, meta-ads */}
           <div className="grid gap-5 md:grid-cols-3" style={{alignItems:"stretch"}}>
             {PLANS.filter(p=>["commission-only","ai-website","meta-ads"].includes(p.id)).map(p=>(
               <PricingCard key={p.id} plan={p} annual={annual} goto={goto}/>
@@ -1577,7 +1670,12 @@ function PricingPage({ goto }: { goto:(p:Page)=>void }) {
             ))}
           </div>
 
-          {/* Row 3: full bundle — full width hero */}
+          {/* Row 3: Full AI System $1,499 — full width */}
+          {PLANS.filter(p=>p.id==="full-system").map(p=>(
+            <PricingCard key={p.id} plan={p} annual={annual} goto={goto}/>
+          ))}
+
+          {/* Row 4: full bundle + ads $2,400 — full width hero */}
           <PricingCard plan={fullBundle} annual={annual} goto={goto}/>
         </div>
 
@@ -1589,8 +1687,8 @@ function PricingPage({ goto }: { goto:(p:Page)=>void }) {
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6" stroke={ORANGE} strokeWidth="2" strokeLinecap="round"/></svg>
             </span>
             <div>
-              <p style={{...SF,fontWeight:700,color:"#111",marginBottom:4}}>About the + 10% commission</p>
-              <p style={SF} className="text-sm text-gray-500 leading-relaxed">On all plans, we charge 10% on every closed roofing deal that comes through our system. This aligns our success with yours — we only earn more when you close more jobs. The commission-only plan is for your very first client, after which you move to the $399/mo plan.</p>
+              <p style={{...SF,fontWeight:700,color:"#111",marginBottom:4}}>About our commission model</p>
+              <p style={SF} className="text-sm text-gray-500 leading-relaxed">On plans that include ads, we charge <strong style={{color:"#111"}}>+10% per closed deal</strong>. Your first client is commission-only at <strong style={{color:"#111"}}>13%</strong> — no monthly fee. After that, plans with ads include a 10% commission, while AI system plans (website, receptionist, Full AI System) have no commission on top.</p>
             </div>
           </div>
         </Reveal>
