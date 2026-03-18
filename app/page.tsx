@@ -564,6 +564,146 @@ function RoofHouseIllustration({ size = 200 }: { size?: number }) {
 }
 
 
+// ── Illustration: Lead Flow (phone → AI → client) ──────────────────────────
+function IllustrationLeadFlow() {
+  return (
+    <svg width="100%" height="120" viewBox="0 0 520 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="rgba(249,115,22,0.0)"/>
+          <stop offset="50%" stopColor="rgba(249,115,22,0.7)"/>
+          <stop offset="100%" stopColor="rgba(249,115,22,0.0)"/>
+        </linearGradient>
+      </defs>
+
+      {/* Step 1: Roofer calls / lead comes in */}
+      <g transform="translate(30,20)">
+        <rect x="0" y="10" width="80" height="80" rx="16" fill="rgba(249,115,22,0.07)" stroke="rgba(249,115,22,0.2)" strokeWidth="1.5"/>
+        {/* Phone */}
+        <rect x="28" y="22" width="24" height="40" rx="4" fill="rgba(249,115,22,0.15)" stroke="rgba(249,115,22,0.4)" strokeWidth="1.5"/>
+        <rect x="31" y="27" width="18" height="26" rx="2" fill="rgba(249,115,22,0.2)"/>
+        <circle cx="40" cy="57" r="2.5" fill="rgba(249,115,22,0.5)"/>
+        {/* Signal waves */}
+        <path d="M58,35 Q65,42 58,49" stroke="rgba(249,115,22,0.5)" strokeWidth="1.8" fill="none" strokeLinecap="round"/>
+        <path d="M62,31 Q72,42 62,53" stroke="rgba(249,115,22,0.3)" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+        <text x="40" y="77" textAnchor="middle" fontSize="9" fill="rgba(249,115,22,0.7)" fontFamily="sans-serif" fontWeight="600" letterSpacing="0.05em">LEAD IN</text>
+      </g>
+
+      {/* Arrow 1 */}
+      <g transform="translate(118,55)">
+        <line x1="0" y1="0" x2="60" y2="0" stroke="url(#lg1)" strokeWidth="2" strokeDasharray="5 3"/>
+        <polygon points="60,0 52,-4 52,4" fill="rgba(249,115,22,0.5)"/>
+      </g>
+
+      {/* Step 2: AI processes */}
+      <g transform="translate(185,10)">
+        <rect x="0" y="0" width="90" height="90" rx="16" fill="rgba(249,115,22,0.1)" stroke="rgba(249,115,22,0.3)" strokeWidth="1.5"/>
+        {/* Brain/AI icon */}
+        <circle cx="45" cy="38" r="18" fill="rgba(249,115,22,0.12)" stroke="rgba(249,115,22,0.4)" strokeWidth="1.5"/>
+        <text x="45" y="42" textAnchor="middle" fontSize="18" fill="rgba(249,115,22,0.8)" fontFamily="sans-serif" fontWeight="700">AI</text>
+        {/* Pulse rings */}
+        <circle cx="45" cy="38" r="24" fill="none" stroke="rgba(249,115,22,0.15)" strokeWidth="1"/>
+        <circle cx="45" cy="38" r="30" fill="none" stroke="rgba(249,115,22,0.08)" strokeWidth="1"/>
+        {/* Mini icons around */}
+        <rect x="8" y="62" width="18" height="12" rx="3" fill="rgba(249,115,22,0.2)"/>
+        <text x="17" y="71" textAnchor="middle" fontSize="7" fill="rgba(249,115,22,0.8)" fontFamily="sans-serif">SMS</text>
+        <rect x="34" y="62" width="22" height="12" rx="3" fill="rgba(249,115,22,0.2)"/>
+        <text x="45" y="71" textAnchor="middle" fontSize="7" fill="rgba(249,115,22,0.8)" fontFamily="sans-serif">CALL</text>
+        <rect x="64" y="62" width="18" height="12" rx="3" fill="rgba(249,115,22,0.2)"/>
+        <text x="73" y="71" textAnchor="middle" fontSize="7" fill="rgba(249,115,22,0.8)" fontFamily="sans-serif">ADS</text>
+        <text x="45" y="87" textAnchor="middle" fontSize="9" fill="rgba(249,115,22,0.7)" fontFamily="sans-serif" fontWeight="600" letterSpacing="0.05em">quazieR AI</text>
+      </g>
+
+      {/* Arrow 2 */}
+      <g transform="translate(283,55)">
+        <line x1="0" y1="0" x2="60" y2="0" stroke="url(#lg1)" strokeWidth="2" strokeDasharray="5 3"/>
+        <polygon points="60,0 52,-4 52,4" fill="rgba(249,115,22,0.5)"/>
+      </g>
+
+      {/* Step 3: Qualified lead */}
+      <g transform="translate(350,20)">
+        <rect x="0" y="10" width="80" height="80" rx="16" fill="rgba(249,115,22,0.07)" stroke="rgba(249,115,22,0.2)" strokeWidth="1.5"/>
+        {/* Person with checkmark */}
+        <circle cx="40" cy="38" r="12" fill="rgba(249,115,22,0.15)" stroke="rgba(249,115,22,0.35)" strokeWidth="1.5"/>
+        <circle cx="40" cy="35" r="5" fill="rgba(249,115,22,0.3)"/>
+        <path d="M26,52 Q40,44 54,52" fill="rgba(249,115,22,0.2)" stroke="rgba(249,115,22,0.35)" strokeWidth="1.5"/>
+        {/* Check badge */}
+        <circle cx="54" cy="28" r="8" fill="rgba(34,197,94,0.9)"/>
+        <path d="M50,28 l3,3 5-5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+        <text x="40" y="77" textAnchor="middle" fontSize="9" fill="rgba(249,115,22,0.7)" fontFamily="sans-serif" fontWeight="600" letterSpacing="0.05em">BOOKED</text>
+      </g>
+
+      {/* Step 4: Money / closed deal */}
+      <g transform="translate(438,20)">
+        <rect x="0" y="10" width="60" height="80" rx="16" fill="rgba(34,197,94,0.06)" stroke="rgba(34,197,94,0.25)" strokeWidth="1.5"/>
+        <text x="30" y="52" textAnchor="middle" fontSize="28" fill="rgba(34,197,94,0.7)" fontFamily="serif">$</text>
+        <text x="30" y="77" textAnchor="middle" fontSize="9" fill="rgba(34,197,94,0.7)" fontFamily="sans-serif" fontWeight="600" letterSpacing="0.05em">CLOSED</text>
+      </g>
+    </svg>
+  );
+}
+
+// ── Illustration: Stats visual — views/visitors ──────────────────────────────
+function IllustrationViewsChart() {
+  const bars = [18,28,22,38,32,52,48,65,58,72,80,95];
+  const max = 95;
+  return (
+    <svg width="100%" height="80" viewBox="0 0 280 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="barGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="rgba(249,115,22,0.7)"/>
+          <stop offset="100%" stopColor="rgba(249,115,22,0.15)"/>
+        </linearGradient>
+      </defs>
+      {bars.map((v,i)=>{
+        const h = (v/max)*52;
+        const x = 8+i*22;
+        return (
+          <g key={i}>
+            <rect x={x} y={60-h} width="14" height={h} rx="3" fill="url(#barGrad)"/>
+          </g>
+        );
+      })}
+      {/* Trend line */}
+      <polyline
+        points={bars.map((v,i)=>`${15+i*22},${60-(v/max)*52}`).join(' ')}
+        fill="none" stroke="rgba(249,115,22,0.6)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      {/* Dot at peak */}
+      <circle cx={15+11*22} cy={60-(95/max)*52} r="4" fill={`rgba(249,115,22,0.9)`}/>
+      <circle cx={15+11*22} cy={60-(95/max)*52} r="7" fill="rgba(249,115,22,0.15)"/>
+      {/* Labels */}
+      <text x="0" y="75" fontSize="8" fill="rgba(0,0,0,0.3)" fontFamily="sans-serif">Mon</text>
+      <text x="230" y="75" fontSize="8" fill="rgba(0,0,0,0.3)" fontFamily="sans-serif">Sun</text>
+      <text x="240" y="10" fontSize="9" fill="rgba(249,115,22,0.7)" fontFamily="sans-serif" fontWeight="700">+147%</text>
+    </svg>
+  );
+}
+
+// ── Illustration: Getting clients funnel ────────────────────────────────────
+function IllustrationClientFunnel() {
+  return (
+    <svg width="100%" height="140" viewBox="0 0 320 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Funnel stages */}
+      {[
+        { label:"Website visitors", count:"1,200", w:280, color:"rgba(249,115,22,0.12)", border:"rgba(249,115,22,0.25)" },
+        { label:"AI-qualified leads", count:"186", w:200, color:"rgba(249,115,22,0.18)", border:"rgba(249,115,22,0.35)" },
+        { label:"Booked estimates", count:"64", w:130, color:"rgba(249,115,22,0.28)", border:"rgba(249,115,22,0.5)" },
+        { label:"Closed jobs", count:"38", w:72, color:"rgba(249,115,22,0.45)", border:"rgba(249,115,22,0.7)" },
+      ].map((s,i)=>(
+        <g key={i} transform={`translate(${(280-s.w)/2+20},${i*30+4})`}>
+          <rect width={s.w} height="22" rx="5" fill={s.color} stroke={s.border} strokeWidth="1"/>
+          <text x={s.w/2} y="14" textAnchor="middle" fontSize="9" fill="rgba(60,30,10,0.75)" fontFamily="sans-serif" fontWeight="600">{s.label}</text>
+          <text x={s.w-8} y="14" textAnchor="end" fontSize="9" fill="rgba(249,115,22,0.9)" fontFamily="sans-serif" fontWeight="700">{s.count}</text>
+        </g>
+      ))}
+      {/* Arrow down */}
+      <line x1="160" y1="125" x2="160" y2="135" stroke="rgba(249,115,22,0.4)" strokeWidth="1.5" strokeDasharray="3 2"/>
+      <text x="160" y="140" textAnchor="middle" fontSize="8" fill="rgba(249,115,22,0.6)" fontFamily="sans-serif" fontWeight="700">AUTO-FOLLOWED UP</text>
+    </svg>
+  );
+}
+
+
 function QZLogo({ size = 36 }: { size?: number }) {
   return (
     <svg width={size} height={Math.round(size*0.7)} viewBox="0 0 140 90" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1420,6 +1560,13 @@ function HomePage({ goto }: { goto:(p:Page)=>void }) {
             </div>
           </div>
         </motion.div>
+
+        {/* Lead flow illustration */}
+        <motion.div initial={{opacity:0,y:30}} animate={{opacity:1,y:0}} transition={{duration:1,ease:E,delay:1.5}}
+          className="mx-auto mt-8 max-w-4xl px-6" style={{position:"relative",zIndex:4}}>
+          <IllustrationLeadFlow/>
+          <p style={SF} className="text-center text-xs text-gray-400 mt-2 tracking-widest uppercase">Every lead — captured, qualified, and followed up automatically</p>
+        </motion.div>
       </section>
 
       {/* Ticker */}
@@ -1479,6 +1626,26 @@ function HomePage({ goto }: { goto:(p:Page)=>void }) {
               </Reveal>
             ))}
           </div>
+          {/* Visual: views + client funnel */}
+          <div className="mt-14 grid gap-6 md:grid-cols-2">
+            <Reveal y={30} delay={0.1}>
+              <div className="rounded-2xl p-6" style={{background:"rgba(255,255,255,0.62)",backdropFilter:"blur(14px)",border:"1px solid rgba(255,255,255,0.92)"}}>
+                <p style={{...SF,color:ORANGE,fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",marginBottom:6}}>Website traffic growth</p>
+                <p style={{...IF,fontStyle:"italic",fontSize:22}} className="text-gray-900 mb-4">Leads find you<br/><em style={{color:ORANGE}}>around the clock.</em></p>
+                <IllustrationViewsChart/>
+                <p style={SF} className="text-xs text-gray-400 mt-3">Roofing leads generated in the last 7 days — AI running 24/7</p>
+              </div>
+            </Reveal>
+            <Reveal y={30} delay={0.2}>
+              <div className="rounded-2xl p-6" style={{background:"rgba(255,255,255,0.62)",backdropFilter:"blur(14px)",border:"1px solid rgba(255,255,255,0.92)"}}>
+                <p style={{...SF,color:ORANGE,fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",marginBottom:6}}>Client acquisition funnel</p>
+                <p style={{...IF,fontStyle:"italic",fontSize:22}} className="text-gray-900 mb-4">Visitors become<br/><em style={{color:ORANGE}}>paying clients.</em></p>
+                <IllustrationClientFunnel/>
+                <p style={SF} className="text-xs text-gray-400 mt-3">Every unresponsive lead is followed up automatically — no manual work</p>
+              </div>
+            </Reveal>
+          </div>
+
           <div className="mt-12 flex justify-center gap-4 flex-wrap">
             <MagBtn orange onClick={()=>{ trackLead(); goto("contact"); }}>Start the conversation</MagBtn>
             <MagBtn onClick={()=>goto("pricing")}>See pricing</MagBtn>
