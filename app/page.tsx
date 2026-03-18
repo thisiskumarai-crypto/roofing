@@ -163,6 +163,45 @@ const GLOBAL_CSS = `
   .orb-1{animation:orb1 28s ease-in-out infinite;will-change:transform}
   .orb-2{animation:orb2 34s ease-in-out infinite;animation-delay:-6s;will-change:transform}
 
+  /* Wave animations */
+  @keyframes wave1 {
+    0%   { transform: translateX(0) translateY(0) scaleY(1); }
+    25%  { transform: translateX(-6%) translateY(-18px) scaleY(1.04); }
+    50%  { transform: translateX(-12%) translateY(0px) scaleY(0.97); }
+    75%  { transform: translateX(-6%) translateY(14px) scaleY(1.03); }
+    100% { transform: translateX(0) translateY(0) scaleY(1); }
+  }
+  @keyframes wave2 {
+    0%   { transform: translateX(0) translateY(0) scaleY(1); }
+    30%  { transform: translateX(8%) translateY(16px) scaleY(1.05); }
+    60%  { transform: translateX(14%) translateY(-10px) scaleY(0.96); }
+    100% { transform: translateX(0) translateY(0) scaleY(1); }
+  }
+  @keyframes wave3 {
+    0%   { transform: translateX(0) translateY(0) scaleY(1); }
+    35%  { transform: translateX(-10%) translateY(20px) scaleY(1.06); }
+    70%  { transform: translateX(-5%) translateY(-8px) scaleY(0.95); }
+    100% { transform: translateX(0) translateY(0) scaleY(1); }
+  }
+  @keyframes wave4 {
+    0%   { transform: translateX(0) translateY(0) scaleY(1); }
+    20%  { transform: translateX(5%) translateY(-22px) scaleY(1.07); }
+    55%  { transform: translateX(10%) translateY(12px) scaleY(0.94); }
+    80%  { transform: translateX(4%) translateY(-6px) scaleY(1.02); }
+    100% { transform: translateX(0) translateY(0) scaleY(1); }
+  }
+  @keyframes wave5 {
+    0%   { transform: translateX(0) translateY(0) scaleY(1); }
+    40%  { transform: translateX(-8%) translateY(24px) scaleY(1.05); }
+    75%  { transform: translateX(-14%) translateY(-14px) scaleY(0.96); }
+    100% { transform: translateX(0) translateY(0) scaleY(1); }
+  }
+  .wave-1 { animation: wave1 14s ease-in-out infinite; will-change: transform; }
+  .wave-2 { animation: wave2 18s ease-in-out infinite; will-change: transform; }
+  .wave-3 { animation: wave3 22s ease-in-out infinite; will-change: transform; }
+  .wave-4 { animation: wave4 16s ease-in-out infinite; will-change: transform; }
+  .wave-5 { animation: wave5 20s ease-in-out infinite; will-change: transform; }
+
   @keyframes ping{75%,100%{transform:scale(2);opacity:0}}
   .ping{animation:ping 1s cubic-bezier(0,0,0.2,1) infinite}
 
@@ -193,165 +232,373 @@ const GLOBAL_CSS = `
   @keyframes roofFloat{0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(-14px) rotate(1deg)}}
 `;
 
-// ─── ANIMATED ROOFING BACKGROUND ─────────────────────────────────────────────
+// ─── ANIMATED WAVE BACKGROUND ────────────────────────────────────────────────
 function RoofingBackground() {
   return (
-    <div style={{
-      position:"fixed", inset:0, zIndex:0, pointerEvents:"none", overflow:"hidden",
-      background:"linear-gradient(180deg,#fff9f4 0%,#fff4e8 40%,#fff8f2 100%)"
-    }} aria-hidden>
-      <div style={{
-        position:"absolute", inset:0,
-        background:"linear-gradient(175deg,#fafafa 0%,#fff7f0 25%,#fef3e2 55%,#fff8f0 80%,#ffffff 100%)"
-      }}/>
-      <div style={{ position:"absolute", inset:0, opacity:0.012,
-        backgroundImage:`linear-gradient(rgba(249,115,22,1) 1px,transparent 1px),linear-gradient(90deg,rgba(249,115,22,1) 1px,transparent 1px)`,
-        backgroundSize:"80px 80px" }}/>
-      <div style={{ position:"absolute", bottom:0, left:0, right:0, height:"46%", overflow:"hidden" }}>
-        <div className="bg-roof-scene" style={{ display:"flex", alignItems:"flex-end", width:"1280px", height:"100%" }}>
-          <RoofSceneSVG/><RoofSceneSVG/>
+    <div style={{position:"fixed",inset:0,zIndex:0,pointerEvents:"none",overflow:"hidden",background:"#fff8f2"}} aria-hidden>
+
+      {/* ── Warm cream base ── */}
+      <div style={{position:"absolute",inset:0,background:"linear-gradient(165deg,#fffcf8 0%,#fff6ed 40%,#ffecd6 70%,#fff5ec 100%)"}}/>
+
+      {/* ── Layered SVG waves — smooth, blurred, like the reference screenshot ── */}
+      <svg style={{position:"absolute",bottom:0,left:0,width:"100%",height:"75%",overflow:"visible"}}
+        viewBox="0 0 1440 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="wb1"><feGaussianBlur stdDeviation="32"/></filter>
+          <filter id="wb2"><feGaussianBlur stdDeviation="20"/></filter>
+          <filter id="wb3"><feGaussianBlur stdDeviation="10"/></filter>
+          <filter id="wb4"><feGaussianBlur stdDeviation="4"/></filter>
+        </defs>
+        {/* Deepest wave — dark burnt orange */}
+        <g className="wave-1">
+          <path filter="url(#wb1)" fill="rgba(180,50,5,0.14)"
+            d="M0,420 C180,320 360,500 540,400 C720,300 900,460 1080,360 C1260,260 1380,400 1440,340 L1440,600 L0,600Z"/>
+        </g>
+        {/* Second wave — deep orange */}
+        <g className="wave-2">
+          <path filter="url(#wb1)" fill="rgba(220,70,10,0.12)"
+            d="M0,460 C200,360 420,520 660,420 C900,320 1100,480 1300,380 C1420,320 1440,420 1440,380 L1440,600 L0,600Z"/>
+        </g>
+        {/* Third wave — mid orange */}
+        <g className="wave-3">
+          <path filter="url(#wb2)" fill="rgba(249,115,22,0.11)"
+            d="M0,490 C240,400 480,540 720,450 C960,360 1140,500 1340,410 C1420,375 1440,450 1440,430 L1440,600 L0,600Z"/>
+        </g>
+        {/* Fourth wave — brighter orange */}
+        <g className="wave-4">
+          <path filter="url(#wb2)" fill="rgba(251,146,60,0.10)"
+            d="M0,510 C200,430 440,560 700,480 C960,400 1160,530 1360,450 C1430,420 1440,490 1440,470 L1440,600 L0,600Z"/>
+        </g>
+        {/* Fifth wave — light amber */}
+        <g className="wave-5">
+          <path filter="url(#wb3)" fill="rgba(253,186,116,0.09)"
+            d="M0,530 C240,460 500,570 760,500 C1020,430 1200,550 1400,480 C1435,464 1440,510 1440,500 L1440,600 L0,600Z"/>
+        </g>
+        {/* Surface wave — crisp, subtle */}
+        <g className="wave-1">
+          <path filter="url(#wb4)" fill="rgba(249,115,22,0.06)"
+            d="M0,550 C200,500 440,570 720,530 C1000,490 1220,555 1440,520 L1440,600 L0,600Z"/>
+        </g>
+        {/* Top ambient wash */}
+        <g className="wave-3">
+          <path filter="url(#wb1)" fill="rgba(234,88,12,0.07)"
+            d="M0,300 C240,200 560,380 840,260 C1120,140 1300,320 1440,220 L1440,600 L0,600Z"/>
+        </g>
+      </svg>
+
+      {/* ── Scattered roofing illustrations across the background ── */}
+      <div style={{position:"absolute",inset:0}}>
+
+        {/* House 1 — far left bottom */}
+        <div style={{position:"absolute",bottom:"8%",left:"2%",opacity:0.18}}>
+          <SceneryHouse variant="A" scale={0.9}/>
+        </div>
+
+        {/* House 2 — left-center */}
+        <div style={{position:"absolute",bottom:"6%",left:"14%",opacity:0.14}}>
+          <SceneryHouse variant="B" scale={0.7}/>
+        </div>
+
+        {/* Worker on roof — center-left */}
+        <div style={{position:"absolute",bottom:"18%",left:"22%",opacity:0.15}}>
+          <SceneryWorker/>
+        </div>
+
+        {/* House 3 — center, slightly behind */}
+        <div style={{position:"absolute",bottom:"5%",left:"34%",opacity:0.10}}>
+          <SceneryHouse variant="C" scale={1.1}/>
+        </div>
+
+        {/* Truck — center */}
+        <div style={{position:"absolute",bottom:"7%",left:"46%",opacity:0.16}}>
+          <SceneryTruck/>
+        </div>
+
+        {/* Scaffolding — center-right */}
+        <div style={{position:"absolute",bottom:"6%",left:"58%",opacity:0.14}}>
+          <SceneryScaffolding/>
+        </div>
+
+        {/* House 4 — right side */}
+        <div style={{position:"absolute",bottom:"5%",left:"68%",opacity:0.13}}>
+          <SceneryHouse variant="A" scale={0.85}/>
+        </div>
+
+        {/* Worker 2 on roof — right */}
+        <div style={{position:"absolute",bottom:"17%",left:"75%",opacity:0.14}}>
+          <SceneryWorker flip/>
+        </div>
+
+        {/* House 5 — far right */}
+        <div style={{position:"absolute",bottom:"6%",right:"2%",opacity:0.15}}>
+          <SceneryHouse variant="B" scale={0.95}/>
+        </div>
+
+        {/* Shingle pile — scattered */}
+        <div style={{position:"absolute",bottom:"6.5%",left:"30%",opacity:0.2}}>
+          <SceneryShingles/>
+        </div>
+
+        {/* Ladder — beside right house */}
+        <div style={{position:"absolute",bottom:"6%",left:"65%",opacity:0.18}}>
+          <SceneryLadder/>
+        </div>
+
+        {/* Sun — top right corner */}
+        <div className="anim-sun" style={{position:"absolute",top:"5%",right:"5%",opacity:0.22}}>
+          <ScenerySun/>
+        </div>
+
+        {/* Clouds */}
+        <div className="anim-cloud1" style={{position:"absolute",top:"12%",left:"15%",opacity:0.18}}>
+          <SceneryCloud scale={1.2}/>
+        </div>
+        <div className="anim-cloud2" style={{position:"absolute",top:"8%",left:"55%",opacity:0.14}}>
+          <SceneryCloud scale={0.8}/>
+        </div>
+        <div className="anim-cloud1" style={{position:"absolute",top:"18%",right:"18%",opacity:0.12}}>
+          <SceneryCloud scale={0.6}/>
         </div>
       </div>
-      <div className="orb-1" style={{ position:"absolute", top:"-18%", left:"52%", width:900, height:900, borderRadius:"50%",
-        background:"radial-gradient(circle,rgba(249,115,22,0.07) 0%,transparent 68%)", filter:"blur(90px)" }}/>
-      <div className="orb-2" style={{ position:"absolute", top:"30%", left:"-15%", width:700, height:700, borderRadius:"50%",
-        background:"radial-gradient(circle,rgba(251,191,36,0.08) 0%,transparent 68%)", filter:"blur(80px)" }}/>
-      <div style={{ position:"absolute", inset:0,
-        background:"linear-gradient(to bottom, rgba(255,249,244,0.55) 0%, rgba(255,249,244,0.15) 50%, rgba(255,249,244,0.72) 100%)" }}/>
+
+      {/* ── Orbs for depth ── */}
+      <div className="orb-1" style={{position:"absolute",top:"-15%",left:"55%",width:800,height:800,borderRadius:"50%",
+        background:"radial-gradient(circle,rgba(249,115,22,0.08) 0%,transparent 65%)",filter:"blur(80px)"}}/>
+      <div className="orb-2" style={{position:"absolute",top:"25%",left:"-10%",width:600,height:600,borderRadius:"50%",
+        background:"radial-gradient(circle,rgba(234,88,12,0.07) 0%,transparent 65%)",filter:"blur(70px)"}}/>
+
+      {/* ── Readable overlay ── */}
+      <div style={{position:"absolute",inset:0,
+        background:"linear-gradient(to bottom,rgba(255,248,242,0.72) 0%,rgba(255,248,242,0.08) 45%,rgba(255,248,242,0.04) 65%,rgba(255,248,242,0.6) 100%)"}}/>
     </div>
   );
 }
 
-function RoofSceneSVG() {
+// ── Scenery pieces ─────────────────────────────────────────────────────────────
+const O  = "rgba(249,115,22,1)";
+const OD = "rgba(194,65,12,1)";
+const OM = "rgba(234,88,12,1)";
+const OL = "rgba(251,146,60,1)";
+
+function SceneryHouse({ variant="A", scale=1 }: { variant?:"A"|"B"|"C"; scale?:number }) {
+  const w = 180*scale, h = 160*scale;
+  if (variant === "A") return (
+    <svg width={w} height={h} viewBox="0 0 180 160" fill="none">
+      {/* Walls */}
+      <rect x="20" y="90" width="140" height="70" fill="rgba(249,115,22,0.15)" stroke={OM} strokeWidth="1.5"/>
+      {/* Roof */}
+      <polygon points="8,92 90,28 172,92" fill={OD} opacity="0.55"/>
+      {/* Shingles */}
+      {[0,1,2,3,4].map(r=>[0,1,2,3,4,5,6].map(c=>{
+        const x=12+c*23-r*2.5, y=46+r*8;
+        if(y>91||x<8||x>163) return null;
+        return <rect key={`${r}${c}`} x={x} y={y} width="22" height="7" rx="1" fill={r%2===0?OD:OM} opacity="0.65"/>;
+      }))}
+      {/* Chimney */}
+      <rect x="128" y="46" width="16" height="30" fill="rgba(80,40,20,0.5)" rx="1"/>
+      <rect x="125" y="44" width="22" height="5" fill="rgba(60,30,10,0.55)" rx="1"/>
+      {/* Smoke wisps */}
+      <path d="M134,44 Q131,36 134,28 Q137,20 134,12" stroke="rgba(249,115,22,0.3)" strokeWidth="2" fill="none" strokeLinecap="round"/>
+      <path d="M140,44 Q143,34 140,26" stroke="rgba(249,115,22,0.2)" strokeWidth="1.5" fill="none" strokeLinecap="round"/>
+      {/* Door */}
+      <rect x="73" y="118" width="28" height="42" fill="rgba(120,60,20,0.45)" rx="2"/>
+      <circle cx="97" cy="139" r="2" fill={O} opacity="0.8"/>
+      {/* Windows */}
+      <rect x="28" y="100" width="30" height="24" fill="rgba(135,206,235,0.35)" stroke={OM} strokeWidth="1" rx="1"/>
+      <line x1="43" y1="100" x2="43" y2="124" stroke={OM} strokeWidth="0.8" opacity="0.5"/>
+      <line x1="28" y1="112" x2="58" y2="112" stroke={OM} strokeWidth="0.8" opacity="0.5"/>
+      <rect x="122" y="100" width="30" height="24" fill="rgba(135,206,235,0.35)" stroke={OM} strokeWidth="1" rx="1"/>
+      <line x1="137" y1="100" x2="137" y2="124" stroke={OM} strokeWidth="0.8" opacity="0.5"/>
+      <line x1="122" y1="112" x2="152" y2="112" stroke={OM} strokeWidth="0.8" opacity="0.5"/>
+      {/* Ground line */}
+      <line x1="0" y1="160" x2="180" y2="160" stroke={OM} strokeWidth="1.5" opacity="0.3"/>
+    </svg>
+  );
+  if (variant === "B") return (
+    <svg width={w} height={h} viewBox="0 0 180 160" fill="none">
+      {/* Ranch style — wide low roof */}
+      <rect x="10" y="100" width="160" height="60" fill="rgba(249,115,22,0.12)" stroke={OM} strokeWidth="1.5"/>
+      <polygon points="0,102 90,55 180,102" fill={OM} opacity="0.5"/>
+      {[0,1,2,3].map(r=>[0,1,2,3,4,5,6,7].map(c=>{
+        const x=4+c*22-r*2.5, y=64+r*8;
+        if(y>101||x<0||x>175) return null;
+        return <rect key={`${r}${c}`} x={x} y={y} width="20" height="6.5" rx="1" fill={r%2===0?OD:OM} opacity="0.6"/>;
+      }))}
+      <rect x="140" y="60" width="14" height="28" fill="rgba(80,40,20,0.45)" rx="1"/>
+      <rect x="137" y="58" width="20" height="4" fill="rgba(60,30,10,0.5)" rx="1"/>
+      <rect x="72" y="124" width="32" height="36" fill="rgba(120,60,20,0.4)" rx="2"/>
+      <circle cx="99" cy="142" r="2" fill={O} opacity="0.7"/>
+      <rect x="16" y="108" width="35" height="26" fill="rgba(135,206,235,0.3)" stroke={OM} strokeWidth="1" rx="1"/>
+      <rect x="130" y="108" width="35" height="26" fill="rgba(135,206,235,0.3)" stroke={OM} strokeWidth="1" rx="1"/>
+      <line x1="0" y1="160" x2="180" y2="160" stroke={OM} strokeWidth="1.5" opacity="0.3"/>
+    </svg>
+  );
+  // variant C — two-story
   return (
-    <svg width="640" height="260" viewBox="0 0 640 260" fill="none" xmlns="http://www.w3.org/2000/svg"
-      style={{ flexShrink:0, opacity:0.13 }}>
-      <rect x="0" y="220" width="640" height="40" fill="rgba(249,115,22,0.15)" rx="2"/>
-      <g>
-        <rect x="30" y="155" width="100" height="65" fill="rgba(249,115,22,0.12)" stroke="rgba(249,115,22,0.35)" strokeWidth="1.5"/>
-        <polygon points="20,158 80,105 140,158" fill="rgba(249,115,22,0.25)" stroke="rgba(249,115,22,0.5)" strokeWidth="1.5"/>
-        {[0,1,2,3].map(r=>[0,1,2,3,4,5].map(c=>{
-          const x=22+c*20-r*2, y=122+r*9;
-          if(y>157) return null;
-          return <rect key={`${r}-${c}`} x={x} y={y} width="18" height="7" rx="1" fill={r%2===0?"rgba(249,115,22,0.35)":"rgba(234,88,12,0.4)"}/>;
-        }))}
-        <rect x="100" y="118" width="16" height="28" fill="rgba(0,0,0,0.25)" rx="1"/>
-        <rect x="97" y="116" width="22" height="5" fill="rgba(0,0,0,0.3)" rx="1"/>
-        <rect x="62" y="185" width="24" height="35" fill="rgba(0,0,0,0.3)" rx="2"/>
-        <rect x="37" y="170" width="22" height="18" fill="rgba(249,115,22,0.2)" stroke="rgba(249,115,22,0.3)" strokeWidth="1" rx="1"/>
-        <rect x="115" y="170" width="22" height="18" fill="rgba(249,115,22,0.2)" stroke="rgba(249,115,22,0.3)" strokeWidth="1" rx="1"/>
+    <svg width={w} height={h} viewBox="0 0 180 160" fill="none">
+      <rect x="25" y="70" width="130" height="90" fill="rgba(249,115,22,0.12)" stroke={OM} strokeWidth="1.5"/>
+      <polygon points="12,72 90,18 168,72" fill={OD} opacity="0.52"/>
+      {[0,1,2,3,4,5].map(r=>[0,1,2,3,4,5,6].map(c=>{
+        const x=16+c*22-r*2, y=30+r*7;
+        if(y>71||x<12||x>160) return null;
+        return <rect key={`${r}${c}`} x={x} y={y} width="20" height="6" rx="1" fill={r%2===0?OD:OM} opacity="0.6"/>;
+      }))}
+      <rect x="130" y="30" width="16" height="28" fill="rgba(80,40,20,0.5)" rx="1"/>
+      <rect x="127" y="28" width="22" height="5" fill="rgba(60,30,10,0.55)" rx="1"/>
+      <rect x="72" y="130" width="30" height="30" fill="rgba(120,60,20,0.4)" rx="2"/>
+      {/* Lower windows */}
+      <rect x="32" y="80" width="28" height="22" fill="rgba(135,206,235,0.35)" stroke={OM} strokeWidth="1" rx="1"/>
+      <rect x="120" y="80" width="28" height="22" fill="rgba(135,206,235,0.35)" stroke={OM} strokeWidth="1" rx="1"/>
+      {/* Upper windows */}
+      <rect x="42" y="108" width="24" height="18" fill="rgba(135,206,235,0.3)" stroke={OM} strokeWidth="1" rx="1"/>
+      <rect x="114" y="108" width="24" height="18" fill="rgba(135,206,235,0.3)" stroke={OM} strokeWidth="1" rx="1"/>
+      <line x1="0" y1="160" x2="180" y2="160" stroke={OM} strokeWidth="1.5" opacity="0.3"/>
+    </svg>
+  );
+}
+
+function SceneryWorker({ flip=false }: { flip?:boolean }) {
+  return (
+    <svg width="80" height="100" viewBox="0 0 80 100" fill="none" style={{transform:flip?"scaleX(-1)":"none"}} className="anim-worker">
+      {/* Roof slope they're on */}
+      <line x1="0" y1="80" x2="80" y2="44" stroke={OM} strokeWidth="2" opacity="0.5"/>
+      {/* Body */}
+      <rect x="34" y="52" width="12" height="18" fill="rgba(40,40,40,0.7)" rx="2"/>
+      {/* Head */}
+      <circle cx="40" cy="48" r="8" fill="rgba(220,180,140,0.9)"/>
+      {/* Hard hat */}
+      <ellipse cx="40" cy="43" rx="11" ry="6" fill={O} opacity="0.85"/>
+      <rect x="30" y="41" width="20" height="4" rx="2" fill={OD} opacity="0.9"/>
+      {/* Hammer arm */}
+      <g className="anim-hammer" style={{transformOrigin:"40px 60px"}}>
+        <line x1="44" y1="57" x2="60" y2="44" stroke="rgba(40,40,40,0.6)" strokeWidth="3" strokeLinecap="round"/>
+        <rect x="58" y="40" width="9" height="6" rx="1.5" fill="rgba(60,60,60,0.8)"/>
       </g>
-      <g className="anim-worker" style={{transformOrigin:"75px 130px"}}>
-        <rect x="70" y="118" width="10" height="16" fill="rgba(0,0,0,0.4)" rx="2"/>
-        <circle cx="75" cy="114" r="6" fill="rgba(249,244,240,0.8)"/>
-        <ellipse cx="75" cy="110" rx="8" ry="4.5" fill="rgba(249,115,22,0.8)"/>
-        <rect x="69" y="108" width="12" height="3" rx="1.5" fill="rgba(234,88,12,0.9)"/>
-        <g className="anim-hammer" style={{transformOrigin:"75px 125px"}}>
-          <line x1="78" y1="122" x2="90" y2="112" stroke="rgba(0,0,0,0.5)" strokeWidth="2.5" strokeLinecap="round"/>
-          <rect x="88" y="108" width="7" height="5" rx="1" fill="rgba(0,0,0,0.5)"/>
-        </g>
-        <line x1="72" y1="122" x2="64" y2="116" stroke="rgba(249,244,240,0.6)" strokeWidth="2" strokeLinecap="round"/>
-        <line x1="73" y1="134" x2="71" y2="146" stroke="rgba(0,0,0,0.4)" strokeWidth="3" strokeLinecap="round"/>
-        <line x1="77" y1="134" x2="79" y2="146" stroke="rgba(0,0,0,0.4)" strokeWidth="3" strokeLinecap="round"/>
-      </g>
-      <g>
-        <rect x="200" y="140" width="130" height="80" fill="rgba(249,115,22,0.08)" stroke="rgba(249,115,22,0.25)" strokeWidth="1.5"/>
-        <polygon points="188,143 265,78 342,143" fill="rgba(249,115,22,0.2)" stroke="rgba(249,115,22,0.4)" strokeWidth="1.5"/>
-        {[0,1,2,3,4].map(r=>[0,1,2,3,4,5,6,7].map(c=>{
-          const x=191+c*20-r*2.5, y=98+r*9;
-          if(y>142) return null;
-          return <rect key={`${r}-${c}`} x={x} y={y} width="18" height="7" rx="1" fill={r%2===0?"rgba(249,115,22,0.3)":"rgba(234,88,12,0.35)"}/>;
-        }))}
-        <rect x="300" y="100" width="18" height="32" fill="rgba(0,0,0,0.2)" rx="1"/>
-        <rect x="297" y="98" width="24" height="5" fill="rgba(0,0,0,0.25)" rx="1"/>
-        <rect x="237" y="175" width="28" height="45" fill="rgba(0,0,0,0.25)" rx="2"/>
-        <rect x="208" y="156" width="26" height="20" fill="rgba(249,115,22,0.15)" stroke="rgba(249,115,22,0.25)" strokeWidth="1" rx="1"/>
-        <rect x="296" y="156" width="26" height="20" fill="rgba(249,115,22,0.15)" stroke="rgba(249,115,22,0.25)" strokeWidth="1" rx="1"/>
-      </g>
-      <g className="anim-worker" style={{transformOrigin:"250px 110px", animationDelay:"1s"}}>
-        <rect x="245" y="98" width="10" height="16" fill="rgba(0,0,0,0.35)" rx="2"/>
-        <circle cx="250" cy="94" r="6" fill="rgba(249,244,240,0.8)"/>
-        <ellipse cx="250" cy="90" rx="8" ry="4.5" fill="rgba(249,115,22,0.8)"/>
-        <rect x="244" y="88" width="12" height="3" rx="1.5" fill="rgba(234,88,12,0.9)"/>
-        <line x1="253" y1="102" x2="265" y2="112" stroke="rgba(249,244,240,0.5)" strokeWidth="2" strokeLinecap="round"/>
-        <g className="anim-hammer" style={{transformOrigin:"247px 105px", animationDelay:"0.35s"}}>
-          <line x1="247" y1="102" x2="235" y2="92" stroke="rgba(0,0,0,0.5)" strokeWidth="2.5" strokeLinecap="round"/>
-          <rect x="228" y="88" width="7" height="5" rx="1" fill="rgba(0,0,0,0.5)"/>
-        </g>
-        <line x1="248" y1="114" x2="246" y2="126" stroke="rgba(0,0,0,0.35)" strokeWidth="3" strokeLinecap="round"/>
-        <line x1="252" y1="114" x2="254" y2="126" stroke="rgba(0,0,0,0.35)" strokeWidth="3" strokeLinecap="round"/>
-      </g>
-      <g opacity="0.35">
-        <line x1="345" y1="220" x2="345" y2="130" stroke="rgba(249,115,22,0.6)" strokeWidth="2"/>
-        <line x1="365" y1="220" x2="365" y2="130" stroke="rgba(249,115,22,0.6)" strokeWidth="2"/>
-        <line x1="340" y1="195" x2="370" y2="195" stroke="rgba(249,115,22,0.6)" strokeWidth="1.5"/>
-        <line x1="340" y1="165" x2="370" y2="165" stroke="rgba(249,115,22,0.6)" strokeWidth="1.5"/>
-        <line x1="340" y1="135" x2="370" y2="135" stroke="rgba(249,115,22,0.6)" strokeWidth="1.5"/>
-        <rect x="337" y="192" width="36" height="4" fill="rgba(180,120,60,0.5)" rx="1"/>
-        <rect x="337" y="162" width="36" height="4" fill="rgba(180,120,60,0.5)" rx="1"/>
-      </g>
-      <g className="anim-worker" style={{transformOrigin:"355px 155px", animationDelay:"0.7s"}}>
-        <rect x="350" y="148" width="10" height="14" fill="rgba(0,0,0,0.4)" rx="2"/>
-        <circle cx="355" cy="144" r="5.5" fill="rgba(249,244,240,0.8)"/>
-        <ellipse cx="355" cy="140" rx="7.5" ry="4" fill="rgba(249,115,22,0.8)"/>
-        <line x1="360" y1="154" x2="370" y2="148" stroke="rgba(249,244,240,0.5)" strokeWidth="2" strokeLinecap="round"/>
-        <line x1="350" y1="154" x2="343" y2="160" stroke="rgba(249,244,240,0.5)" strokeWidth="2" strokeLinecap="round"/>
-        <line x1="353" y1="162" x2="351" y2="173" stroke="rgba(0,0,0,0.4)" strokeWidth="3" strokeLinecap="round"/>
-        <line x1="357" y1="162" x2="359" y2="173" stroke="rgba(0,0,0,0.4)" strokeWidth="3" strokeLinecap="round"/>
-      </g>
-      <g>
-        <rect x="420" y="175" width="80" height="45" fill="rgba(249,115,22,0.1)" stroke="rgba(249,115,22,0.22)" strokeWidth="1.5"/>
-        <polygon points="412,177 460,132 508,177" fill="rgba(249,115,22,0.18)" stroke="rgba(249,115,22,0.38)" strokeWidth="1.5"/>
-        {[0,1,2].map(r=>[0,1,2,3,4].map(c=>{
-          const x=415+c*19-r*2, y=148+r*8;
-          if(y>176) return null;
-          return <rect key={`${r}-${c}`} x={x} y={y} width="17" height="6" rx="1" fill={r%2===0?"rgba(249,115,22,0.32)":"rgba(234,88,12,0.38)"}/>;
-        }))}
-        <rect x="443" y="192" width="20" height="28" fill="rgba(0,0,0,0.25)" rx="2"/>
-        <rect x="424" y="180" width="18" height="15" fill="rgba(249,115,22,0.15)" stroke="rgba(249,115,22,0.22)" strokeWidth="1" rx="1"/>
-        <rect x="470" y="180" width="18" height="15" fill="rgba(249,115,22,0.15)" stroke="rgba(249,115,22,0.22)" strokeWidth="1" rx="1"/>
-      </g>
-      <g className="anim-cloud1" opacity="0.5">
-        <ellipse cx="550" cy="40" rx="35" ry="18" fill="rgba(249,115,22,0.08)"/>
-        <ellipse cx="575" cy="34" rx="25" ry="14" fill="rgba(249,115,22,0.06)"/>
-        <ellipse cx="528" cy="42" rx="20" ry="12" fill="rgba(249,115,22,0.06)"/>
-      </g>
-      <g className="anim-cloud2" opacity="0.4">
-        <ellipse cx="120" cy="30" rx="28" ry="14" fill="rgba(249,115,22,0.07)"/>
-        <ellipse cx="142" cy="24" rx="20" ry="11" fill="rgba(249,115,22,0.05)"/>
-      </g>
-      <g className="anim-sun">
-        <circle cx="590" cy="25" r="18" fill="rgba(249,115,22,0.15)"/>
-        <circle cx="590" cy="25" r="12" fill="rgba(249,115,22,0.22)"/>
-        {[0,45,90,135,180,225,270,315].map((deg,i)=>{
-          const rad = deg * Math.PI / 180;
-          return <line key={i} x1={590+Math.cos(rad)*15} y1={25+Math.sin(rad)*15} x2={590+Math.cos(rad)*22} y2={25+Math.sin(rad)*22} stroke="rgba(249,115,22,0.3)" strokeWidth="1.5" strokeLinecap="round"/>;
-        })}
-      </g>
-      <g opacity="0.4" transform="translate(575, 195)">
-        <rect x="0" y="10" width="55" height="20" fill="rgba(249,115,22,0.3)" rx="2"/>
-        <rect x="35" y="4" width="20" height="14" fill="rgba(249,115,22,0.4)" rx="2"/>
-        <circle cx="12" cy="31" r="6" fill="rgba(0,0,0,0.4)"/>
-        <circle cx="12" cy="31" r="3" fill="rgba(150,150,150,0.5)"/>
-        <circle cx="43" cy="31" r="6" fill="rgba(0,0,0,0.4)"/>
-        <circle cx="43" cy="31" r="3" fill="rgba(150,150,150,0.5)"/>
-        <text x="5" y="24" style={{fontSize:5,fill:"rgba(255,255,255,0.8)",fontWeight:"bold"}}>ROOFING</text>
-      </g>
-      <g opacity="0.5">
-        <rect x="160" y="208" width="30" height="6" fill="rgba(249,115,22,0.4)" rx="1" transform="rotate(-3 160 208)"/>
-        <rect x="162" y="215" width="28" height="5" fill="rgba(234,88,12,0.45)" rx="1"/>
-        <rect x="158" y="220" width="32" height="5" fill="rgba(249,115,22,0.35)" rx="1" transform="rotate(2 158 220)"/>
-      </g>
-      <g opacity="0.4">
-        <line x1="390" y1="220" x2="402" y2="155" stroke="rgba(180,120,60,0.7)" strokeWidth="2"/>
-        <line x1="400" y1="220" x2="412" y2="155" stroke="rgba(180,120,60,0.7)" strokeWidth="2"/>
-        {[0,1,2,3,4,5,6].map(i=>(
-          <line key={i} x1={391+i*1.6} y1={215-i*9.5} x2={401+i*1.6} y2={215-i*9.5} stroke="rgba(180,120,60,0.7)" strokeWidth="1.5"/>
-        ))}
+      {/* Other arm */}
+      <line x1="36" y1="57" x2="24" y2="50" stroke="rgba(220,180,140,0.7)" strokeWidth="2.5" strokeLinecap="round"/>
+      {/* Legs */}
+      <line x1="38" y1="70" x2="35" y2="86" stroke="rgba(40,40,40,0.6)" strokeWidth="3.5" strokeLinecap="round"/>
+      <line x1="42" y1="70" x2="46" y2="86" stroke="rgba(40,40,40,0.6)" strokeWidth="3.5" strokeLinecap="round"/>
+      {/* Boots */}
+      <ellipse cx="34" cy="87" rx="5" ry="3" fill="rgba(30,20,10,0.6)"/>
+      <ellipse cx="47" cy="87" rx="5" ry="3" fill="rgba(30,20,10,0.6)"/>
+      {/* Tool belt */}
+      <rect x="33" y="65" width="14" height="4" fill={OD} opacity="0.5" rx="1"/>
+    </svg>
+  );
+}
+
+function SceneryTruck() {
+  return (
+    <svg width="160" height="80" viewBox="0 0 160 80" fill="none" className="anim-worker">
+      {/* Trailer bed */}
+      <rect x="0" y="32" width="110" height="30" fill={OD} opacity="0.45" rx="2"/>
+      {/* Cab */}
+      <rect x="110" y="20" width="46" height="42" fill={O} opacity="0.5" rx="3"/>
+      {/* Windshield */}
+      <rect x="116" y="24" width="32" height="20" fill="rgba(135,206,235,0.4)" rx="2"/>
+      {/* Company name on truck */}
+      <rect x="20" y="38" width="60" height="10" fill="rgba(255,255,255,0.25)" rx="2"/>
+      <rect x="28" y="41" width="44" height="4" fill="rgba(255,255,255,0.4)" rx="1"/>
+      {/* Wheels */}
+      <circle cx="28" cy="66" r="12" fill="rgba(30,20,10,0.7)"/>
+      <circle cx="28" cy="66" r="7" fill="rgba(80,70,60,0.6)"/>
+      <circle cx="28" cy="66" r="3" fill="rgba(120,110,100,0.5)"/>
+      <circle cx="90" cy="66" r="12" fill="rgba(30,20,10,0.7)"/>
+      <circle cx="90" cy="66" r="7" fill="rgba(80,70,60,0.6)"/>
+      <circle cx="90" cy="66" r="3" fill="rgba(120,110,100,0.5)"/>
+      <circle cx="138" cy="66" r="12" fill="rgba(30,20,10,0.7)"/>
+      <circle cx="138" cy="66" r="7" fill="rgba(80,70,60,0.6)"/>
+      <circle cx="138" cy="66" r="3" fill="rgba(120,110,100,0.5)"/>
+      {/* Shingles on truck bed */}
+      {[0,1,2].map(i=>(
+        <rect key={i} x={8+i*28} y={28-i*2} width="24" height="6" rx="1" fill={i%2===0?OD:OM} opacity="0.6" transform={`rotate(-3 ${8+i*28} ${28-i*2})`}/>
+      ))}
+    </svg>
+  );
+}
+
+function SceneryScaffolding() {
+  return (
+    <svg width="70" height="140" viewBox="0 0 70 140" fill="none">
+      {/* Vertical poles */}
+      <line x1="12" y1="10" x2="12" y2="135" stroke={OM} strokeWidth="3" strokeLinecap="round" opacity="0.6"/>
+      <line x1="58" y1="10" x2="58" y2="135" stroke={OM} strokeWidth="3" strokeLinecap="round" opacity="0.6"/>
+      {/* Horizontal bars */}
+      {[25,55,85,115].map(y=>(
+        <line key={y} x1="8" y1={y} x2="62" y2={y} stroke={OM} strokeWidth="2" opacity="0.5"/>
+      ))}
+      {/* Planks */}
+      {[23,53,83,113].map(y=>(
+        <rect key={y} x="6" y={y} width="58" height="5" fill="rgba(140,80,30,0.5)" rx="1"/>
+      ))}
+      {/* Diagonal braces */}
+      <line x1="12" y1="25" x2="58" y2="55" stroke={OM} strokeWidth="1.5" opacity="0.35"/>
+      <line x1="58" y1="55" x2="12" y2="85" stroke={OM} strokeWidth="1.5" opacity="0.35"/>
+      <line x1="12" y1="85" x2="58" y2="115" stroke={OM} strokeWidth="1.5" opacity="0.35"/>
+      {/* Worker on top plank */}
+      <g className="anim-worker" style={{transformOrigin:"35px 20px"}}>
+        <rect x="30" y="8" width="10" height="14" fill="rgba(40,40,40,0.65)" rx="2"/>
+        <circle cx="35" cy="5" r="6" fill="rgba(220,180,140,0.85)"/>
+        <ellipse cx="35" cy="1" rx="8.5" ry="4.5" fill={O} opacity="0.8"/>
       </g>
     </svg>
   );
 }
+
+function SceneryLadder() {
+  return (
+    <svg width="40" height="120" viewBox="0 0 40 120" fill="none">
+      <line x1="8" y1="115" x2="16" y2="5" stroke="rgba(140,80,30,0.65)" strokeWidth="3" strokeLinecap="round"/>
+      <line x1="32" y1="115" x2="24" y2="5" stroke="rgba(140,80,30,0.65)" strokeWidth="3" strokeLinecap="round"/>
+      {[0,1,2,3,4,5,6,7,8].map(i=>(
+        <line key={i} x1={9+i*0.8} y1={108-i*12} x2={31-i*0.8} y2={108-i*12} stroke="rgba(140,80,30,0.55)" strokeWidth="2" strokeLinecap="round"/>
+      ))}
+    </svg>
+  );
+}
+
+function SceneryShingles() {
+  return (
+    <svg width="90" height="40" viewBox="0 0 90 40" fill="none">
+      {[0,1,2,3].map(i=>(
+        <g key={i}>
+          <rect x={2+i*3} y={30-i*5} width="80" height="8" rx="1.5"
+            fill={i%2===0?OD:OM} opacity={0.35+i*0.08} transform={`rotate(${-2+i} ${42+i*3} ${34-i*5})`}/>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function ScenerySun() {
+  return (
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+      <circle cx="30" cy="30" r="14" fill={O} opacity="0.4"/>
+      <circle cx="30" cy="30" r="9" fill={O} opacity="0.55"/>
+      {[0,30,60,90,120,150,180,210,240,270,300,330].map((deg,i)=>{
+        const r = Math.PI*deg/180;
+        return <line key={i} x1={30+Math.cos(r)*16} y1={30+Math.sin(r)*16}
+          x2={30+Math.cos(r)*24} y2={30+Math.sin(r)*24}
+          stroke={O} strokeWidth="2" strokeLinecap="round" opacity="0.45"/>;
+      })}
+    </svg>
+  );
+}
+
+function SceneryCloud({ scale=1 }: { scale?:number }) {
+  const w=120*scale, h=50*scale;
+  return (
+    <svg width={w} height={h} viewBox="0 0 120 50" fill="none">
+      <ellipse cx="60" cy="32" rx="50" ry="18" fill={OL} opacity="0.18"/>
+      <ellipse cx="75" cy="24" rx="32" ry="20" fill={OL} opacity="0.14"/>
+      <ellipse cx="42" cy="26" rx="26" ry="16" fill={OL} opacity="0.12"/>
+    </svg>
+  );
+}
+
+function RoofSceneSVG() { return null; }
+
 
 function RoofHouseIllustration({ size = 200 }: { size?: number }) {
   return (
