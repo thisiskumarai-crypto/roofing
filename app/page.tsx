@@ -267,172 +267,428 @@ const GLOBAL_CSS = `
 
   /* Node orbit */
   @keyframes nodeOrbit{0%{transform:rotate(0deg) translateX(120px) rotate(0deg)} 100%{transform:rotate(360deg) translateX(120px) rotate(-360deg)}}
+  @keyframes nodeOrbit2{0%{transform:rotate(0deg) translateX(80px) rotate(0deg)} 100%{transform:rotate(360deg) translateX(80px) rotate(-360deg)}}
   .node-orbit{animation:nodeOrbit 20s linear infinite;will-change:transform}
-  .node-orbit-2{animation:nodeOrbit 32s linear infinite reverse;will-change:transform}
-  .node-orbit-3{animation:nodeOrbit 26s linear infinite;animation-delay:-8s;will-change:transform}
+  .node-orbit-r{animation:nodeOrbit 28s linear infinite reverse;will-change:transform}
+  .node-orbit-2{animation:nodeOrbit2 14s linear infinite;will-change:transform}
+  .node-orbit-2r{animation:nodeOrbit2 18s linear infinite reverse;will-change:transform}
+
+  /* Data rain */
+  @keyframes rain1{0%{transform:translateY(-40px);opacity:0} 10%{opacity:0.6} 90%{opacity:0.6} 100%{transform:translateY(100vh);opacity:0}}
+  @keyframes rain2{0%{transform:translateY(-60px);opacity:0} 15%{opacity:0.4} 85%{opacity:0.4} 100%{transform:translateY(100vh);opacity:0}}
+  .rain-col-1{animation:rain1 8s linear infinite}
+  .rain-col-2{animation:rain2 11s linear infinite}
+  .rain-col-3{animation:rain1 9.5s linear infinite}
+
+  /* Horizontal scan line */
+  @keyframes scanLine{0%{transform:translateY(-2px);opacity:0} 3%{opacity:0.06} 97%{opacity:0.06} 100%{transform:translateY(100vh);opacity:0}}
+  .scan-line{animation:scanLine 12s linear infinite}
+
+  /* Pulse ring */
+  @keyframes pulseRing{0%{transform:scale(0.6);opacity:0.5} 100%{transform:scale(2.2);opacity:0}}
+  .pulse-ring-a{animation:pulseRing 3s ease-out infinite}
+  .pulse-ring-b{animation:pulseRing 3s ease-out infinite;animation-delay:-1s}
+  .pulse-ring-c{animation:pulseRing 3s ease-out infinite;animation-delay:-2s}
+
+  /* Warp speed lines */
+  @keyframes warpLine{0%{transform:scaleX(0);opacity:0;transform-origin:left} 30%{opacity:0.12} 70%{opacity:0.12} 100%{transform:scaleX(1);opacity:0}}
+  .warp-1{animation:warpLine 4s ease-in-out infinite}
+  .warp-2{animation:warpLine 5.5s ease-in-out infinite;animation-delay:-1.5s}
+  .warp-3{animation:warpLine 3.8s ease-in-out infinite;animation-delay:-2.8s}
+
+  /* Morse / data blink */
+  @keyframes morse{0%,100%{opacity:0} 10%,20%{opacity:0.5} 30%,40%{opacity:0} 50%,70%{opacity:0.5} 80%,100%{opacity:0}}
+  .morse{animation:morse 3s ease-in-out infinite}
+
+  /* Float gentle */
+  @keyframes floatGent{0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-18px) rotate(2deg)}}
+  .float-gent{animation:floatGent 7s ease-in-out infinite}
+  .float-gent-2{animation:floatGent 9s ease-in-out infinite;animation-delay:-3s}
+
+  /* City lights flicker */
+  @keyframes flicker{0%,100%{opacity:0.6} 45%{opacity:0.2} 55%{opacity:0.6} 70%{opacity:0.3} 80%{opacity:0.6}}
+  .flicker{animation:flicker 4s ease-in-out infinite}
+
+  /* Slow rotate */
+  @keyframes slowRot{0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)}}
+  .slow-rot{animation:slowRot 80s linear infinite;will-change:transform}
+  .slow-rot-r{animation:slowRot 60s linear infinite reverse;will-change:transform}
 `;
 
 // ─── RICH ANIMATED BACKGROUND ────────────────────────────────────────────────
 const RoofingBackground = memo(function RoofingBackground() {
-  // Particle positions — stable, not random on each render
-  const particles = [
-    {x:"12%",y:"72%",s:6,d:0},{x:"28%",y:"65%",s:4,d:1.2},{x:"44%",y:"78%",s:5,d:0.5},
-    {x:"58%",y:"68%",s:3,d:2.1},{x:"71%",y:"74%",s:5,d:0.8},{x:"83%",y:"70%",s:4,d:1.6},
-    {x:"19%",y:"55%",s:3,d:3.0},{x:"67%",y:"60%",s:4,d:0.3},{x:"90%",y:"62%",s:3,d:2.4},
-    {x:"38%",y:"50%",s:5,d:1.8},{x:"52%",y:"45%",s:3,d:0.9},{x:"76%",y:"48%",s:4,d:1.4},
-  ];
+
+  // All data is static (no Math.random) — stable across renders
   const stars = [
-    {x:"8%",y:"8%",r:1.5,d:0},{x:"22%",y:"4%",r:1,d:0.8},{x:"40%",y:"6%",r:2,d:1.5},
-    {x:"55%",y:"3%",r:1,d:0.4},{x:"68%",y:"7%",r:1.5,d:2.1},{x:"80%",y:"5%",r:1,d:0.7},
-    {x:"92%",y:"9%",r:2,d:1.2},{x:"15%",y:"18%",r:1,d:1.8},{x:"35%",y:"14%",r:1.5,d:0.3},
-    {x:"72%",y:"16%",r:1,d:2.5},{x:"88%",y:"20%",r:1.5,d:0.9},{x:"48%",y:"22%",r:1,d:1.1},
+    {x:8,y:7,r:1.5,d:0},{x:22,y:3,r:1,d:0.8},{x:40,y:5,r:2,d:1.5},{x:55,y:2,r:1,d:0.4},
+    {x:68,y:6,r:1.5,d:2.1},{x:80,y:4,r:1,d:0.7},{x:92,y:8,r:2,d:1.2},{x:14,y:17,r:1,d:1.8},
+    {x:34,y:13,r:1.5,d:0.3},{x:72,y:15,r:1,d:2.5},{x:87,y:19,r:1.5,d:0.9},{x:48,y:21,r:1,d:1.1},
+    {x:5,y:25,r:1,d:2.2},{x:96,y:28,r:1.5,d:0.6},{x:28,y:30,r:1,d:1.3},{x:60,y:26,r:2,d:1.9},
+    {x:18,y:38,r:1,d:0.2},{x:82,y:35,r:1.5,d:2.8},{x:44,y:42,r:1,d:1.7},{x:70,y:44,r:1,d:0.5},
+  ];
+
+  const particles = [
+    {x:12,y:72,s:6,c:0.45,d:0,t:1},{x:28,y:65,s:4,c:0.3,d:1.2,t:2},{x:44,y:78,s:5,c:0.4,d:0.5,t:3},
+    {x:58,y:68,s:3,c:0.25,d:2.1,t:1},{x:71,y:74,s:5,c:0.35,d:0.8,t:2},{x:83,y:70,s:4,c:0.3,d:1.6,t:3},
+    {x:19,y:55,s:3,c:0.2,d:3.0,t:1},{x:67,y:60,s:4,c:0.4,d:0.3,t:2},{x:90,y:62,s:3,c:0.25,d:2.4,t:3},
+    {x:38,y:50,s:5,c:0.35,d:1.8,t:1},{x:52,y:45,s:3,c:0.3,d:0.9,t:2},{x:76,y:48,s:4,c:0.2,d:1.4,t:3},
+    {x:7,y:80,s:4,c:0.35,d:0.6,t:2},{x:33,y:85,s:3,c:0.25,d:2.0,t:1},{x:61,y:82,s:5,c:0.3,d:1.1,t:3},
+    {x:88,y:88,s:4,c:0.2,d:0.4,t:1},{x:23,y:40,s:3,c:0.4,d:2.6,t:2},{x:49,y:36,s:4,c:0.35,d:1.0,t:3},
+  ];
+
+  // Data rain columns
+  const rainCols = [
+    {x:5,chars:["1","0","1","1","0","1"],delay:0,cl:"rain-col-1"},
+    {x:12,chars:["0","1","0","1","1","0"],delay:2.4,cl:"rain-col-2"},
+    {x:22,chars:["1","1","0","0","1","1"],delay:0.8,cl:"rain-col-3"},
+    {x:31,chars:["0","1","1","0","1","0"],delay:3.5,cl:"rain-col-1"},
+    {x:78,chars:["1","0","1","0","0","1"],delay:1.2,cl:"rain-col-2"},
+    {x:85,chars:["0","0","1","1","0","1"],delay:4.0,cl:"rain-col-3"},
+    {x:91,chars:["1","1","0","1","0","0"],delay:0.5,cl:"rain-col-1"},
+    {x:96,chars:["0","1","0","0","1","1"],delay:2.9,cl:"rain-col-2"},
+  ];
+
+  // Warp speed lines
+  const warpLines = [
+    {y:15,w:180,cl:"warp-1"},{y:28,w:120,cl:"warp-2"},{y:42,w:220,cl:"warp-3"},
+    {y:55,w:90,cl:"warp-1"},{y:67,w:160,cl:"warp-2"},{y:78,w:140,cl:"warp-3"},
+    {y:88,w:200,cl:"warp-1"},
   ];
 
   return (
     <div style={{position:"fixed",inset:0,zIndex:0,pointerEvents:"none",overflow:"hidden",background:"#fffaf5"}} aria-hidden>
 
-      {/* ── Base gradient ── */}
-      <div style={{position:"absolute",inset:0,background:"linear-gradient(160deg,#fffcf8 0%,#fff7ef 35%,#ffeedd 65%,#fff6ec 100%)"}}/>
+      {/* ─ 1. Base warm gradient ─────────────────────────────────────── */}
+      <div style={{position:"absolute",inset:0,background:"linear-gradient(160deg,#fffdf9 0%,#fff7ef 30%,#ffeedd 60%,#fff6ec 100%)"}}/>
 
-      {/* ── Animated grid ── */}
+      {/* ─ 2. Animated dot grid (subtle) ────────────────────────────── */}
       <div className="grid-pulse" style={{position:"absolute",inset:0,
-        backgroundImage:"linear-gradient(rgba(249,115,22,1) 1px,transparent 1px),linear-gradient(90deg,rgba(249,115,22,1) 1px,transparent 1px)",
-        backgroundSize:"80px 80px"}}/>
+        backgroundImage:"radial-gradient(circle,rgba(249,115,22,0.35) 1px,transparent 1px)",
+        backgroundSize:"48px 48px"}}/>
 
-      {/* ── Star field ── */}
-      {stars.map((s,i)=>(
-        <div key={i} style={{position:"absolute",left:s.x,top:s.y,
-          width:s.r*2,height:s.r*2,borderRadius:"50%",
-          background:"rgba(249,115,22,0.6)",
-          animation:`twinkle ${2+i%3}s ease-in-out infinite`,
-          animationDelay:`${s.d}s`}}/>
+      {/* ─ 3. Horizontal scan line sweep ────────────────────────────── */}
+      <div className="scan-line" style={{position:"absolute",left:0,right:0,top:0,height:2,
+        background:"linear-gradient(90deg,transparent,rgba(249,115,22,0.08),transparent)"}}/>
+
+      {/* ─ 4. Warp speed lines (left side) ──────────────────────────── */}
+      <div style={{position:"absolute",left:0,top:0,bottom:0,width:"18%"}}>
+        {warpLines.slice(0,4).map((l,i)=>(
+          <div key={i} className={l.cl} style={{position:"absolute",top:`${l.y}%`,left:0,
+            height:1,width:l.w,background:"linear-gradient(90deg,rgba(249,115,22,0.18),transparent)"}}/>
+        ))}
+      </div>
+
+      {/* ─ 5. Warp speed lines (right side) ─────────────────────────── */}
+      <div style={{position:"absolute",right:0,top:0,bottom:0,width:"18%"}}>
+        {warpLines.slice(4).map((l,i)=>(
+          <div key={i} className={l.cl} style={{position:"absolute",top:`${l.y}%`,right:0,
+            height:1,width:l.w,background:"linear-gradient(270deg,rgba(249,115,22,0.18),transparent)",
+            animationDelay:`${l.w/50}s`}}/>
+        ))}
+      </div>
+
+      {/* ─ 6. Data rain columns (sides) ──────────────────────────────── */}
+      {rainCols.map((col,i)=>(
+        <div key={i} className={col.cl} style={{position:"absolute",left:`${col.x}%`,top:0,
+          display:"flex",flexDirection:"column",gap:28,animationDelay:`${col.delay}s`,
+          opacity:0.07+i%3*0.02}}>
+          {col.chars.map((ch,j)=>(
+            <span key={j} style={{fontFamily:"monospace",fontSize:10,color:"rgba(249,115,22,1)",lineHeight:1}}>{ch}</span>
+          ))}
+        </div>
       ))}
 
-      {/* ── Floating particles (sparks) ── */}
+      {/* ─ 7. Star field ─────────────────────────────────────────────── */}
+      {stars.map((s,i)=>(
+        <div key={i} style={{position:"absolute",left:`${s.x}%`,top:`${s.y}%`,
+          width:s.r*2,height:s.r*2,borderRadius:"50%",
+          background:"rgba(249,115,22,0.65)",
+          animation:`twinkle ${2+i%4}s ease-in-out infinite`,
+          animationDelay:`${s.d}s`,zIndex:1}}/>
+      ))}
+
+      {/* ─ 8. Diamond sparkles ───────────────────────────────────────── */}
+      {[{x:15,y:32},{x:38,y:18},{x:62,y:28},{x:84,y:22},{x:48,y:48},{x:75,y:55}].map((s,i)=>(
+        <div key={i} style={{position:"absolute",left:`${s.x}%`,top:`${s.y}%`,
+          width:6,height:6,background:"rgba(249,115,22,0.5)",
+          transform:"rotate(45deg)",
+          animation:`twinkle ${3+i%2}s ease-in-out infinite`,
+          animationDelay:`${i*0.7}s`}}/>
+      ))}
+
+      {/* ─ 9. Floating particles ─────────────────────────────────────── */}
       {particles.map((p,i)=>(
-        <div key={i} style={{position:"absolute",left:p.x,top:p.y,
+        <div key={i} style={{position:"absolute",left:`${p.x}%`,top:`${p.y}%`,
           width:p.s,height:p.s,borderRadius:"50%",
-          background:`rgba(249,115,22,${0.3+i%3*0.15})`,
-          animation:`drift${1+(i%3)} ${6+i%4}s ease-in-out infinite`,
+          background:`rgba(249,115,22,${p.c})`,
+          animation:`drift${p.t} ${6+i%5}s ease-in-out infinite`,
           animationDelay:`${p.d}s`}}/>
       ))}
 
-      {/* ── AI node constellation (top area) ── */}
-      <div style={{position:"absolute",top:"8%",right:"8%",width:280,height:280}}>
-        <svg width="280" height="280" viewBox="0 0 280 280" fill="none">
-          {/* Center AI node */}
-          <circle cx="140" cy="140" r="22" fill="rgba(249,115,22,0.08)" stroke="rgba(249,115,22,0.2)" strokeWidth="1.2"/>
-          <circle cx="140" cy="140" r="14" fill="rgba(249,115,22,0.12)" stroke="rgba(249,115,22,0.3)" strokeWidth="1"/>
-          <text x="140" y="144" textAnchor="middle" fontSize="10" fill="rgba(249,115,22,0.5)" fontFamily="sans-serif" fontWeight="700">AI</text>
-          {/* Orbit rings */}
-          <circle cx="140" cy="140" r="60" fill="none" stroke="rgba(249,115,22,0.08)" strokeWidth="1" strokeDasharray="4 4"/>
-          <circle cx="140" cy="140" r="100" fill="none" stroke="rgba(249,115,22,0.05)" strokeWidth="1" strokeDasharray="6 6"/>
-          {/* Orbiting nodes */}
-          <g className="node-orbit">
-            <circle cx="0" cy="0" r="9" fill="rgba(249,115,22,0.1)" stroke="rgba(249,115,22,0.25)" strokeWidth="1"/>
-            <text x="0" y="3" textAnchor="middle" fontSize="5" fill="rgba(249,115,22,0.6)" fontFamily="sans-serif" fontWeight="700">CRM</text>
-          </g>
-          <g style={{transformOrigin:"140px 140px"}} className="node-orbit-2">
-            <g style={{transform:"translateX(140px) translateY(140px)"}}>
-              <circle cx="0" cy="0" r="8" fill="rgba(249,115,22,0.1)" stroke="rgba(249,115,22,0.2)" strokeWidth="1"/>
-              <text x="0" y="3" textAnchor="middle" fontSize="5" fill="rgba(249,115,22,0.5)" fontFamily="sans-serif" fontWeight="700">SMS</text>
-            </g>
-          </g>
-          <g style={{transformOrigin:"140px 140px"}} className="node-orbit-3">
-            <g style={{transform:"translateX(140px) translateY(140px)"}}>
-              <circle cx="0" cy="0" r="8" fill="rgba(249,115,22,0.1)" stroke="rgba(249,115,22,0.2)" strokeWidth="1"/>
-              <text x="0" y="3" textAnchor="middle" fontSize="5" fill="rgba(249,115,22,0.5)" fontFamily="sans-serif" fontWeight="700">ADS</text>
-            </g>
-          </g>
-          {/* Static connector lines */}
-          <line x1="140" y1="140" x2="200" y2="80" stroke="rgba(249,115,22,0.07)" strokeWidth="1"/>
-          <line x1="140" y1="140" x2="80" y2="90" stroke="rgba(249,115,22,0.07)" strokeWidth="1"/>
-          <line x1="140" y1="140" x2="210" y2="190" stroke="rgba(249,115,22,0.07)" strokeWidth="1"/>
-          <line x1="140" y1="140" x2="70" y2="200" stroke="rgba(249,115,22,0.07)" strokeWidth="1"/>
+      {/* ─ 10. Pulse rings (3 locations) ─────────────────────────────── */}
+      {[{x:"20%",y:"30%"},{x:"72%",y:"45%"},{x:"45%",y:"70%"}].map((pos,i)=>(
+        <div key={i} style={{position:"absolute",left:pos.x,top:pos.y}}>
+          <div className="pulse-ring-a" style={{position:"absolute",width:40,height:40,borderRadius:"50%",
+            border:"1px solid rgba(249,115,22,0.25)",transform:"translate(-50%,-50%)"}}/>
+          <div className="pulse-ring-b" style={{position:"absolute",width:40,height:40,borderRadius:"50%",
+            border:"1px solid rgba(249,115,22,0.18)",transform:"translate(-50%,-50%)"}}/>
+          <div className="pulse-ring-c" style={{position:"absolute",width:40,height:40,borderRadius:"50%",
+            border:"1px solid rgba(249,115,22,0.12)",transform:"translate(-50%,-50%)"}}/>
+        </div>
+      ))}
+
+      {/* ─ 11. Large rotating geometric rings ───────────────────────── */}
+      <div className="slow-rot" style={{position:"absolute",top:"5%",left:"50%",
+        width:600,height:600,marginLeft:-300,marginTop:0,opacity:0.04}}>
+        <svg width="600" height="600" viewBox="0 0 600 600" fill="none">
+          <circle cx="300" cy="300" r="250" stroke="rgba(249,115,22,1)" strokeWidth="1" strokeDasharray="8 12"/>
+          <circle cx="300" cy="300" r="200" stroke="rgba(249,115,22,1)" strokeWidth="0.8" strokeDasharray="4 8"/>
+          <polygon points="300,60 520,420 80,420" stroke="rgba(249,115,22,1)" strokeWidth="0.8" fill="none" strokeDasharray="6 10"/>
+        </svg>
+      </div>
+      <div className="slow-rot-r" style={{position:"absolute",top:"20%",left:"50%",
+        width:400,height:400,marginLeft:-200,opacity:0.03}}>
+        <svg width="400" height="400" viewBox="0 0 400 400" fill="none">
+          <rect x="50" y="50" width="300" height="300" stroke="rgba(249,115,22,1)" strokeWidth="1" fill="none" strokeDasharray="6 8" rx="8"/>
+          <rect x="100" y="100" width="200" height="200" stroke="rgba(249,115,22,1)" strokeWidth="0.8" fill="none" strokeDasharray="4 6" rx="4"/>
         </svg>
       </div>
 
-      {/* ── Animated rooftop city panorama ── */}
-      <div style={{position:"absolute",bottom:0,left:0,right:0,height:"38%",overflow:"hidden"}}>
+      {/* ─ 12. Main AI node constellation (upper right) ──────────────── */}
+      <div style={{position:"absolute",top:"4%",right:"4%",width:300,height:300,opacity:0.85}}>
+        <svg width="300" height="300" viewBox="0 0 300 300" fill="none">
+          {/* Rings */}
+          <circle cx="150" cy="150" r="55"  fill="none" stroke="rgba(249,115,22,0.1)" strokeWidth="1" strokeDasharray="5 5"/>
+          <circle cx="150" cy="150" r="95"  fill="none" stroke="rgba(249,115,22,0.07)" strokeWidth="1" strokeDasharray="8 6"/>
+          <circle cx="150" cy="150" r="130" fill="none" stroke="rgba(249,115,22,0.04)" strokeWidth="1" strokeDasharray="10 8"/>
+          {/* Center */}
+          <circle cx="150" cy="150" r="24" fill="rgba(249,115,22,0.1)" stroke="rgba(249,115,22,0.3)" strokeWidth="1.5"/>
+          <circle cx="150" cy="150" r="15" fill="rgba(249,115,22,0.18)" stroke="rgba(249,115,22,0.4)" strokeWidth="1"/>
+          <text x="150" y="154" textAnchor="middle" fontSize="11" fill="rgba(249,115,22,0.65)" fontFamily="sans-serif" fontWeight="800">AI</text>
+          {/* Spoke lines */}
+          {[0,60,120,180,240,300].map((deg,i)=>{
+            const r=Math.PI*deg/180;
+            return <line key={i} x1={150+Math.cos(r)*25} y1={150+Math.sin(r)*25}
+              x2={150+Math.cos(r)*125} y2={150+Math.sin(r)*125}
+              stroke="rgba(249,115,22,0.06)" strokeWidth="1"/>;
+          })}
+          {/* Inner orbit nodes */}
+          <g className="node-orbit-2" style={{transformOrigin:"150px 150px"}}>
+            <g style={{transform:"translate(150px,150px)"}}>
+              <circle r="10" fill="rgba(249,115,22,0.12)" stroke="rgba(249,115,22,0.3)" strokeWidth="1"/>
+              <text y="3" textAnchor="middle" fontSize="6" fill="rgba(249,115,22,0.7)" fontFamily="sans-serif" fontWeight="700">SMS</text>
+            </g>
+          </g>
+          <g className="node-orbit-2r" style={{transformOrigin:"150px 150px"}}>
+            <g style={{transform:"translate(150px,150px)"}}>
+              <circle r="9" fill="rgba(249,115,22,0.1)" stroke="rgba(249,115,22,0.25)" strokeWidth="1"/>
+              <text y="3" textAnchor="middle" fontSize="6" fill="rgba(249,115,22,0.6)" fontFamily="sans-serif" fontWeight="700">CALL</text>
+            </g>
+          </g>
+          {/* Outer orbit nodes */}
+          <g className="node-orbit" style={{transformOrigin:"150px 150px"}}>
+            <g style={{transform:"translate(150px,150px)"}}>
+              <circle r="12" fill="rgba(249,115,22,0.09)" stroke="rgba(249,115,22,0.22)" strokeWidth="1"/>
+              <text y="4" textAnchor="middle" fontSize="6" fill="rgba(249,115,22,0.55)" fontFamily="sans-serif" fontWeight="700">CRM</text>
+            </g>
+          </g>
+          <g className="node-orbit-r" style={{transformOrigin:"150px 150px"}}>
+            <g style={{transform:"translate(150px,150px)"}}>
+              <circle r="11" fill="rgba(249,115,22,0.09)" stroke="rgba(249,115,22,0.2)" strokeWidth="1"/>
+              <text y="4" textAnchor="middle" fontSize="6" fill="rgba(249,115,22,0.5)" fontFamily="sans-serif" fontWeight="700">ADS</text>
+            </g>
+          </g>
+          {/* Satellite data points */}
+          {[30,90,150,210,270,330].map((deg,i)=>{
+            const r=Math.PI*deg/180, dist=93;
+            return <circle key={i} cx={150+Math.cos(r)*dist} cy={150+Math.sin(r)*dist}
+              r="4" fill="rgba(249,115,22,0.2)" stroke="rgba(249,115,22,0.35)" strokeWidth="0.8"/>;
+          })}
+        </svg>
+      </div>
+
+      {/* ─ 13. Second smaller constellation (lower left) ─────────────── */}
+      <div style={{position:"absolute",bottom:"30%",left:"2%",width:180,height:180,opacity:0.7}}>
+        <svg width="180" height="180" viewBox="0 0 180 180" fill="none">
+          <circle cx="90" cy="90" r="40" fill="none" stroke="rgba(249,115,22,0.09)" strokeWidth="1" strokeDasharray="4 5"/>
+          <circle cx="90" cy="90" r="70" fill="none" stroke="rgba(249,115,22,0.05)" strokeWidth="1" strokeDasharray="6 7"/>
+          <circle cx="90" cy="90" r="15" fill="rgba(249,115,22,0.07)" stroke="rgba(249,115,22,0.2)" strokeWidth="1"/>
+          <text x="90" y="94" textAnchor="middle" fontSize="8" fill="rgba(249,115,22,0.4)" fontFamily="sans-serif" fontWeight="700">n8n</text>
+          <g className="node-orbit-2" style={{transformOrigin:"90px 90px"}}>
+            <g style={{transform:"translate(90px,90px)"}}>
+              <circle r="8" fill="rgba(249,115,22,0.08)" stroke="rgba(249,115,22,0.2)" strokeWidth="1"/>
+              <text y="3" textAnchor="middle" fontSize="5" fill="rgba(249,115,22,0.5)" fontFamily="sans-serif" fontWeight="700">WA</text>
+            </g>
+          </g>
+          {[0,72,144,216,288].map((deg,i)=>{
+            const r=Math.PI*deg/180;
+            return <circle key={i} cx={90+Math.cos(r)*68} cy={90+Math.sin(r)*68}
+              r="5" fill="rgba(249,115,22,0.12)" stroke="rgba(249,115,22,0.25)" strokeWidth="0.8"/>;
+          })}
+        </svg>
+      </div>
+
+      {/* ─ 14. Morse / data blink strip (mid screen) ─────────────────── */}
+      <div style={{position:"absolute",top:"48%",left:"50%",transform:"translateX(-50%)",
+        display:"flex",gap:8,opacity:0.07}}>
+        {[1,0,1,1,0,1,0,0,1,1,0,1,1,0,0,1].map((bit,i)=>(
+          <div key={i} className="morse" style={{width:bit?12:4,height:4,borderRadius:2,
+            background:"rgba(249,115,22,1)",animationDelay:`${i*0.18}s`}}/>
+        ))}
+      </div>
+
+      {/* ─ 15. Animated rooftop city panorama (full richer version) ─── */}
+      <div style={{position:"absolute",bottom:0,left:0,right:0,height:"36%",overflow:"hidden"}}>
         <div className="city-scroll" style={{display:"flex",alignItems:"flex-end",width:"200%",height:"100%"}}>
-          <svg width="2880" height="220" viewBox="0 0 2880 220" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            {/* House row 1 */}
-            {[0,200,380,560,740,920,1100,1280,1440,1640,1820,2000,2200,2380,2560,2740].map((x,i)=>{
-              const h=[90,110,80,120,95,105,115,85,90,110,80,120,95,105,115,85][i];
-              const w=140+i%3*20;
-              const variant=i%3;
+          <svg width="2880" height="240" viewBox="0 0 2880 240" fill="none" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+            {/* Background mountain/hill silhouette */}
+            <path d="M0,200 C200,140 400,180 600,130 C800,80 1000,150 1200,110 C1400,70 1600,140 1800,100 C2000,60 2200,130 2400,90 C2600,50 2750,120 2880,100 L2880,240 L0,240Z"
+              fill="rgba(249,115,22,0.03)"/>
+
+            {/* Houses with more detail */}
+            {[0,170,320,480,640,800,960,1110,1270,1440,1610,1760,1920,2080,2240,2400,2560,2720].map((x,i)=>{
+              const h=[100,85,115,95,125,90,105,80,115,100,85,115,95,125,90,105,80,115][i%18];
+              const w=130+[0,20,10,30,0,15,25,5,20,10,30,0,15,25,5,20,10,30][i%18];
+              const v=i%4;
+              const op=0.11+(i%5)*0.025;
               return (
-                <g key={x} opacity={0.12+(i%4)*0.03}>
+                <g key={x} opacity={op}>
                   {/* Wall */}
-                  <rect x={x+10} y={220-h} width={w} height={h} fill="rgba(249,115,22,0.6)" rx="2"/>
-                  {/* Roof */}
-                  {variant===0 && <polygon points={`${x},${220-h} ${x+w/2+10},${220-h-40} ${x+w+20},${220-h}`} fill="rgba(194,65,12,0.7)"/>}
-                  {variant===1 && <rect x={x+10} y={220-h-20} width={w} height={20} fill="rgba(194,65,12,0.6)" rx="2"/>}
-                  {variant===2 && <polygon points={`${x+10},${220-h} ${x+w/2+10},${220-h-50} ${x+w+10},${220-h}`} fill="rgba(180,50,5,0.7)"/>}
-                  {/* Windows */}
-                  <rect x={x+20} y={220-h+15} width={20} height={18} fill="rgba(135,206,235,0.3)" rx="2"/>
-                  <rect x={x+50} y={220-h+15} width={20} height={18} fill="rgba(135,206,235,0.25)" rx="2"/>
-                  {w>150 && <rect x={x+80} y={220-h+15} width={20} height={18} fill="rgba(135,206,235,0.2)" rx="2"/>}
+                  <rect x={x+8} y={240-h} width={w} height={h} fill="rgba(249,115,22,0.55)" rx="2"/>
+                  {/* Wall bricks pattern */}
+                  {[0,1].map(row=>[0,1,2,3].map(col=>(
+                    <rect key={`${row}${col}`} x={x+14+col*(w/4-2)} y={240-h+20+row*18}
+                      width={w/4-4} height={12} rx="1" fill="rgba(180,80,20,0.2)"/>
+                  )))}
+                  {/* Roof variants */}
+                  {v===0 && <polygon points={`${x},${240-h} ${x+w/2+8},${240-h-48} ${x+w+16},${240-h}`} fill="rgba(194,65,12,0.7)"/>}
+                  {v===1 && <>
+                    <polygon points={`${x+8},${240-h} ${x+w/2+8},${240-h-38} ${x+w+8},${240-h}`} fill="rgba(180,55,10,0.65)"/>
+                    {/* Shingles */}
+                    {[0,1,2,3].map(r=>[0,1,2,3,4].map(col=>{
+                      const sx=x+12+col*(w/4), sy=240-h-30+r*8;
+                      if(sy>240-h) return null;
+                      return <rect key={`${r}${col}`} x={sx} y={sy} width={w/4-2} height={6} rx="1" fill={r%2===0?"rgba(154,52,18,0.5)":"rgba(194,65,12,0.4)"}/>;
+                    }))}
+                  </>}
+                  {v===2 && <rect x={x+8} y={240-h-18} width={w} height={18} fill="rgba(160,50,10,0.55)" rx="2"/>}
+                  {v===3 && <>
+                    <polygon points={`${x+8},${240-h} ${x+w/2+8},${240-h-55} ${x+w+8},${240-h}`} fill="rgba(140,40,5,0.7)"/>
+                    <polygon points={`${x+30},${240-h} ${x+w/2+8},${240-h-30} ${x+w-14},${240-h}`} fill="rgba(200,80,20,0.35)"/>
+                  </>}
+                  {/* Windows — 2 rows */}
+                  {[0,1].map(row=>[0,1,w>140?2:null].filter(Boolean).map(col=>(
+                    <rect key={`w${row}${col}`} x={x+20+(col as number)*42} y={240-h+22+row*28}
+                      width={22} height={18} rx="2"
+                      fill={`rgba(135,206,235,${0.25+row*0.05})`}
+                      stroke="rgba(249,115,22,0.15)" strokeWidth="0.8"/>
+                  )))}
+                  {/* Window glow */}
+                  {i%3===0 && <rect x={x+20} y={240-h+22} width={22} height={18} rx="2"
+                    fill="rgba(255,220,100,0.12)" className="flicker"/>}
                   {/* Door */}
-                  <rect x={x+w/2} y={220-25} width={22} height={25} fill="rgba(120,60,20,0.5)" rx="2"/>
+                  <rect x={x+w/2-8} y={240-24} width={24} height={24} rx="3" fill="rgba(120,60,20,0.55)"/>
+                  <path d={`M${x+w/2-8},${240-24} Q${x+w/2+4},${240-30} ${x+w/2+16},${240-24}`}
+                    fill="rgba(120,60,20,0.4)"/>
+                  <circle cx={x+w/2+10} cy={240-14} r="2.5" fill="rgba(249,115,22,0.7)"/>
                   {/* Chimney */}
-                  {i%2===0 && <rect x={x+w-30} y={220-h-55} width={14} height={35} fill="rgba(150,70,30,0.4)" rx="1"/>}
+                  {i%2===0 && <>
+                    <rect x={x+w-28} y={240-h-52} width={16} height={38} fill="rgba(100,55,25,0.5)" rx="1"/>
+                    <rect x={x+w-32} y={240-h-54} width={24} height={5} fill="rgba(80,40,18,0.6)" rx="1"/>
+                  </>}
+                  {/* Antenna */}
+                  {i%5===0 && <>
+                    <line x1={x+w/2+8} y1={240-h-50} x2={x+w/2+8} y2={240-h} stroke="rgba(80,80,80,0.3)" strokeWidth="1.5"/>
+                    <line x1={x+w/2-2} y1={240-h-40} x2={x+w/2+18} y2={240-h-40} stroke="rgba(80,80,80,0.3)" strokeWidth="1.5"/>
+                  </>}
+                  {/* Solar panel */}
+                  {i%7===0 && <rect x={x+18} y={240-h+2} width={40} height={20} rx="2"
+                    fill="rgba(30,100,180,0.15)" stroke="rgba(30,100,180,0.2)" strokeWidth="0.8"/>}
                 </g>
               );
             })}
-            {/* Ground line */}
-            <line x1="0" y1="219" x2="2880" y2="219" stroke="rgba(249,115,22,0.12)" strokeWidth="1"/>
-            {/* Trees */}
-            {[150,330,510,680,870,1050,1230,1400,1590,1770,1950,2130,2310,2490,2670].map((x,i)=>(
-              <g key={x} opacity={0.09+(i%3)*0.03}>
-                <line x1={x} y1="219" x2={x} y2={170} stroke="rgba(100,60,20,0.5)" strokeWidth="4"/>
-                <ellipse cx={x} cy={165} rx="18" ry="22" fill="rgba(80,160,80,0.4)"/>
+
+            {/* Trees (more detailed) */}
+            {[140,290,440,590,740,890,1040,1200,1360,1520,1670,1820,1980,2140,2290,2440,2590,2740].map((x,i)=>(
+              <g key={x} opacity={0.1+(i%3)*0.025}>
+                {/* Trunk */}
+                <rect x={x-3} y={190} width={6} height={50} fill="rgba(100,60,20,0.5)" rx="2"/>
+                {/* Tree layers */}
+                <polygon points={`${x-18},${205} ${x},${175} ${x+18},${205}`} fill="rgba(80,160,70,0.4)"/>
+                <polygon points={`${x-14},${195} ${x},${162} ${x+14},${195}`} fill="rgba(90,175,80,0.45)"/>
+                <polygon points={`${x-10},${185} ${x},${150} ${x+10},${185}`} fill="rgba(100,185,85,0.5)"/>
               </g>
             ))}
+
+            {/* Street lamps */}
+            {[100,450,780,1120,1450,1800,2150,2500,2820].map((x,i)=>(
+              <g key={x} opacity={0.12}>
+                <line x1={x} y1="239" x2={x} y2="185" stroke="rgba(150,100,50,0.6)" strokeWidth="2"/>
+                <path d={`M${x},185 Q${x+15},175 ${x+25},180`} fill="none" stroke="rgba(150,100,50,0.6)" strokeWidth="2"/>
+                <circle cx={x+25} cy={180} r="5" fill="rgba(255,220,100,0.3)" className="flicker" style={{animationDelay:`${i*0.4}s`}}/>
+                <circle cx={x+25} cy={180} r="10" fill="rgba(255,220,100,0.06)" className="flicker" style={{animationDelay:`${i*0.4}s`}}/>
+              </g>
+            ))}
+
             {/* Flying birds */}
-            {[400,900,1500,2100,2600].map((x,i)=>(
-              <g key={x} opacity="0.15" style={{animation:`cloudDrift ${15+i*3}s ease-in-out infinite alternate`}}>
-                <path d={`M${x},${40+i*12} Q${x+10},${35+i*12} ${x+20},${40+i*12}`} fill="none" stroke="rgba(100,100,100,0.6)" strokeWidth="1.5" strokeLinecap="round"/>
-                <path d={`M${x+22},${40+i*12} Q${x+32},${35+i*12} ${x+42},${40+i*12}`} fill="none" stroke="rgba(100,100,100,0.6)" strokeWidth="1.5" strokeLinecap="round"/>
+            {[300,700,1100,1500,1900,2300,2700].map((x,i)=>(
+              <g key={x} opacity={0.13} style={{animation:`cloudDrift ${12+i*2}s ease-in-out infinite alternate`,animationDelay:`${i*0.8}s`}}>
+                <path d={`M${x},${35+i*10} Q${x+9},${29+i*10} ${x+18},${35+i*10}`}
+                  fill="none" stroke="rgba(80,80,80,0.7)" strokeWidth="1.5" strokeLinecap="round"/>
+                <path d={`M${x+20},${35+i*10} Q${x+29},${29+i*10} ${x+38},${35+i*10}`}
+                  fill="none" stroke="rgba(80,80,80,0.7)" strokeWidth="1.5" strokeLinecap="round"/>
               </g>
             ))}
+
+            {/* Road */}
+            <rect x="0" y="230" width="2880" height="10" fill="rgba(100,80,60,0.08)"/>
+            {/* Road dashes */}
+            {[0,120,240,360,480,600,720,840,960,1080,1200,1320,1440,1560,1680,1800,1920,2040,2160,2280,2400,2520,2640,2760].map((x,i)=>(
+              <rect key={x} x={x+20} y="233" width="60" height="3" rx="1.5" fill="rgba(255,255,255,0.06)"/>
+            ))}
+
+            {/* Ground */}
+            <rect x="0" y="238" width="2880" height="2" fill="rgba(249,115,22,0.08)"/>
           </svg>
         </div>
       </div>
 
-      {/* ── Wave layers ── */}
-      <svg style={{position:"absolute",bottom:0,left:0,width:"110%",height:"45%",overflow:"visible"}}
-        viewBox="0 0 1440 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      {/* ─ 16. Wave layers ───────────────────────────────────────────── */}
+      <svg style={{position:"absolute",bottom:0,left:0,width:"110%",height:"40%",overflow:"visible"}}
+        viewBox="0 0 1440 360" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <g className="wave-1">
-          <path fill="rgba(180,50,5,0.07)" d="M0,320 C180,240 360,380 540,300 C720,220 900,360 1080,280 C1260,200 1380,310 1440,260 L1440,400 L0,400Z"/>
+          <path fill="rgba(180,50,5,0.065)" d="M0,280 C200,200 400,330 600,250 C800,170 1000,310 1200,230 C1360,165 1440,260 1440,230 L1440,360 L0,360Z"/>
         </g>
         <g className="wave-2">
-          <path fill="rgba(249,115,22,0.06)" d="M0,350 C200,270 420,400 660,320 C900,240 1100,370 1300,290 C1420,240 1440,330 1440,300 L1440,400 L0,400Z"/>
+          <path fill="rgba(249,115,22,0.055)" d="M0,310 C220,230 460,360 720,280 C980,200 1180,340 1380,265 C1430,245 1440,310 1440,290 L1440,360 L0,360Z"/>
         </g>
         <g className="wave-3">
-          <path fill="rgba(251,146,60,0.055)" d="M0,370 C240,300 480,400 720,340 C960,280 1140,390 1340,320 C1420,285 1440,360 1440,340 L1440,400 L0,400Z"/>
+          <path fill="rgba(251,146,60,0.05)" d="M0,330 C260,260 520,360 780,300 C1040,240 1240,360 1440,310 L1440,360 L0,360Z"/>
         </g>
       </svg>
 
-      {/* ── Moving clouds ── */}
-      <div className="anim-cloud1" style={{position:"absolute",top:"10%",left:"5%",opacity:0.18}}><SceneryCloud scale={1.4}/></div>
-      <div className="anim-cloud2" style={{position:"absolute",top:"6%",left:"42%",opacity:0.12}}><SceneryCloud scale={1.0}/></div>
-      <div className="anim-cloud1" style={{position:"absolute",top:"15%",right:"20%",opacity:0.10}}><SceneryCloud scale={0.7}/></div>
+      {/* ─ 17. Clouds ────────────────────────────────────────────────── */}
+      <div className="anim-cloud1" style={{position:"absolute",top:"8%",left:"4%",opacity:0.2}}><SceneryCloud scale={1.6}/></div>
+      <div className="anim-cloud2" style={{position:"absolute",top:"5%",left:"38%",opacity:0.14}}><SceneryCloud scale={1.1}/></div>
+      <div className="anim-cloud1" style={{position:"absolute",top:"14%",right:"22%",opacity:0.12}}><SceneryCloud scale={0.8}/></div>
+      <div className="anim-cloud2" style={{position:"absolute",top:"20%",left:"62%",opacity:0.09}}><SceneryCloud scale={0.6}/></div>
 
-      {/* ── Sun ── */}
-      <div className="anim-sun" style={{position:"absolute",top:"5%",left:"8%",opacity:0.22}}><ScenerySun/></div>
+      {/* ─ 18. Sun ───────────────────────────────────────────────────── */}
+      <div className="anim-sun" style={{position:"absolute",top:"4%",left:"6%",opacity:0.25}}><ScenerySun/></div>
 
-      {/* ── Large soft orbs ── */}
-      <div className="orb-1" style={{position:"absolute",top:"-18%",left:"50%",width:750,height:750,borderRadius:"50%",
-        background:"radial-gradient(circle,rgba(249,115,22,0.07) 0%,transparent 65%)",filter:"blur(55px)"}}/>
-      <div className="orb-2" style={{position:"absolute",top:"30%",left:"-12%",width:550,height:550,borderRadius:"50%",
-        background:"radial-gradient(circle,rgba(234,88,12,0.055) 0%,transparent 65%)",filter:"blur(45px)"}}/>
-      <div style={{position:"absolute",bottom:"20%",right:"-8%",width:400,height:400,borderRadius:"50%",
-        background:"radial-gradient(circle,rgba(249,115,22,0.04) 0%,transparent 65%)",filter:"blur(40px)"}}/>
+      {/* ─ 19. Big soft glow orbs ────────────────────────────────────── */}
+      <div className="orb-1" style={{position:"absolute",top:"-20%",left:"48%",width:800,height:800,borderRadius:"50%",
+        background:"radial-gradient(circle,rgba(249,115,22,0.07) 0%,transparent 65%)",filter:"blur(60px)"}}/>
+      <div className="orb-2" style={{position:"absolute",top:"28%",left:"-14%",width:600,height:600,borderRadius:"50%",
+        background:"radial-gradient(circle,rgba(234,88,12,0.055) 0%,transparent 65%)",filter:"blur(50px)"}}/>
+      <div style={{position:"absolute",bottom:"15%",right:"-10%",width:500,height:500,borderRadius:"50%",
+        background:"radial-gradient(circle,rgba(249,115,22,0.045) 0%,transparent 65%)",filter:"blur(45px)"}}/>
+      <div style={{position:"absolute",top:"55%",left:"35%",width:350,height:350,borderRadius:"50%",
+        background:"radial-gradient(circle,rgba(249,115,22,0.03) 0%,transparent 65%)",filter:"blur(40px)"}}/>
 
-      {/* ── Readable overlay ── */}
+      {/* ─ 20. Readable overlay ──────────────────────────────────────── */}
       <div style={{position:"absolute",inset:0,
-        background:"linear-gradient(to bottom,rgba(255,250,245,0.68) 0%,rgba(255,250,245,0.06) 40%,rgba(255,250,245,0.02) 60%,rgba(255,250,245,0.55) 100%)"}}/>
+        background:"linear-gradient(to bottom,rgba(255,250,245,0.65) 0%,rgba(255,250,245,0.04) 38%,rgba(255,250,245,0.02) 58%,rgba(255,250,245,0.5) 100%)"}}/>
     </div>
   );
 });
@@ -1914,50 +2170,67 @@ function HomePage({ goto }: { goto:(p:Page)=>void }) {
     <>
       <section ref={heroRef} className="relative px-6 overflow-hidden"
         style={{minHeight:"100vh",display:"flex",flexDirection:"column",justifyContent:"center",paddingTop:"10rem",paddingBottom:"7rem",position:"relative",zIndex:4}}>
-        <motion.div style={{y:heroY,opacity:heroO,position:"relative",zIndex:4}} className="mx-auto max-w-5xl text-center">
-          <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.7,ease:E}}>
-            <motion.span style={{...SF,color:ORANGE,background:ORANGE_LIGHT,border:`1px solid ${ORANGE_BORDER}`}}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest mb-8"
-              whileHover={{scale:1.06}}>
-              <motion.span animate={{rotate:[0,360]}} transition={{duration:8,repeat:Infinity,ease:"linear"}}>✦</motion.span>
-              AI Automation for Roofing Contractors
-            </motion.span>
-          </motion.div>
-          <motion.div initial={{opacity:0,x:40,scale:0.9}} animate={{opacity:1,x:0,scale:1}} transition={{delay:0.5,duration:1,ease:E}}
-            className="absolute right-4 top-16 hidden lg:block" style={{zIndex:3}}>
-            <HeroPortrait/>
-          </motion.div>
-          <h1 style={{...IF,fontStyle:"italic",fontSize:"clamp(50px,8vw,112px)",lineHeight:1.15}} className="text-gray-900 tracking-tight mb-6">
-            <motion.span style={{display:"block",paddingBottom:"0.05em"}}
-              initial={{opacity:0,y:28}} animate={{opacity:1,y:0}} transition={{duration:0.55,ease:E,delay:0.05}}>
-              More leads.
-            </motion.span>
-            <span style={{display:"block",paddingBottom:"0.15em"}}>
-              <motion.span style={{display:"inline-block",marginRight:"0.2em"}} initial={{y:28}} animate={{y:0}} transition={{duration:0.55,ease:E,delay:0.15}}>
-                <span className="shimmer-text">Zero</span>
-              </motion.span>
-              <motion.span style={{display:"inline-block"}} initial={{opacity:0,y:28}} animate={{opacity:1,y:0}} transition={{duration:0.55,ease:E,delay:0.22}}>
-                missed calls.
-              </motion.span>
-            </span>
-          </h1>
-          <motion.p initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.9,ease:E,delay:0.75}}
-            style={{...IF,fontStyle:"italic",fontSize:"clamp(18px,2.2vw,28px)"}} className="text-gray-400 mb-4">AI automation built exclusively for roofing companies.</motion.p>
-          <motion.p initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} transition={{duration:0.8,ease:E,delay:0.88}}
-            style={SF} className="text-base text-gray-500 leading-relaxed max-w-2xl mx-auto mb-10">
-            <span style={{color:ORANGE}}>roofY</span> builds AI systems that answer every call, respond to every lead, run your Meta ads, and follow up automatically — so your roofing company never loses a job to slow response time.
-          </motion.p>
-          <motion.div initial={{opacity:0,y:14}} animate={{opacity:1,y:0}} transition={{duration:0.8,ease:E,delay:1}} className="flex flex-wrap items-center justify-center gap-4">
-            <MagBtn orange onClick={()=>goto("pricing")}>See pricing</MagBtn>
-            <MagBtn dark onClick={()=>{ trackLead(); goto("contact"); }}>Contact us</MagBtn>
-            <motion.button onClick={()=>document.getElementById("demo-section")?.scrollIntoView({behavior:"smooth"})}
-              whileHover={{scale:1.06,y:-3}} whileTap={{scale:0.96}}
-              style={{...SF,background:ORANGE_LIGHT,border:`1px solid ${ORANGE_BORDER}`,color:ORANGE,borderRadius:9999,padding:"14px 32px"}}
-              className="text-sm font-semibold">Try our AI ↓</motion.button>
-          </motion.div>
-          <motion.div className="flex flex-col items-center mt-20" initial={{opacity:0}} animate={{opacity:1}} transition={{delay:1.8}}>
-            <div className="scroll-cue" style={{width:1,height:48,background:`linear-gradient(to bottom,rgba(249,115,22,0.7),transparent)`}}/>
-          </motion.div>
+        <motion.div style={{y:heroY,opacity:heroO,position:"relative",zIndex:4}} className="mx-auto w-full max-w-6xl">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 lg:gap-16 items-center">
+
+            {/* Left — text */}
+            <div className="text-center lg:text-left">
+              <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.7,ease:E}}>
+                <motion.span style={{...SF,color:ORANGE,background:ORANGE_LIGHT,border:`1px solid ${ORANGE_BORDER}`}}
+                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest mb-8"
+                  whileHover={{scale:1.06}}>
+                  <motion.span animate={{rotate:[0,360]}} transition={{duration:8,repeat:Infinity,ease:"linear"}}>✦</motion.span>
+                  AI Automation for Roofing Contractors
+                </motion.span>
+              </motion.div>
+
+              <h1 style={{...IF,fontStyle:"italic",fontSize:"clamp(46px,6.5vw,96px)",lineHeight:1.1}} className="text-gray-900 tracking-tight mb-6">
+                <motion.span style={{display:"block",paddingBottom:"0.05em"}}
+                  initial={{opacity:0,y:28}} animate={{opacity:1,y:0}} transition={{duration:0.55,ease:E,delay:0.05}}>
+                  More leads.
+                </motion.span>
+                <span style={{display:"block",paddingBottom:"0.15em"}}>
+                  <motion.span style={{display:"inline-block",marginRight:"0.2em"}} initial={{y:28}} animate={{y:0}} transition={{duration:0.55,ease:E,delay:0.15}}>
+                    <span className="shimmer-text">Zero</span>
+                  </motion.span>
+                  <motion.span style={{display:"inline-block"}} initial={{opacity:0,y:28}} animate={{opacity:1,y:0}} transition={{duration:0.55,ease:E,delay:0.22}}>
+                    missed calls.
+                  </motion.span>
+                </span>
+              </h1>
+
+              <motion.p initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.9,ease:E,delay:0.75}}
+                style={{...IF,fontStyle:"italic",fontSize:"clamp(17px,1.9vw,26px)"}} className="text-gray-400 mb-4">
+                AI automation built exclusively for roofing companies.
+              </motion.p>
+              <motion.p initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} transition={{duration:0.8,ease:E,delay:0.88}}
+                style={SF} className="text-base text-gray-500 leading-relaxed max-w-lg mx-auto lg:mx-0 mb-10">
+                <span style={{color:ORANGE}}>roofY</span> builds AI systems that answer every call, respond to every lead, run your Meta ads, and follow up automatically — so your roofing company never loses a job to slow response time.
+              </motion.p>
+
+              <motion.div initial={{opacity:0,y:14}} animate={{opacity:1,y:0}} transition={{duration:0.8,ease:E,delay:1}}
+                className="flex flex-wrap items-center justify-center lg:justify-start gap-4">
+                <MagBtn orange onClick={()=>goto("pricing")}>See pricing</MagBtn>
+                <MagBtn dark onClick={()=>{ trackLead(); goto("contact"); }}>Contact us</MagBtn>
+                <motion.button onClick={()=>document.getElementById("demo-section")?.scrollIntoView({behavior:"smooth"})}
+                  whileHover={{scale:1.06,y:-3}} whileTap={{scale:0.96}}
+                  style={{...SF,background:ORANGE_LIGHT,border:`1px solid ${ORANGE_BORDER}`,color:ORANGE,borderRadius:9999,padding:"14px 32px"}}
+                  className="text-sm font-semibold">Try our AI ↓</motion.button>
+              </motion.div>
+
+              <motion.div className="flex flex-col items-center lg:items-start mt-16" initial={{opacity:0}} animate={{opacity:1}} transition={{delay:1.8}}>
+                <div className="scroll-cue" style={{width:1,height:48,background:`linear-gradient(to bottom,rgba(249,115,22,0.7),transparent)`}}/>
+              </motion.div>
+            </div>
+
+            {/* Right — portrait */}
+            <motion.div initial={{opacity:0,x:40,scale:0.92}} animate={{opacity:1,x:0,scale:1}}
+              transition={{delay:0.5,duration:1,ease:E}}
+              className="hidden lg:flex items-center justify-center flex-shrink-0">
+              <HeroPortrait/>
+            </motion.div>
+
+          </div>
         </motion.div>
 
         <motion.div initial={{opacity:0,y:65,scale:0.93}} animate={{opacity:1,y:0,scale:1}} transition={{duration:1.2,ease:E,delay:1.1}}
