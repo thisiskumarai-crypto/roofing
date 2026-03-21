@@ -901,8 +901,207 @@ function FAQItem({ q, a }: { q:string; a:string }) {
   );
 }
 
+// ─── PLAN ILLUSTRATIONS — unique SVG per plan ────────────────────────────────
+function IlluWebsite() {
+  return (
+    <svg width="100%" height="72" viewBox="0 0 320 72" fill="none">
+      <rect x="20" y="8" width="200" height="56" rx="8" fill="rgba(249,115,22,0.06)" stroke="rgba(249,115,22,0.18)" strokeWidth="1.2"/>
+      <rect x="20" y="8" width="200" height="16" rx="8" fill="rgba(249,115,22,0.1)"/>
+      <rect x="20" y="16" width="200" height="8" fill="rgba(249,115,22,0.1)"/>
+      <circle cx="30" cy="16" r="3" fill="rgba(249,115,22,0.4)"/>
+      <circle cx="40" cy="16" r="3" fill="rgba(249,115,22,0.25)"/>
+      <circle cx="50" cy="16" r="3" fill="rgba(249,115,22,0.15)"/>
+      <rect x="30" y="30" width="80" height="6" rx="3" fill="rgba(249,115,22,0.2)"/>
+      <rect x="30" y="40" width="120" height="4" rx="2" fill="rgba(249,115,22,0.12)"/>
+      <rect x="30" y="48" width="90" height="4" rx="2" fill="rgba(249,115,22,0.08)"/>
+      <rect x="155" y="38" width="50" height="18" rx="5" fill="rgba(249,115,22,0.3)" stroke="rgba(249,115,22,0.5)" strokeWidth="1"/>
+      <text x="180" y="50" textAnchor="middle" fontSize="7" fill="rgba(249,115,22,0.9)" fontFamily="sans-serif" fontWeight="700">BOOK NOW</text>
+      {/* Cursor */}
+      <motion.g animate={{x:[0,8,0],y:[0,4,0]}} transition={{duration:3,repeat:Infinity,ease:"easeInOut"}}>
+        <polygon points="238,18 238,36 243,31 247,40 250,39 246,30 252,28" fill="rgba(249,115,22,0.7)" stroke="rgba(249,115,22,0.4)" strokeWidth="0.8"/>
+      </motion.g>
+      {/* Conversion pulse */}
+      <motion.circle cx="280" cy="36" r="14" fill="rgba(34,197,94,0.1)" stroke="rgba(34,197,94,0.35)" strokeWidth="1.2"
+        animate={{scale:[1,1.15,1],opacity:[0.7,1,0.7]}} transition={{duration:2,repeat:Infinity}}/>
+      <text x="280" y="40" textAnchor="middle" fontSize="11" fill="rgba(34,197,94,0.9)" fontFamily="serif" fontWeight="700">+</text>
+    </svg>
+  );
+}
+
+function IlluPhone() {
+  return (
+    <svg width="100%" height="72" viewBox="0 0 320 72" fill="none">
+      {/* Phone */}
+      <rect x="16" y="6" width="36" height="60" rx="6" fill="rgba(249,115,22,0.08)" stroke="rgba(249,115,22,0.25)" strokeWidth="1.2"/>
+      <rect x="20" y="14" width="28" height="40" rx="2" fill="rgba(249,115,22,0.12)"/>
+      <circle cx="34" cy="10" r="2" fill="rgba(249,115,22,0.3)"/>
+      <circle cx="34" cy="61" r="3" fill="rgba(249,115,22,0.2)"/>
+      {/* Sound waves */}
+      {[1,2,3].map(i=>(
+        <motion.path key={i}
+          d={`M${58+i*14},20 Q${64+i*14},36 ${58+i*14},52`}
+          fill="none" stroke="rgba(249,115,22,0.35)" strokeWidth="1.5" strokeLinecap="round"
+          animate={{opacity:[0.2,0.8,0.2],scaleX:[0.8,1,0.8]}} transition={{duration:1.8,repeat:Infinity,delay:i*0.3}}/>
+      ))}
+      {/* AI brain */}
+      <circle cx="180" cy="36" r="20" fill="rgba(249,115,22,0.08)" stroke="rgba(249,115,22,0.22)" strokeWidth="1.2"/>
+      <motion.circle cx="180" cy="36" r="26" fill="none" stroke="rgba(249,115,22,0.1)" strokeWidth="1"
+        animate={{scale:[1,1.1,1]}} transition={{duration:2.5,repeat:Infinity}}/>
+      <text x="180" y="40" textAnchor="middle" fontSize="13" fill="rgba(249,115,22,0.75)" fontFamily="sans-serif" fontWeight="700">AI</text>
+      {/* Arrow */}
+      <motion.path d="M208,36 L224,36" stroke="rgba(249,115,22,0.4)" strokeWidth="1.8" strokeLinecap="round"
+        strokeDasharray="4 3" animate={{strokeDashoffset:[0,-14]}} transition={{duration:1,repeat:Infinity,ease:"linear"}}/>
+      <polygon points="224,32 232,36 224,40" fill="rgba(249,115,22,0.5)"/>
+      {/* Checkmark */}
+      <circle cx="268" cy="36" r="16" fill="rgba(34,197,94,0.1)" stroke="rgba(34,197,94,0.3)" strokeWidth="1.2"/>
+      <motion.path d="M260,36 l6,6 10-10" fill="none" stroke="rgba(34,197,94,0.8)" strokeWidth="2" strokeLinecap="round"
+        initial={{pathLength:0}} animate={{pathLength:1}} transition={{duration:0.8,repeat:Infinity,repeatDelay:2}}/>
+    </svg>
+  );
+}
+
+function IlluChat() {
+  return (
+    <svg width="100%" height="72" viewBox="0 0 320 72" fill="none">
+      {/* Bubbles */}
+      <motion.rect x="16" y="10" width="110" height="20" rx="10" fill="rgba(249,115,22,0.12)" stroke="rgba(249,115,22,0.25)" strokeWidth="1"
+        animate={{y:[0,-2,0]}} transition={{duration:2,repeat:Infinity}}/>
+      <rect x="20" y="17" width="70" height="5" rx="2.5" fill="rgba(249,115,22,0.25)"/>
+      <rect x="20" y="26" width="45" height="3" rx="1.5" fill="rgba(249,115,22,0.15)"/>
+      <motion.rect x="140" y="32" width="130" height="20" rx="10" fill="rgba(249,115,22,0.2)" stroke="rgba(249,115,22,0.35)" strokeWidth="1"
+        animate={{y:[0,-2,0]}} transition={{duration:2,repeat:Infinity,delay:0.5}}/>
+      <rect x="146" y="39" width="85" height="5" rx="2.5" fill="rgba(249,115,22,0.4)"/>
+      <motion.rect x="16" y="44" width="90" height="18" rx="9" fill="rgba(249,115,22,0.08)" stroke="rgba(249,115,22,0.18)" strokeWidth="1"
+        animate={{y:[0,-2,0]}} transition={{duration:2,repeat:Infinity,delay:1}}/>
+      <rect x="22" y="51" width="55" height="4" rx="2" fill="rgba(249,115,22,0.18)"/>
+      {/* Platforms */}
+      {[{x:262,label:"SMS"},{x:290,label:"WA"}].map((p,i)=>(
+        <motion.g key={p.label} animate={{y:[0,-3,0]}} transition={{duration:2,repeat:Infinity,delay:i*0.6}}>
+          <circle cx={p.x} cy="22" r="12" fill="rgba(249,115,22,0.1)" stroke="rgba(249,115,22,0.25)" strokeWidth="1"/>
+          <text x={p.x} y="26" textAnchor="middle" fontSize="6" fill="rgba(249,115,22,0.8)" fontFamily="sans-serif" fontWeight="700">{p.label}</text>
+        </motion.g>
+      ))}
+      <motion.circle cx="276" cy="54" r="10" fill="rgba(249,115,22,0.1)" stroke="rgba(249,115,22,0.25)" strokeWidth="1"
+        animate={{y:[0,-3,0]}} transition={{duration:2,repeat:Infinity,delay:1.2}}>
+      </motion.circle>
+      <text x="276" y="58" textAnchor="middle" fontSize="6" fill="rgba(249,115,22,0.8)" fontFamily="sans-serif" fontWeight="700">IG</text>
+    </svg>
+  );
+}
+
+function IlluAds() {
+  const bars = [28,42,35,55,48,68,62,80];
+  const max = 80;
+  return (
+    <svg width="100%" height="72" viewBox="0 0 320 72" fill="none">
+      <defs>
+        <linearGradient id="adBar" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="rgba(249,115,22,0.75)"/>
+          <stop offset="100%" stopColor="rgba(249,115,22,0.15)"/>
+        </linearGradient>
+      </defs>
+      {bars.map((v,i)=>{
+        const h=(v/max)*48;
+        return (
+          <motion.rect key={i} x={20+i*28} y={60-h} width="18" height={h} rx="3" fill="url(#adBar)"
+            initial={{scaleY:0,originY:"bottom"}} animate={{scaleY:1}} transition={{delay:i*0.08,duration:0.5,ease:[0.16,1,0.3,1]}}
+            style={{transformOrigin:`${20+i*28+9}px 60px`}}/>
+        );
+      })}
+      <polyline points={bars.map((v,i)=>`${29+i*28},${60-(v/max)*48}`).join(" ")}
+        fill="none" stroke="rgba(249,115,22,0.5)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+      <motion.circle cx={29+7*28} cy={60-(80/max)*48} r="5" fill="rgba(249,115,22,0.9)"
+        animate={{scale:[1,1.3,1]}} transition={{duration:1.5,repeat:Infinity}}/>
+      <text x="290" y="14" fontSize="10" fill="rgba(249,115,22,0.8)" fontFamily="sans-serif" fontWeight="700" textAnchor="end">+leads</text>
+      <text x="290" y="26" fontSize="8" fill="rgba(249,115,22,0.5)" fontFamily="sans-serif" textAnchor="end">roofing ads</text>
+    </svg>
+  );
+}
+
+function IlluFollowUp() {
+  return (
+    <svg width="100%" height="72" viewBox="0 0 320 72" fill="none">
+      {/* Timeline nodes */}
+      {[{x:28,label:"Day 1",color:"rgba(249,115,22,0.9)"},{x:96,label:"Day 3",color:"rgba(249,115,22,0.7)"},{x:164,label:"Day 7",color:"rgba(249,115,22,0.5)"},{x:232,label:"Day 14",color:"rgba(34,197,94,0.8)"}].map((n,i)=>(
+        <g key={n.x}>
+          <motion.circle cx={n.x} cy="28" r="12" fill={`rgba(249,115,22,0.08)`} stroke={n.color} strokeWidth="1.5"
+            animate={{scale:[1,1.12,1]}} transition={{duration:2,repeat:Infinity,delay:i*0.5}}/>
+          <text x={n.x} y="32" textAnchor="middle" fontSize="7" fill={n.color} fontFamily="sans-serif" fontWeight="700">SMS</text>
+          <text x={n.x} y="48" textAnchor="middle" fontSize="6.5" fill="rgba(0,0,0,0.3)" fontFamily="sans-serif">{n.label}</text>
+          {i < 3 && (
+            <motion.line x1={n.x+12} y1="28" x2={n.x+56} y2="28" stroke="rgba(249,115,22,0.2)" strokeWidth="1.2" strokeDasharray="4 3"
+              animate={{strokeDashoffset:[0,-14]}} transition={{duration:1.2,repeat:Infinity,ease:"linear"}}/>
+          )}
+        </g>
+      ))}
+      {/* Closed badge */}
+      <motion.rect x="248" y="14" width="52" height="28" rx="6" fill="rgba(34,197,94,0.12)" stroke="rgba(34,197,94,0.35)" strokeWidth="1.2"
+        animate={{scale:[1,1.05,1]}} transition={{duration:2,repeat:Infinity,delay:2}}/>
+      <text x="274" y="32" textAnchor="middle" fontSize="8" fill="rgba(34,197,94,0.9)" fontFamily="sans-serif" fontWeight="700">CLOSED</text>
+    </svg>
+  );
+}
+
+function IlluQualify() {
+  return (
+    <svg width="100%" height="72" viewBox="0 0 320 72" fill="none">
+      {/* Funnel */}
+      <path d="M20,12 L80,12 L65,36 L35,36Z" fill="rgba(249,115,22,0.12)" stroke="rgba(249,115,22,0.25)" strokeWidth="1.2"/>
+      <path d="M35,36 L65,36 L57,52 L43,52Z" fill="rgba(249,115,22,0.2)" stroke="rgba(249,115,22,0.35)" strokeWidth="1.2"/>
+      <path d="M43,52 L57,52 L53,64 L47,64Z" fill="rgba(249,115,22,0.35)" stroke="rgba(249,115,22,0.5)" strokeWidth="1.2"/>
+      <text x="50" y="22" textAnchor="middle" fontSize="6.5" fill="rgba(249,115,22,0.6)" fontFamily="sans-serif" fontWeight="600">ALL LEADS</text>
+      <text x="50" y="46" textAnchor="middle" fontSize="6" fill="rgba(249,115,22,0.7)" fontFamily="sans-serif" fontWeight="600">WARM</text>
+      <text x="50" y="61" textAnchor="middle" fontSize="5.5" fill="rgba(249,115,22,0.9)" fontFamily="sans-serif" fontWeight="700">HOT</text>
+      {/* Arrow */}
+      <motion.path d="M90,36 L110,36" stroke="rgba(249,115,22,0.4)" strokeWidth="1.8" strokeLinecap="round"
+        strokeDasharray="4 3" animate={{strokeDashoffset:[0,-14]}} transition={{duration:1,repeat:Infinity,ease:"linear"}}/>
+      <polygon points="110,32 118,36 110,40" fill="rgba(249,115,22,0.5)"/>
+      {/* AI badge */}
+      <circle cx="148" cy="36" r="22" fill="rgba(249,115,22,0.07)" stroke="rgba(249,115,22,0.2)" strokeWidth="1.2"/>
+      <motion.circle cx="148" cy="36" r="28" fill="none" stroke="rgba(249,115,22,0.08)" strokeWidth="1"
+        animate={{scale:[1,1.08,1]}} transition={{duration:2.5,repeat:Infinity}}/>
+      <text x="148" y="40" textAnchor="middle" fontSize="12" fill="rgba(249,115,22,0.75)" fontFamily="sans-serif" fontWeight="700">AI</text>
+      {/* Output: hot leads */}
+      <motion.path d="M178,36 L198,36" stroke="rgba(249,115,22,0.4)" strokeWidth="1.8" strokeLinecap="round"
+        strokeDasharray="4 3" animate={{strokeDashoffset:[0,-14]}} transition={{duration:1,repeat:Infinity,ease:"linear"}}/>
+      <polygon points="198,32 206,36 198,40" fill="rgba(249,115,22,0.5)"/>
+      {/* Person icon */}
+      <circle cx="228" cy="24" r="8" fill="rgba(249,115,22,0.15)" stroke="rgba(249,115,22,0.3)" strokeWidth="1.2"/>
+      <path d="M214,50 Q228,40 242,50" fill="rgba(249,115,22,0.15)" stroke="rgba(249,115,22,0.3)" strokeWidth="1.2"/>
+      <motion.circle cx="244" cy="18" r="8" fill="rgba(34,197,94,0.2)" stroke="rgba(34,197,94,0.5)" strokeWidth="1.2"
+        animate={{scale:[1,1.15,1]}} transition={{duration:1.8,repeat:Infinity}}>
+      </motion.circle>
+      <path d="M240,18 l3,3 5-5" stroke="rgba(34,197,94,0.9)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+      {/* n8n logo area */}
+      <rect x="268" y="16" width="40" height="40" rx="8" fill="rgba(249,115,22,0.06)" stroke="rgba(249,115,22,0.15)" strokeWidth="1"/>
+      <text x="288" y="40" textAnchor="middle" fontSize="8" fill="rgba(249,115,22,0.5)" fontFamily="sans-serif" fontWeight="700">n8n</text>
+    </svg>
+  );
+}
+
+function IlluCustom() {
+  return (
+    <svg width="100%" height="72" viewBox="0 0 320 72" fill="none">
+      {/* Nodes */}
+      {[{cx:36,cy:20},{cx:36,cy:52},{cx:110,cy:36},{cx:184,cy:20},{cx:184,cy:52},{cx:258,cy:36}].map((n,i)=>(
+        <motion.circle key={i} cx={n.cx} cy={n.cy} r="10" fill="rgba(249,115,22,0.08)" stroke="rgba(249,115,22,0.25)" strokeWidth="1.2"
+          animate={{scale:[1,1.1,1]}} transition={{duration:2,repeat:Infinity,delay:i*0.35}}/>
+      ))}
+      {/* Edges */}
+      {[[36,20,110,36],[36,52,110,36],[110,36,184,20],[110,36,184,52],[184,20,258,36],[184,52,258,36]].map(([x1,y1,x2,y2],i)=>(
+        <motion.line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="rgba(249,115,22,0.2)" strokeWidth="1.2" strokeDasharray="4 3"
+          animate={{strokeDashoffset:[0,-14]}} transition={{duration:1.2,repeat:Infinity,ease:"linear",delay:i*0.15}}/>
+      ))}
+      {/* Labels */}
+      {[{cx:36,cy:20,t:"CRM"},{cx:36,cy:52,t:"SMS"},{cx:110,cy:36,t:"AI"},{cx:184,cy:20,t:"GHL"},{cx:184,cy:52,t:"WA"},{cx:258,cy:36,t:"OUT"}].map((n,i)=>(
+        <text key={i} x={n.cx} y={n.cy+3} textAnchor="middle" fontSize="6" fill="rgba(249,115,22,0.7)" fontFamily="sans-serif" fontWeight="700">{n.t}</text>
+      ))}
+    </svg>
+  );
+}
+
 // ─── PRICING CARD ─────────────────────────────────────────────────────────────
-function PricingCard({ plan, annual, goto }: { plan: typeof PLANS[0]; annual: boolean; goto:(p:Page)=>void }) {
+function PricingCard({ plan, annual, goto, index=0 }: { plan: typeof PLANS[0]; annual: boolean; goto:(p:Page)=>void; index?:number }) {
   const getPrice = () => {
     if (plan.commissionOnly || plan.custom) return null;
     return annual ? Math.round(plan.price * 0.8) : plan.price;
@@ -912,68 +1111,89 @@ function PricingCard({ plan, annual, goto }: { plan: typeof PLANS[0]; annual: bo
 
   if (plan.fullBundle) {
     const bundleFeatures = [
-      { text:"AI Lead Generation Ads (Facebook & Instagram)" },
-      { text:"AI-powered roofing website" },
-      { text:"AI phone receptionist — 24/7" },
-      { text:"WhatsApp, SMS & web chat AI" },
-      { text:"Automated follow-up sequences" },
-      { text:"Lead tracking dashboard" },
-      { text:"Priority support" },
-      { text:"+10% per closed deal" },
+      "AI Lead Generation Ads (Facebook & Instagram)",
+      "AI-powered roofing website",
+      "AI phone receptionist — 24/7",
+      "WhatsApp, SMS & web chat AI",
+      "Automated follow-up sequences",
+      "Lead tracking dashboard",
+      "Priority support",
+      "+10% per closed deal",
     ];
     return (
-      <Reveal y={40}>
+      <Reveal y={40} delay={index*0.07}>
         <motion.div style={{
           background:"linear-gradient(135deg,#111 0%,#1c1c1c 100%)",
-          border:`2px solid ${ORANGE}`,borderRadius:20,padding:"32px",paddingTop:42,
-          position:"relative",
+          border:`2px solid ${ORANGE}`,borderRadius:24,
+          position:"relative",overflow:"hidden",
           boxShadow:`0 0 60px rgba(249,115,22,0.18)`,
-        }} whileHover={{boxShadow:`0 32px 80px rgba(249,115,22,0.3)`}}
+        }}
+        whileHover={{boxShadow:`0 32px 80px rgba(249,115,22,0.32)`,y:-4}}
         transition={{duration:0.38}}>
-          <div style={{position:"absolute",inset:0,opacity:0.04,backgroundImage:`linear-gradient(rgba(249,115,22,1) 1px,transparent 1px),linear-gradient(90deg,rgba(249,115,22,1) 1px,transparent 1px)`,backgroundSize:"40px 40px"}}/>
+          {/* Grid texture */}
+          <div style={{position:"absolute",inset:0,opacity:0.04,backgroundImage:`linear-gradient(rgba(249,115,22,1) 1px,transparent 1px),linear-gradient(90deg,rgba(249,115,22,1) 1px,transparent 1px)`,backgroundSize:"40px 40px",borderRadius:24}}/>
+          {/* Glow orb top-right */}
+          <div style={{position:"absolute",top:-60,right:-60,width:200,height:200,borderRadius:"50%",background:"radial-gradient(circle,rgba(249,115,22,0.15) 0%,transparent 70%)",pointerEvents:"none"}}/>
+
+          {/* Badge */}
           <motion.div className="badge-pulse" initial={{scale:0,rotate:-10}} animate={{scale:1,rotate:0}} transition={{delay:0.5,type:"spring"}}
-            style={{position:"absolute",top:-14,left:32,...SF,background:`linear-gradient(135deg,${ORANGE},${ORANGE_DARK})`,padding:"5px 18px",borderRadius:9999,fontSize:11,fontWeight:700,color:"white"}}>
-            Best Value — With Ads
+            style={{position:"absolute",top:-14,left:32,...SF,background:`linear-gradient(135deg,${ORANGE},${ORANGE_DARK})`,padding:"5px 18px",borderRadius:9999,fontSize:11,fontWeight:700,color:"white",zIndex:10}}>
+            Best Value — Everything Included
           </motion.div>
-          <div style={{position:"relative",zIndex:2,display:"grid",gap:28}} className="md:grid-cols-[1fr_1.4fr]">
+
+          {/* Illustration strip */}
+          <div style={{padding:"44px 32px 0 32px"}}>
+            <div style={{borderRadius:12,overflow:"hidden",background:"rgba(249,115,22,0.04)",border:"1px solid rgba(249,115,22,0.1)",marginBottom:24,padding:"8px 0"}}>
+              <IlluAds/>
+            </div>
+          </div>
+
+          <div style={{padding:"0 32px 36px 32px",display:"grid",gap:28}} className="md:grid-cols-[1fr_1.4fr]">
             <div>
-              <p style={{...SF,color:ORANGE,fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",marginTop:12,marginBottom:6}}>{plan.n}</p>
+              <p style={{...SF,color:ORANGE,fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",marginBottom:6}}>{plan.n}</p>
               <h2 style={{...IF,fontStyle:"italic",color:"white",fontSize:28,lineHeight:1.1,marginBottom:10}}>Full AI System<br/>+ Lead Gen Ads</h2>
               <p style={{...SF,color:"rgba(255,255,255,0.5)",fontSize:13,lineHeight:1.7,marginBottom:18}}>{plan.desc}</p>
-              <div style={{marginBottom:16}}>
-                <p style={{...SF,color:"rgba(255,255,255,0.35)",fontSize:11}}>{plan.setupDisplay}</p>
+              <div style={{marginBottom:20}}>
+                <p style={{...SF,color:"rgba(255,255,255,0.35)",fontSize:11,marginBottom:4}}>{plan.setupDisplay}</p>
                 <AnimatePresence mode="wait">
                   <motion.div key={annual?"annual":"monthly"} initial={{opacity:0,y:6}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-6}} transition={{duration:0.2}}>
-                    <p style={{...IF,fontStyle:"italic",color:"white",fontSize:42,lineHeight:1}}>
+                    <p style={{...IF,fontStyle:"italic",color:"white",fontSize:46,lineHeight:1}}>
                       {annual ? `$${(Math.round(plan.price*0.8)).toLocaleString()}` : `$${plan.price.toLocaleString()}`}
-                      <span style={{...SF,fontSize:16,color:"rgba(255,255,255,0.4)",fontStyle:"normal"}}>/mo</span>
+                      <span style={{...SF,fontSize:16,color:"rgba(255,255,255,0.35)",fontStyle:"normal"}}>/mo</span>
                     </p>
                     {plan.commission && (
-                    <div style={{display:"inline-flex",alignItems:"center",gap:6,background:ORANGE_LIGHT,border:`1px solid ${ORANGE_BORDER}`,borderRadius:9999,padding:"3px 10px",marginTop:6}}>
-                      <span style={{...SF,color:ORANGE,fontSize:11,fontWeight:700}}>◆ {plan.commission}</span>
-                    </div>
+                      <div style={{display:"inline-flex",alignItems:"center",gap:6,background:ORANGE_LIGHT,border:`1px solid ${ORANGE_BORDER}`,borderRadius:9999,padding:"4px 12px",marginTop:8}}>
+                        <span style={{...SF,color:ORANGE,fontSize:11,fontWeight:700}}>◆ {plan.commission}</span>
+                      </div>
                     )}
-                    {annual && <p style={{...SF,color:"rgba(249,115,22,0.8)",fontSize:11,marginTop:6,fontWeight:600}}>Save ${annualSaving.toLocaleString()}/mo with annual</p>}
+                    {annual && <p style={{...SF,color:"rgba(249,115,22,0.8)",fontSize:11,marginTop:6,fontWeight:600}}>You save ${annualSaving.toLocaleString()}/mo</p>}
                   </motion.div>
                 </AnimatePresence>
               </div>
               <MagBtn orange onClick={()=>{ trackLead(); goto("contact"); }}>Get the full system →</MagBtn>
-              <div style={{marginTop:20,borderTop:"1px solid rgba(255,255,255,0.07)",paddingTop:16,display:"flex",flexDirection:"column",gap:8}} className="md:hidden">
-                {bundleFeatures.map(f=>(
-                  <div key={f.text} style={{display:"flex",alignItems:"center",gap:10}}>
+              {/* Features mobile */}
+              <div style={{marginTop:20,borderTop:"1px solid rgba(255,255,255,0.07)",paddingTop:16,display:"flex",flexDirection:"column",gap:7}} className="md:hidden">
+                {bundleFeatures.map((f,i)=>(
+                  <motion.div key={f} style={{display:"flex",alignItems:"center",gap:10}}
+                    initial={{opacity:0,x:-10}} animate={{opacity:1,x:0}} transition={{delay:0.3+i*0.06}}>
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{flexShrink:0}}><path d="M2 5l2.5 2.5L8 3" stroke={ORANGE} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                    <span style={{...SF,color:"rgba(255,255,255,0.7)",fontSize:12,lineHeight:1.5}}>{f.text}</span>
-                  </div>
+                    <span style={{...SF,color:"rgba(255,255,255,0.7)",fontSize:12,lineHeight:1.5}}>{f}</span>
+                  </motion.div>
                 ))}
               </div>
             </div>
-            <div style={{borderLeft:"1px solid rgba(255,255,255,0.07)",paddingLeft:24}} className="hidden md:flex md:flex-col md:justify-center">
+            {/* Features desktop */}
+            <div style={{borderLeft:"1px solid rgba(255,255,255,0.07)",paddingLeft:28}} className="hidden md:flex md:flex-col md:justify-center">
               <p style={{...SF,color:"rgba(255,255,255,0.3)",fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",marginBottom:16}}>Everything included</p>
               <div style={{display:"flex",flexDirection:"column",gap:10}}>
-                {bundleFeatures.map(f=>(
-                  <motion.div key={f.text} style={{display:"flex",alignItems:"center",gap:10}} whileHover={{x:5}}>
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{flexShrink:0}}><path d="M2 5l2.5 2.5L8 3" stroke={ORANGE} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                    <span style={{...SF,color:"rgba(255,255,255,0.75)",fontSize:13,lineHeight:1.5}}>{f.text}</span>
+                {bundleFeatures.map((f,i)=>(
+                  <motion.div key={f} style={{display:"flex",alignItems:"center",gap:10}}
+                    initial={{opacity:0,x:-12}} animate={{opacity:1,x:0}} transition={{delay:0.2+i*0.07,ease:E}}
+                    whileHover={{x:6}}>
+                    <div style={{width:18,height:18,borderRadius:5,background:"rgba(249,115,22,0.15)",border:"1px solid rgba(249,115,22,0.3)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                      <svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke={ORANGE} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    </div>
+                    <span style={{...SF,color:"rgba(255,255,255,0.75)",fontSize:13,lineHeight:1.5}}>{f}</span>
                   </motion.div>
                 ))}
               </div>
@@ -997,59 +1217,69 @@ function PricingCard({ plan, annual, goto }: { plan: typeof PLANS[0]; annual: bo
     const dp = annual ? Math.round(plan.price*0.8) : plan.price;
     const saving = annual ? plan.price - Math.round(plan.price*0.8) : 0;
     return (
-      <Reveal y={40}>
-        <div style={{position:"relative",paddingTop:16}}>
+      <Reveal y={40} delay={index*0.07}>
+        <div style={{position:"relative",paddingTop:18}}>
           <motion.div className="badge-pulse" initial={{scale:0,rotate:-10}} animate={{scale:1,rotate:0}} transition={{delay:0.4,type:"spring"}}
             style={{position:"absolute",top:0,left:32,zIndex:10,...SF,background:`linear-gradient(135deg,${ORANGE},${ORANGE_DARK})`,padding:"5px 18px",borderRadius:9999,fontSize:11,fontWeight:700,color:"white"}}>
             Most Popular
           </motion.div>
           <motion.div style={{
             background:"linear-gradient(135deg,#1a0e00 0%,#2d1500 100%)",
-            border:`2px solid ${ORANGE}`,borderRadius:20,padding:"32px",
+            border:`2px solid ${ORANGE}`,borderRadius:24,
             position:"relative",overflow:"hidden",
             boxShadow:`0 0 50px rgba(249,115,22,0.2)`,
-          }} whileHover={{boxShadow:`0 32px 80px rgba(249,115,22,0.28)`}}
-          transition={{duration:0.38}}>
+          }} whileHover={{boxShadow:`0 32px 80px rgba(249,115,22,0.3)`,y:-4}} transition={{duration:0.38}}>
             <div style={{position:"absolute",inset:0,opacity:0.05,backgroundImage:`linear-gradient(rgba(249,115,22,1) 1px,transparent 1px),linear-gradient(90deg,rgba(249,115,22,1) 1px,transparent 1px)`,backgroundSize:"40px 40px"}}/>
-            <div style={{position:"relative",zIndex:2,display:"grid",gap:28}} className="md:grid-cols-[1fr_1.4fr]">
+            <div style={{position:"absolute",top:-40,right:-40,width:160,height:160,borderRadius:"50%",background:"radial-gradient(circle,rgba(249,115,22,0.12) 0%,transparent 70%)",pointerEvents:"none"}}/>
+            <div style={{padding:"32px 32px 0 32px"}}>
+              <div style={{borderRadius:12,overflow:"hidden",background:"rgba(249,115,22,0.04)",border:"1px solid rgba(249,115,22,0.1)",marginBottom:24,padding:"8px 0"}}>
+                <IlluPhone/>
+              </div>
+            </div>
+            <div style={{padding:"0 32px 32px 32px",display:"grid",gap:28}} className="md:grid-cols-[1fr_1.4fr]">
               <div>
                 <p style={{...SF,color:ORANGE,fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",marginBottom:6}}>{plan.n}</p>
                 <h2 style={{...IF,fontStyle:"italic",color:"white",fontSize:28,lineHeight:1.1,marginBottom:10}}>Full AI System</h2>
                 <p style={{...SF,color:"rgba(255,255,255,0.5)",fontSize:13,lineHeight:1.7,marginBottom:18}}>{plan.desc}</p>
-                <div style={{marginBottom:16}}>
-                  <p style={{...SF,color:"rgba(255,255,255,0.35)",fontSize:11}}>{plan.setupDisplay}</p>
+                <div style={{marginBottom:20}}>
+                  <p style={{...SF,color:"rgba(255,255,255,0.35)",fontSize:11,marginBottom:4}}>{plan.setupDisplay}</p>
                   <AnimatePresence mode="wait">
                     <motion.div key={annual?"a":"m"} initial={{opacity:0,y:6}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-6}} transition={{duration:0.2}}>
-                      <p style={{...IF,fontStyle:"italic",color:"white",fontSize:42,lineHeight:1}}>
-                        ${dp.toLocaleString()}<span style={{...SF,fontSize:16,color:"rgba(255,255,255,0.4)",fontStyle:"normal"}}>/mo</span>
+                      <p style={{...IF,fontStyle:"italic",color:"white",fontSize:46,lineHeight:1}}>
+                        ${dp.toLocaleString()}<span style={{...SF,fontSize:16,color:"rgba(255,255,255,0.35)",fontStyle:"normal"}}>/mo</span>
                       </p>
-                      {annual && <p style={{...SF,color:"rgba(249,115,22,0.8)",fontSize:11,marginTop:6,fontWeight:600}}>Save ${saving.toLocaleString()}/mo with annual</p>}
+                      {annual && <p style={{...SF,color:"rgba(249,115,22,0.8)",fontSize:11,marginTop:6,fontWeight:600}}>You save ${saving.toLocaleString()}/mo</p>}
                     </motion.div>
                   </AnimatePresence>
                 </div>
                 <MagBtn orange onClick={()=>{ trackLead(); goto("contact"); }}>Get started →</MagBtn>
-                <div style={{marginTop:20,borderTop:"1px solid rgba(255,255,255,0.07)",paddingTop:16,display:"flex",flexDirection:"column",gap:8}} className="md:hidden">
-                  {systemFeatures.map(f=>(
-                    <div key={f} style={{display:"flex",alignItems:"center",gap:10}}>
+                <div style={{marginTop:20,borderTop:"1px solid rgba(255,255,255,0.07)",paddingTop:16,display:"flex",flexDirection:"column",gap:7}} className="md:hidden">
+                  {systemFeatures.map((f,i)=>(
+                    <motion.div key={f} style={{display:"flex",alignItems:"center",gap:10}}
+                      initial={{opacity:0,x:-10}} animate={{opacity:1,x:0}} transition={{delay:0.3+i*0.06}}>
                       <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{flexShrink:0}}><path d="M2 5l2.5 2.5L8 3" stroke={ORANGE} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                      <span style={{...SF,color:"rgba(255,255,255,0.7)",fontSize:12,lineHeight:1.5}}>{f}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div style={{borderLeft:"1px solid rgba(255,255,255,0.07)",paddingLeft:24}} className="hidden md:flex md:flex-col md:justify-center">
-                <p style={{...SF,color:"rgba(255,255,255,0.3)",fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",marginBottom:16}}>What's included</p>
-                <div style={{display:"flex",flexDirection:"column",gap:10}}>
-                  {systemFeatures.map(f=>(
-                    <motion.div key={f} style={{display:"flex",alignItems:"center",gap:10}} whileHover={{x:5}}>
-                      <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{flexShrink:0}}><path d="M2 5l2.5 2.5L8 3" stroke={ORANGE} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                      <span style={{...SF,color:"rgba(255,255,255,0.75)",fontSize:13,lineHeight:1.5}}>{f}</span>
+                      <span style={{...SF,color:"rgba(255,255,255,0.7)",fontSize:12}}>{f}</span>
                     </motion.div>
                   ))}
                 </div>
-                <div style={{marginTop:16,padding:"10px 14px",background:"rgba(249,115,22,0.08)",border:`1px solid ${ORANGE_BORDER}`,borderRadius:10}}>
+              </div>
+              <div style={{borderLeft:"1px solid rgba(255,255,255,0.07)",paddingLeft:28}} className="hidden md:flex md:flex-col md:justify-center">
+                <p style={{...SF,color:"rgba(255,255,255,0.3)",fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",marginBottom:16}}>What's included</p>
+                <div style={{display:"flex",flexDirection:"column",gap:10}}>
+                  {systemFeatures.map((f,i)=>(
+                    <motion.div key={f} style={{display:"flex",alignItems:"center",gap:10}}
+                      initial={{opacity:0,x:-12}} animate={{opacity:1,x:0}} transition={{delay:0.2+i*0.07,ease:E}}
+                      whileHover={{x:6}}>
+                      <div style={{width:18,height:18,borderRadius:5,background:"rgba(249,115,22,0.15)",border:"1px solid rgba(249,115,22,0.3)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                        <svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke={ORANGE} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      </div>
+                      <span style={{...SF,color:"rgba(255,255,255,0.75)",fontSize:13}}>{f}</span>
+                    </motion.div>
+                  ))}
+                </div>
+                <div style={{marginTop:16,padding:"12px 14px",background:"rgba(249,115,22,0.07)",border:`1px solid ${ORANGE_BORDER}`,borderRadius:10}}>
                   <p style={{...SF,color:ORANGE,fontSize:11,fontWeight:700,marginBottom:2}}>No ads included</p>
-                  <p style={{...SF,color:"rgba(255,255,255,0.4)",fontSize:11,lineHeight:1.5}}>Want Meta ads too? See the Full AI System + Lead Gen Ads plan below.</p>
+                  <p style={{...SF,color:"rgba(255,255,255,0.4)",fontSize:11,lineHeight:1.5}}>Want Meta ads too? See Full AI System + Ads below.</p>
                 </div>
               </div>
             </div>
@@ -1069,14 +1299,30 @@ function PricingCard({ plan, annual, goto }: { plan: typeof PLANS[0]; annual: bo
             style={{position:"absolute",top:10,right:16,...SF,background:"linear-gradient(135deg,#10b981,#059669)",padding:"4px 14px",borderRadius:9999,fontSize:11,fontWeight:700,color:"white",zIndex:3}}>
             Zero Risk
           </motion.div>
-          <div style={{position:"relative",height:100,overflow:"hidden",background:"rgba(16,185,129,0.05)",borderBottom:"1px solid rgba(16,185,129,0.12)",display:"flex",alignItems:"center",justifyContent:"center"}}>
+          <div style={{position:"relative",height:88,overflow:"hidden",background:"rgba(16,185,129,0.05)",borderBottom:"1px solid rgba(16,185,129,0.12)",display:"flex",alignItems:"center",justifyContent:"center"}}>
             <div style={{position:"absolute",inset:0,opacity:0.06,backgroundImage:`linear-gradient(rgba(16,185,129,1) 1px,transparent 1px),linear-gradient(90deg,rgba(16,185,129,1) 1px,transparent 1px)`,backgroundSize:"20px 20px"}}/>
-            <svg width="240" height="72" viewBox="0 0 240 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <text x="18" y="42" style={{fontFamily:"'Instrument Serif',serif",fontStyle:"italic"}} fontSize="26" fill="rgba(16,185,129,0.6)" fontWeight="400">$0</text>
-              <text x="18" y="56" fontSize="9" fill="rgba(255,255,255,0.2)" fontFamily="sans-serif" fontWeight="600" letterSpacing="0.08em">UPFRONT</text>
-              <path d="M72 36h18m-6-6l6 6-6 6" stroke="rgba(16,185,129,0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <text x="165" y="38" style={{fontFamily:"'Instrument Serif',serif",fontStyle:"italic"}} fontSize="22" fill="rgba(16,185,129,0.6)" fontWeight="400">13%</text>
-              <text x="165" y="52" fontSize="9" fill="rgba(255,255,255,0.2)" fontFamily="sans-serif" fontWeight="600" letterSpacing="0.08em">ON CLOSE</text>
+            <svg width="280" height="72" viewBox="0 0 280 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+              {/* $0 pill */}
+              <rect x="10" y="20" width="60" height="32" rx="8" fill="rgba(16,185,129,0.1)" stroke="rgba(16,185,129,0.3)" strokeWidth="1.2"/>
+              <text x="40" y="38" textAnchor="middle" style={{fontFamily:"'Instrument Serif',serif",fontStyle:"italic"}} fontSize="20" fill="rgba(16,185,129,0.8)">$0</text>
+              <text x="40" y="58" textAnchor="middle" fontSize="7" fill="rgba(255,255,255,0.2)" fontFamily="sans-serif" fontWeight="600" letterSpacing="0.08em">UPFRONT</text>
+              {/* Animated arrow */}
+              <motion.path d="M76 36 L110 36" stroke="rgba(16,185,129,0.5)" strokeWidth="1.8" strokeLinecap="round" strokeDasharray="5 3"
+                animate={{strokeDashoffset:[0,-16]}} transition={{duration:1,repeat:Infinity,ease:"linear"}}/>
+              <polygon points="110,32 118,36 110,40" fill="rgba(16,185,129,0.5)"/>
+              {/* AI circle */}
+              <motion.circle cx="140" cy="36" r="18" fill="rgba(16,185,129,0.08)" stroke="rgba(16,185,129,0.25)" strokeWidth="1.2"
+                animate={{scale:[1,1.08,1]}} transition={{duration:2,repeat:Infinity}}/>
+              <text x="140" y="40" textAnchor="middle" fontSize="11" fill="rgba(16,185,129,0.75)" fontFamily="sans-serif" fontWeight="700">AI</text>
+              {/* Arrow 2 */}
+              <motion.path d="M162 36 L196 36" stroke="rgba(16,185,129,0.5)" strokeWidth="1.8" strokeLinecap="round" strokeDasharray="5 3"
+                animate={{strokeDashoffset:[0,-16]}} transition={{duration:1,repeat:Infinity,ease:"linear",delay:0.5}}/>
+              <polygon points="196,32 204,36 196,40" fill="rgba(16,185,129,0.5)"/>
+              {/* 13% pill */}
+              <motion.rect x="210" y="20" width="60" height="32" rx="8" fill="rgba(16,185,129,0.15)" stroke="rgba(16,185,129,0.4)" strokeWidth="1.2"
+                animate={{scale:[1,1.05,1]}} transition={{duration:2,repeat:Infinity,delay:1}}/>
+              <text x="240" y="38" textAnchor="middle" style={{fontFamily:"'Instrument Serif',serif",fontStyle:"italic"}} fontSize="18" fill="rgba(16,185,129,0.9)">13%</text>
+              <text x="240" y="58" textAnchor="middle" fontSize="7" fill="rgba(255,255,255,0.2)" fontFamily="sans-serif" fontWeight="600" letterSpacing="0.08em">ON CLOSE</text>
             </svg>
           </div>
           <div style={{padding:"20px 24px 24px",display:"flex",flexDirection:"column",flex:1}}>
@@ -1112,44 +1358,34 @@ function PricingCard({ plan, annual, goto }: { plan: typeof PLANS[0]; annual: bo
     );
   }
 
-  const isMetaAds = plan.id === "meta-ads";
+  // pick illustration per plan
+  const PlanIllu = plan.id==="ai-website" ? IlluWebsite
+    : plan.id==="meta-ads" ? IlluAds
+    : plan.id==="ai-receptionist" ? IlluPhone
+    : plan.id==="custom" ? IlluCustom
+    : null;
+  // (follow-up and qualify are standalone plans not in PLANS array — IlluFollowUp/IlluQualify available if needed)
+
   return (
-    <Reveal y={55} delay={0.08}>
-      <div style={{position:"relative", paddingTop: plan.custom ? 16 : 0}}>
+    <Reveal y={55} delay={index*0.07}>
+      <div style={{position:"relative", paddingTop: plan.custom ? 18 : 0}}>
         {plan.custom && (
-          <div style={{position:"absolute",top:0,left:"50%",transform:"translateX(-50%)",zIndex:10,...SF,background:"#111",color:"white",padding:"4px 14px",borderRadius:9999,fontSize:11,fontWeight:700,whiteSpace:"nowrap"}}>Bespoke</div>
+          <div style={{position:"absolute",top:0,left:"50%",transform:"translateX(-50%)",zIndex:10,...SF,background:"#111",color:"white",padding:"5px 16px",borderRadius:9999,fontSize:11,fontWeight:700,whiteSpace:"nowrap",letterSpacing:"0.08em"}}>BESPOKE</div>
         )}
       <GlowCard className="rounded-2xl flex flex-col relative cursor-default h-full"
-        style={{background:"rgba(255,255,255,0.68)",backdropFilter:"blur(16px)",border:"1px solid rgba(255,255,255,0.9)",overflow:"hidden"}}>
-        {isMetaAds && (
-          <div style={{height:76,background:"linear-gradient(135deg,rgba(249,115,22,0.05),rgba(234,88,12,0.02))",borderBottom:"1px solid rgba(249,115,22,0.09)",display:"flex",alignItems:"center",justifyContent:"center",position:"relative",overflow:"hidden"}}>
-            <div style={{position:"absolute",inset:0,opacity:0.04,backgroundImage:`linear-gradient(rgba(249,115,22,1) 1px,transparent 1px),linear-gradient(90deg,rgba(249,115,22,1) 1px,transparent 1px)`,backgroundSize:"18px 18px"}}/>
-            <svg width="220" height="52" viewBox="0 0 220 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="6" y="3" width="34" height="46" rx="5" stroke="rgba(249,115,22,0.35)" strokeWidth="1.5" fill="rgba(249,115,22,0.04)"/>
-              <rect x="10" y="9" width="26" height="18" rx="2" fill="rgba(249,115,22,0.1)"/>
-              <rect x="10" y="39" width="26" height="6" rx="3" fill="rgba(249,115,22,0.28)"/>
-              <circle cx="88" cy="26" r="13" stroke="rgba(249,115,22,0.28)" strokeWidth="1.5"/>
-              <circle cx="88" cy="26" r="3" fill="rgba(249,115,22,0.65)"/>
-              <circle cx="145" cy="26" r="15" stroke="rgba(249,115,22,0.25)" strokeWidth="1.5" fill="rgba(249,115,22,0.04)"/>
-              <text x="138" y="31" fontSize="15" fill="rgba(249,115,22,0.65)" fontFamily="serif">$</text>
-              <rect x="174" y="38" width="5" height="10" rx="1" fill="rgba(249,115,22,0.28)"/>
-              <rect x="181" y="30" width="5" height="18" rx="1" fill="rgba(249,115,22,0.42)"/>
-              <rect x="188" y="22" width="5" height="26" rx="1" fill="rgba(249,115,22,0.56)"/>
-              <rect x="195" y="14" width="5" height="34" rx="1" fill="rgba(249,115,22,0.7)"/>
-              <rect x="202" y="6" width="5" height="42" rx="1" fill="rgba(249,115,22,0.85)"/>
-            </svg>
+        style={{background:"rgba(255,255,255,0.72)",backdropFilter:"blur(16px)",border:"1px solid rgba(255,255,255,0.92)",overflow:"hidden"}}>
+        {/* Illustration strip — every card gets one */}
+        {PlanIllu && (
+          <div style={{borderBottom:"1px solid rgba(249,115,22,0.08)",background:"linear-gradient(135deg,rgba(249,115,22,0.04),rgba(234,88,12,0.02))",padding:"10px 0 6px",position:"relative",overflow:"hidden"}}>
+            <div style={{position:"absolute",inset:0,opacity:0.03,backgroundImage:`linear-gradient(rgba(249,115,22,1) 1px,transparent 1px),linear-gradient(90deg,rgba(249,115,22,1) 1px,transparent 1px)`,backgroundSize:"18px 18px"}}/>
+            <PlanIllu/>
           </div>
         )}
         <div style={{padding:"20px 24px 24px",display:"flex",flexDirection:"column",flex:1}}>
           <p style={{...SF,color:ORANGE,fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",marginBottom:4}}>{plan.n}</p>
           <h3 style={{...IF,fontStyle:"italic"}} className="text-xl text-gray-900 mb-2">{plan.title}</h3>
           <p style={SF} className="text-sm text-gray-500 mb-4 leading-relaxed">{plan.desc}</p>
-          {isMetaAds && (
-            <div style={{background:"rgba(249,115,22,0.05)",border:`1px solid ${ORANGE_BORDER}`,borderRadius:10,padding:"10px 12px",marginBottom:12}}>
-              <p style={{...SF,color:ORANGE,fontSize:11,fontWeight:700,marginBottom:4}}>How it works</p>
-              <p style={{...SF,color:"#6b7280",fontSize:11,lineHeight:1.6}}>We build and manage your Facebook & Instagram campaigns targeting storm damage, roof replacement, and inspection leads in your area. Creatives, audiences, and optimization — all handled weekly.</p>
-            </div>
-          )}
+
           <div style={{marginBottom:14}}>
             {plan.custom ? (
               <>
@@ -1521,13 +1757,13 @@ function PricingPage({ goto }: { goto:(p:Page)=>void }) {
         </Reveal>
         <div className="flex flex-col gap-5 mb-10">
           <div className="grid gap-5 md:grid-cols-3" style={{alignItems:"stretch"}}>
-            {PLANS.filter(p=>["commission-only","ai-website","meta-ads"].includes(p.id)).map(p=>(
-              <PricingCard key={p.id} plan={p} annual={annual} goto={goto}/>
+            {PLANS.filter(p=>["commission-only","ai-website","meta-ads"].includes(p.id)).map((p,i)=>(
+              <PricingCard key={p.id} plan={p} annual={annual} goto={goto} index={i}/>
             ))}
           </div>
           <div className="grid gap-5 md:grid-cols-2" style={{alignItems:"stretch"}}>
-            {PLANS.filter(p=>["ai-receptionist","custom"].includes(p.id)).map(p=>(
-              <PricingCard key={p.id} plan={p} annual={annual} goto={goto}/>
+            {PLANS.filter(p=>["ai-receptionist","custom"].includes(p.id)).map((p,i)=>(
+              <PricingCard key={p.id} plan={p} annual={annual} goto={goto} index={i}/>
             ))}
           </div>
           {PLANS.filter(p=>p.id==="full-system").map(p=>(
