@@ -1,5 +1,11 @@
 "use client";
 
+// ─── SEO METADATA (export from layout.tsx or page metadata) ──────────────────
+// Title: "roofY | AI Lead Generation & Automation for Roofing Contractors"
+// Description: "roofY builds AI automation systems for roofing companies — 24/7 AI call answering, automated follow-ups, Meta ads, and lead qualification. Go live in 48 hours. No contracts."
+// Keywords: AI roofing leads, roofing automation, AI voice receptionist for roofers, Meta ads for roofing, storm damage leads, roofing CRM, automated follow-ups roofing
+// OG image: /og-image.png | Twitter card: summary_large_image
+
 import { motion, AnimatePresence, useScroll, useTransform, useMotionValue, useSpring, useInView, animate } from "framer-motion";
 import { useRef, useState, useEffect, useCallback, memo } from "react";
 
@@ -21,7 +27,7 @@ const ORANGE_LIGHT  = "rgba(249,115,22,0.10)";
 const ORANGE_BORDER = "rgba(249,115,22,0.22)";
 
 // ─── DATA ─────────────────────────────────────────────────────────────────────
-const TICKER = ["AI Voice Receptionist","24/7 Availability","Roofing Leads","Meta Ads","Follow-Up Sequences","No Missed Calls","Instant Response","Facebook & Instagram","n8n Workflows","Custom Automation","Real-Time Alerts","Storm Damage Leads"];
+const TICKER = ["AI Roofing Leads","24/7 Call Answering","Storm Damage Leads","Meta Ads for Roofers","Automated Follow-Ups","No Missed Calls","Instant Lead Response","Facebook & Instagram Ads","Roofing CRM Automation","AI Voice Receptionist","Real-Time Lead Alerts","Roof Replacement Leads"];
 
 const STATS = [
   { n: 78,  suffix: "%", l:"of roofing customers hire whoever responds first." },
@@ -450,7 +456,7 @@ const IllustrationLeadFlow = memo(function IllustrationLeadFlow() {
         <text x="45" y="71" textAnchor="middle" fontSize="7" fill="rgba(249,115,22,0.8)" fontFamily="sans-serif">CALL</text>
         <rect x="64" y="62" width="18" height="12" rx="3" fill="rgba(249,115,22,0.2)"/>
         <text x="73" y="71" textAnchor="middle" fontSize="7" fill="rgba(249,115,22,0.8)" fontFamily="sans-serif">ADS</text>
-        <text x="45" y="87" textAnchor="middle" fontSize="9" fill="rgba(249,115,22,0.7)" fontFamily="sans-serif" fontWeight="600" letterSpacing="0.05em">quazieR AI</text>
+        <text x="45" y="87" textAnchor="middle" fontSize="9" fill="rgba(249,115,22,0.7)" fontFamily="sans-serif" fontWeight="600" letterSpacing="0.05em">roofY AI</text>
       </g>
       <g transform="translate(283,55)">
         <line x1="0" y1="0" x2="60" y2="0" stroke="url(#lg1)" strokeWidth="2" strokeDasharray="5 3"/>
@@ -520,14 +526,29 @@ const IllustrationClientFunnel = memo(function IllustrationClientFunnel() {
   );
 });
 
-const QZLogo = memo(function QZLogo({ size = 36 }: { size?: number }) {
+const RoofYLogo = memo(function RoofYLogo({ size = 36 }: { size?: number }) {
+  // roofY logo: roof glyph (triangle peak) + stylized Y
+  const h = Math.round(size * 0.65);
   return (
-    <svg width={size} height={Math.round(size*0.7)} viewBox="0 0 140 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="32" cy="38" r="20" stroke="#111" strokeWidth="12" fill="none"/>
-      <line x1="52" y1="38" x2="52" y2="72" stroke="#111" strokeWidth="12" strokeLinecap="round"/>
-      <line x1="68" y1="16" x2="104" y2="16" stroke="#111" strokeWidth="10" strokeLinecap="round"/>
-      <line x1="104" y1="16" x2="68" y2="68" stroke="#111" strokeWidth="10" strokeLinecap="round"/>
-      <line x1="68" y1="68" x2="104" y2="68" stroke="#111" strokeWidth="10" strokeLinecap="round"/>
+    <svg width={size * 1.6} height={h} viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Roof peak icon */}
+      <polygon points="8,58 34,20 60,58" fill="none" stroke="#111" strokeWidth="9" strokeLinejoin="round" strokeLinecap="round"/>
+      <line x1="20" y1="58" x2="48" y2="58" stroke="#111" strokeWidth="9" strokeLinecap="round"/>
+      {/* r */}
+      <line x1="72" y1="38" x2="72" y2="62" stroke="#111" strokeWidth="7.5" strokeLinecap="round"/>
+      <path d="M72 46 Q80 36 90 40" stroke="#111" strokeWidth="7.5" fill="none" strokeLinecap="round"/>
+      {/* o */}
+      <rect x="95" y="38" width="18" height="24" rx="9" fill="none" stroke="#111" strokeWidth="7.5"/>
+      {/* o */}
+      <rect x="119" y="38" width="18" height="24" rx="9" fill="none" stroke="#111" strokeWidth="7.5"/>
+      {/* f */}
+      <line x1="146" y1="28" x2="146" y2="62" stroke="#111" strokeWidth="7.5" strokeLinecap="round"/>
+      <path d="M140 42 L154 42" stroke="#111" strokeWidth="7" strokeLinecap="round"/>
+      <path d="M146 28 Q152 22 158 26" stroke="#111" strokeWidth="7" fill="none" strokeLinecap="round"/>
+      {/* Y — orange accent */}
+      <line x1="168" y1="28" x2="178" y2="44" stroke={ORANGE} strokeWidth="8" strokeLinecap="round"/>
+      <line x1="192" y1="28" x2="178" y2="44" stroke={ORANGE} strokeWidth="8" strokeLinecap="round"/>
+      <line x1="178" y1="44" x2="178" y2="62" stroke={ORANGE} strokeWidth="8" strokeLinecap="round"/>
     </svg>
   );
 });
@@ -689,7 +710,7 @@ const Nav = memo(function Nav({ current, goto }: { current:Page; goto:(p:Page)=>
           style={{...pill, boxShadow:"0 8px 40px rgba(0,0,0,0.07),0 1px 0 rgba(255,255,255,0.95) inset"}}>
           <motion.button onClick={()=>goto("home")} whileHover={{scale:1.07}} whileTap={{scale:0.93}}
             className="flex items-center px-2 py-1.5 rounded-full" style={{background:"rgba(255,255,255,0.5)"}}>
-            <QZLogo size={34}/>
+            <RoofYLogo size={34}/>
           </motion.button>
           <div style={{width:1,height:20,background:"rgba(0,0,0,0.09)",margin:"0 4px"}}/>
           {links.map(([label,page])=>(
@@ -709,7 +730,7 @@ const Nav = memo(function Nav({ current, goto }: { current:Page; goto:(p:Page)=>
         </nav>
         <nav className="flex md:hidden items-center gap-3 px-4 py-2.5 rounded-full"
           style={{...pill,boxShadow:"0 6px 28px rgba(0,0,0,0.08)"}}>
-          <button onClick={()=>goto("home")}><QZLogo size={28}/></button>
+          <button onClick={()=>goto("home")}><RoofYLogo size={28}/></button>
           <div className="flex-1"/>
           <button onClick={()=>setOpen(!open)} className="flex flex-col gap-1.5 p-1">
             <motion.span animate={{rotate:open?45:0,y:open?6:0}} className="block h-0.5 w-5 bg-gray-800 origin-center"/>
@@ -747,11 +768,11 @@ const Footer = memo(function Footer({ goto }: { goto:(p:Page)=>void }) {
       <div className="mx-auto max-w-6xl px-6 py-16">
         <div className="grid gap-10 md:grid-cols-[2fr_1fr_1fr_1fr] mb-12">
           <div>
-            <div className="mb-5"><QZLogo size={44}/></div>
-            <p style={SF} className="text-sm text-gray-500 leading-relaxed max-w-xs mb-6">AI automation systems for roofing companies — built to respond, follow up, and convert without you lifting a finger.</p>
+            <div className="mb-5"><RoofYLogo size={44}/></div>
+            <p style={SF} className="text-sm text-gray-500 leading-relaxed max-w-xs mb-6">AI-powered lead generation and automation for roofing contractors — 24/7 call answering, instant follow-ups, and Meta ads that close roofing jobs.</p>
             <div className="flex flex-wrap gap-2 mb-6">
               {[
-                {href:"https://www.instagram.com/quazier.ai",label:"@quazier.ai"},
+                {href:"https://www.instagram.com/roofy.ai",label:"@roofy.ai"},
                 {href:"https://www.facebook.com/profile.php?id=61585053252637",label:"Facebook"},
               ].map(s=>(
                 <motion.a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer"
@@ -787,7 +808,7 @@ const Footer = memo(function Footer({ goto }: { goto:(p:Page)=>void }) {
           ))}
         </div>
         <div className="flex flex-col gap-2 pt-8 md:flex-row md:items-center md:justify-between" style={{borderTop:"1px solid rgba(0,0,0,0.06)"}}>
-          <p style={SF} className="text-xs text-gray-400">© {new Date().getFullYear()} quazieR. All rights reserved.</p>
+          <p style={SF} className="text-xs text-gray-400">© {new Date().getFullYear()} roofY. All rights reserved.</p>
           <p style={SF} className="text-xs text-gray-400">Built by <span className="text-gray-600">Michael Brito</span> & <span className="text-gray-600">Badre Elkhammal</span></p>
         </div>
       </div>
@@ -797,7 +818,7 @@ const Footer = memo(function Footer({ goto }: { goto:(p:Page)=>void }) {
 
 // ─── CHAT DEMO ────────────────────────────────────────────────────────────────
 function ChatDemo() {
-  const INIT: Msg = {role:"ai",text:"Hi! I'm the quazieR AI. Are you looking for roofing services, or do you run a roofing company?"};
+  const INIT: Msg = {role:"ai",text:"Hi! I'm the roofY AI assistant. Are you a homeowner looking for roofing help, or do you run a roofing company?"};
   const [msgs,setMsgs] = useState<Msg[]>([INIT]);
   const [input,setInput] = useState("");
   const [typing,setTyping] = useState(false);
@@ -823,7 +844,7 @@ function ChatDemo() {
           AI<span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-white bg-emerald-400"/>
         </div>
         <div>
-          <p style={SF} className="text-sm font-semibold text-gray-900">Summer — quazieR AI</p>
+          <p style={SF} className="text-sm font-semibold text-gray-900">Riley — roofY AI</p>
           <p style={SF} className="text-xs text-emerald-600">Online · responds instantly</p>
         </div>
       </div>
@@ -1193,7 +1214,7 @@ function HomePage({ goto }: { goto:(p:Page)=>void }) {
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest mb-8"
               whileHover={{scale:1.06}}>
               <motion.span animate={{rotate:[0,360]}} transition={{duration:8,repeat:Infinity,ease:"linear"}}>✦</motion.span>
-              AI Automation for Roofing Companies
+              AI Automation for Roofing Contractors
             </motion.span>
           </motion.div>
           <motion.div initial={{opacity:0,y:30}} animate={{opacity:1,y:0}} transition={{delay:0.6,duration:0.8,ease:E}}
@@ -1203,22 +1224,22 @@ function HomePage({ goto }: { goto:(p:Page)=>void }) {
           <h1 style={{...IF,fontStyle:"italic",fontSize:"clamp(50px,8vw,112px)",lineHeight:1.15}} className="text-gray-900 tracking-tight mb-6">
             <motion.span style={{display:"block",paddingBottom:"0.05em"}}
               initial={{opacity:0,y:28}} animate={{opacity:1,y:0}} transition={{duration:0.55,ease:E,delay:0.05}}>
-              quazieR,
+              More leads.
             </motion.span>
             <span style={{display:"block",paddingBottom:"0.15em"}}>
               <motion.span style={{display:"inline-block",marginRight:"0.2em"}} initial={{y:28}} animate={{y:0}} transition={{duration:0.55,ease:E,delay:0.15}}>
-                <span className="shimmer-text">quicker</span>
+                <span className="shimmer-text">Zero</span>
               </motion.span>
               <motion.span style={{display:"inline-block"}} initial={{opacity:0,y:28}} animate={{opacity:1,y:0}} transition={{duration:0.55,ease:E,delay:0.22}}>
-                and easier
+                missed calls.
               </motion.span>
             </span>
           </h1>
           <motion.p initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:0.9,ease:E,delay:0.75}}
-            style={{...IF,fontStyle:"italic",fontSize:"clamp(18px,2.2vw,28px)"}} className="text-gray-400 mb-4">Work smarter. Not harder.</motion.p>
+            style={{...IF,fontStyle:"italic",fontSize:"clamp(18px,2.2vw,28px)"}} className="text-gray-400 mb-4">AI automation built exclusively for roofing companies.</motion.p>
           <motion.p initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} transition={{duration:0.8,ease:E,delay:0.88}}
             style={SF} className="text-base text-gray-500 leading-relaxed max-w-2xl mx-auto mb-10">
-            At <span style={{color:ORANGE}}>quazieR</span>, we build AI automation systems for roofing companies — answering calls, running ads, responding to messages, and following up with leads automatically so you never miss a job.
+            <span style={{color:ORANGE}}>roofY</span> builds AI systems that answer every call, respond to every lead, run your Meta ads, and follow up automatically — so your roofing company never loses a job to slow response time.
           </motion.p>
           <motion.div initial={{opacity:0,y:14}} animate={{opacity:1,y:0}} transition={{duration:0.8,ease:E,delay:1}} className="flex flex-wrap items-center justify-center gap-4">
             <MagBtn orange onClick={()=>goto("pricing")}>See pricing</MagBtn>
@@ -1275,7 +1296,7 @@ function HomePage({ goto }: { goto:(p:Page)=>void }) {
           <div className="md:sticky md:top-32 md:self-start">
             <Reveal>
               <p style={{...SF,color:ORANGE}} className="text-xs font-semibold uppercase tracking-widest mb-4">The problem</p>
-              <h2 style={{...IF,fontStyle:"italic",fontSize:"clamp(36px,4.5vw,64px)"}} className="text-gray-900 leading-[0.93]">Roofing leads<br/>disappear <em style={{color:ORANGE}}>fast.</em></h2>
+              <h2 style={{...IF,fontStyle:"italic",fontSize:"clamp(36px,4.5vw,64px)"}} className="text-gray-900 leading-[0.93]">Roofing leads<br/>go cold <em style={{color:ORANGE}}>in minutes.</em></h2>
               <div className="mt-10 flex justify-center"><RoofHouseIllustration size={140}/></div>
               <p style={SF} className="mt-3 text-xs uppercase tracking-widest text-gray-300">Each missed call = lost job</p>
             </Reveal>
@@ -1344,7 +1365,7 @@ function HomePage({ goto }: { goto:(p:Page)=>void }) {
           <div className="mb-16 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <Reveal>
               <p style={{...SF,color:ORANGE}} className="text-xs font-semibold uppercase tracking-widest mb-4">What we build</p>
-              <h2 style={{...IF,fontStyle:"italic",fontSize:"clamp(36px,5vw,70px)"}} className="text-gray-900 leading-[0.93]">AI that works<br/><em style={{color:ORANGE}}>while you roof.</em></h2>
+              <h2 style={{...IF,fontStyle:"italic",fontSize:"clamp(36px,5vw,70px)"}} className="text-gray-900 leading-[0.93]">AI tools built<br/><em style={{color:ORANGE}}>for roofers.</em></h2>
             </Reveal>
             <motion.button onClick={()=>goto("services")} whileHover={{scale:1.05}}
               style={{...SF,background:"rgba(255,255,255,0.55)",backdropFilter:"blur(10px)",border:"1px solid rgba(0,0,0,0.08)",borderRadius:12,padding:"10px 20px"}}
@@ -1410,13 +1431,13 @@ function HomePage({ goto }: { goto:(p:Page)=>void }) {
       <section className="py-24 px-6" style={{position:"relative",zIndex:4}}>
         <div className="mx-auto max-w-6xl">
           <Reveal className="mb-14">
-            <p style={{...SF,color:ORANGE}} className="text-xs font-semibold uppercase tracking-widest mb-4">Why quazieR</p>
-            <h2 style={{...IF,fontStyle:"italic",fontSize:"clamp(36px,5vw,72px)"}} className="text-gray-900 leading-[0.93]">vs. doing it<br/><em style={{color:ORANGE}}>manually.</em></h2>
+            <p style={{...SF,color:ORANGE}} className="text-xs font-semibold uppercase tracking-widest mb-4">Why roofY</p>
+            <h2 style={{...IF,fontStyle:"italic",fontSize:"clamp(36px,5vw,72px)"}} className="text-gray-900 leading-[0.93]">roofY vs.<br/><em style={{color:ORANGE}}>doing it manually.</em></h2>
           </Reveal>
           <Reveal y={38}>
             <div className="overflow-hidden rounded-2xl" style={{background:"rgba(255,255,255,0.58)",backdropFilter:"blur(16px)",border:"1px solid rgba(255,255,255,0.88)",boxShadow:"0 8px 40px rgba(0,0,0,0.05)"}}>
               <div className="grid grid-cols-[1.6fr_1fr_1fr]" style={{borderBottom:"1px solid rgba(0,0,0,0.07)",background:`rgba(249,115,22,0.03)`}}>
-                {["Feature","quazieR AI","Without AI"].map((h,i)=>(
+                {["Feature","roofY AI","Without AI"].map((h,i)=>(
                   <div key={h} style={{...SF,borderLeft:i>0?"1px solid rgba(0,0,0,0.05)":undefined}}
                     className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest ${i===1?"text-orange-500":"text-gray-400"}`}>{h}</div>
                 ))}
@@ -1443,7 +1464,7 @@ function HomePage({ goto }: { goto:(p:Page)=>void }) {
               <h2 style={{...IF,fontStyle:"italic",fontSize:"clamp(52px,7.5vw,110px)"}} className="text-gray-900 leading-[0.88]">A calmer<br/>way to<br/><em style={{color:ORANGE}}>grow.</em></h2>
             </Reveal>
             <Reveal y={42} delay={0.16} className="flex flex-col justify-center">
-              <p style={SF} className="mb-8 text-sm leading-[1.9] text-gray-500">No pressure. No obligation. Just a clear conversation about your roofing business and whether quazieR is the right fit.<br/><br/><span className="text-gray-900">Most clients are live within 48 hours.</span> We handle everything — you keep roofing.</p>
+              <p style={SF} className="mb-8 text-sm leading-[1.9] text-gray-500">No pressure. No obligation. Just a real conversation about your roofing business and whether roofY is the right fit.<br/><br/><span className="text-gray-900">Most roofing contractors go live within 48 hours.</span> We handle every technical detail — you keep closing jobs.</p>
               <div className="flex flex-wrap gap-3">
                 <MagBtn orange onClick={()=>{ trackLead(); goto("contact"); }}>Start the conversation</MagBtn>
                 <MagBtn onClick={()=>goto("pricing")}>See pricing</MagBtn>
@@ -1474,8 +1495,8 @@ function PricingPage({ goto }: { goto:(p:Page)=>void }) {
       <div className="mx-auto max-w-6xl">
         <Reveal className="text-center mb-16">
           <p style={{...SF,color:ORANGE}} className="text-xs font-semibold uppercase tracking-widest mb-4">Pricing</p>
-          <h1 style={{...IF,fontStyle:"italic",fontSize:"clamp(40px,6vw,80px)"}} className="text-gray-900 leading-tight mb-4">Honest pricing.<br/><em style={{color:ORANGE}}>Real results.</em></h1>
-          <p style={SF} className="text-gray-500 max-w-xl mx-auto mb-8">No hidden fees. No long-term contracts. No sales games. Pick the plan that fits and be live within 48 hours.</p>
+          <h1 style={{...IF,fontStyle:"italic",fontSize:"clamp(40px,6vw,80px)"}} className="text-gray-900 leading-tight mb-4">Simple pricing.<br/><em style={{color:ORANGE}}>Real roofing results.</em></h1>
+          <p style={SF} className="text-gray-500 max-w-xl mx-auto mb-8">No hidden fees. No long-term contracts. AI automation for roofing contractors — go live in 48 hours and only pay for what you use.</p>
           <motion.div initial={{opacity:0,scale:0.95}} animate={{opacity:1,scale:1}} transition={{delay:0.3}}
             className="inline-flex items-center gap-3 px-4 py-2.5 rounded-full"
             style={{background:"rgba(255,255,255,0.75)",backdropFilter:"blur(16px)",border:"1px solid rgba(255,255,255,0.9)",boxShadow:"0 4px 20px rgba(0,0,0,0.06)"}}>
@@ -1550,8 +1571,8 @@ function ServicesPage({ goto }: { goto:(p:Page)=>void }) {
       <div className="mx-auto max-w-6xl">
         <Reveal className="mb-24">
           <p style={{...SF,color:ORANGE}} className="text-xs font-semibold uppercase tracking-widest mb-4">Services</p>
-          <h1 style={{...IF,fontStyle:"italic",fontSize:"clamp(44px,7vw,100px)"}} className="text-gray-900 leading-[0.88] mb-4">Systems that<br/><em style={{color:ORANGE}}>do the work.</em></h1>
-          <p style={SF} className="text-gray-500 max-w-xl">Each service is purpose-built for roofing companies. We configure, deploy, and maintain everything — you get results without the overhead.</p>
+          <h1 style={{...IF,fontStyle:"italic",fontSize:"clamp(44px,7vw,100px)"}} className="text-gray-900 leading-[0.88] mb-4">AI services built<br/><em style={{color:ORANGE}}>for roofing.</em></h1>
+          <p style={SF} className="text-gray-500 max-w-xl">Every roofY service is purpose-built for roofing contractors — AI call answering, automated lead follow-up, Meta ads, and custom workflow automation. We configure, deploy, and maintain everything.</p>
         </Reveal>
         <div style={{borderTop:"1px solid rgba(0,0,0,0.07)"}}>
           {items.map((s,i)=>(
@@ -1596,8 +1617,8 @@ function AboutPage({ goto }: { goto:(p:Page)=>void }) {
           <p style={{...SF,color:ORANGE}} className="text-xs font-semibold uppercase tracking-widest mb-4">About</p>
           <h1 style={{...IF,fontStyle:"italic",fontSize:"clamp(44px,7vw,100px)"}} className="text-gray-900 leading-[0.88] mb-8">Built with<br/><em style={{color:ORANGE}}>intention.</em></h1>
           <div className="grid gap-10 md:grid-cols-[1fr_1.2fr]">
-            <p style={SF} className="text-gray-500 leading-relaxed">quazieR started with a simple observation: great roofing companies were losing customers not because of their work — but because they couldn't respond fast enough after a storm.</p>
-            <p style={SF} className="text-gray-500 leading-relaxed">Michael and Badre built quazieR to close that gap permanently. Not with an app that creates more to-do items, but with systems that operate in the background.</p>
+            <p style={SF} className="text-gray-500 leading-relaxed">roofY started from a simple observation: great roofing contractors were losing jobs not because of their craftsmanship — but because no one answered the phone fast enough after a storm.</p>
+            <p style={SF} className="text-gray-500 leading-relaxed">Michael and Badre built roofY to close that gap permanently. Not with another app that adds to your to-do list, but with AI systems that run silently in the background — answering every call, qualifying every lead, and following up until the deal is closed.</p>
           </div>
         </Reveal>
         <div className="mb-32">
@@ -1635,9 +1656,9 @@ function AboutPage({ goto }: { goto:(p:Page)=>void }) {
           <div className="rounded-3xl p-14 text-center relative overflow-hidden" style={{background:"linear-gradient(135deg,#111,#2d2d2d)"}}>
             <div style={{position:"absolute",inset:0,opacity:0.08,backgroundImage:`linear-gradient(rgba(249,115,22,0.3) 1px,transparent 1px),linear-gradient(90deg,rgba(249,115,22,0.3) 1px,transparent 1px)`,backgroundSize:"40px 40px"}}/>
             <blockquote style={{...IF,fontStyle:"italic",fontSize:"clamp(20px,2.5vw,32px)"}} className="font-light text-white/80 max-w-2xl mx-auto mb-8 leading-relaxed relative z-10">
-              &ldquo;Automation should feel human, calm, and trustworthy — not aggressive, robotic, or overwhelming.&rdquo;
+              &ldquo;Roofing contractors deserve technology that works as hard as they do — quietly, reliably, and without drama.&rdquo;
             </blockquote>
-            <p style={SF} className="text-sm text-white/50 mb-8 relative z-10">Michael &amp; Badre, quazieR</p>
+            <p style={SF} className="text-sm text-white/50 mb-8 relative z-10">Michael &amp; Badre, roofY</p>
             <motion.button onClick={()=>{ trackLead(); goto("contact"); }} whileHover={{scale:1.06,y:-3}} whileTap={{scale:0.96}}
               style={{...SF,background:`linear-gradient(135deg,${ORANGE},${ORANGE_DARK})`,borderRadius:9999,padding:"14px 32px",border:"none",boxShadow:"0 4px 20px rgba(249,115,22,0.4)"}}
               className="text-sm font-semibold text-white relative z-10">Work with us</motion.button>
@@ -1656,11 +1677,11 @@ function ContactPage() {
           <Reveal y={32}>
             <p style={{...SF,color:ORANGE}} className="text-xs font-semibold uppercase tracking-widest mb-4">Contact</p>
             <h1 style={{...IF,fontStyle:"italic",fontSize:"clamp(36px,5.5vw,80px)"}} className="text-gray-900 leading-[0.88] mb-6">
-              Let&apos;s talk<br/><em style={{color:ORANGE}}>about your business.</em>
+              Grow your<br/><em style={{color:ORANGE}}>roofing business.</em>
             </h1>
-            <p style={SF} className="text-gray-500 leading-relaxed mb-12">No pressure. No sales pitch. Just a real conversation about where you're losing time and how automation might help. Most clients are live within 48 hours.</p>
+            <p style={SF} className="text-gray-500 leading-relaxed mb-12">No sales pitch. No pressure. Just a straightforward conversation about how roofY's AI automation can help your roofing company answer every call, close more leads, and scale without hiring. Most contractors are live in 48 hours.</p>
             <div className="space-y-6 mb-10">
-              {[{label:"Email",value:"quazier.ai@gmail.com"},{label:"Phone / WhatsApp",value:"(518) 662-3244"},{label:"Based in",value:"Available worldwide"}].map(c=>(
+              {[{label:"Email",value:"roofy.ai@gmail.com"},{label:"Phone / WhatsApp",value:"(518) 662-3244"},{label:"Based in",value:"Available worldwide"}].map(c=>(
                 <motion.div key={c.label} whileHover={{x:5}}>
                   <p style={SF} className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-1">{c.label}</p>
                   <p style={SF} className="text-gray-700 font-medium">{c.value}</p>
@@ -1683,7 +1704,7 @@ function ContactPage() {
                 <h3 style={{...IF,fontStyle:"italic",fontSize:"clamp(26px,3.5vw,40px)"}} className="text-gray-900 mb-3">
                   Book a free<br/><em style={{color:ORANGE}}>20-min call.</em>
                 </h3>
-                <p style={SF} className="text-gray-500 text-sm leading-relaxed max-w-sm mx-auto">Pick a time that works. We'll talk about your roofing business and how quazieR can help. No pressure.</p>
+                <p style={SF} className="text-gray-500 text-sm leading-relaxed max-w-sm mx-auto">Pick a time that works. We'll talk about your roofing business and how roofY can help. No pressure.</p>
               </div>
               <div className="flex flex-col gap-3 w-full max-w-xs">
                 {["No contracts","Live in 48h","Cancel anytime"].map(t=>(
