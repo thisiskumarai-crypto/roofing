@@ -224,6 +224,27 @@ const GLOBAL_CSS = `
   .badge-pulse{animation:badgePulse 2s ease-in-out infinite}
 
   @keyframes roofFloat{0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(-14px) rotate(1deg)}}
+
+  /* Section divider pulse */
+  @keyframes dividerPulse{0%,100%{opacity:0.3;transform:scaleX(0.7)} 50%{opacity:1;transform:scaleX(1)}}
+  .divider-pulse{animation:dividerPulse 3s ease-in-out infinite}
+
+  /* Float slow */
+  @keyframes floatSlow{0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)}}
+  .float-slow{animation:floatSlow 5s ease-in-out infinite}
+  .float-slow-2{animation:floatSlow 6.5s ease-in-out infinite;animation-delay:-2s}
+  .float-slow-3{animation:floatSlow 4s ease-in-out infinite;animation-delay:-1s}
+
+  /* Number counter shimmer */
+  @keyframes countShimmer{0%{color:rgba(249,115,22,0.4)} 50%{color:rgba(249,115,22,1)} 100%{color:rgba(249,115,22,0.4)}}
+
+  /* Step connector line draw */
+  @keyframes lineDraw{from{stroke-dashoffset:200} to{stroke-dashoffset:0}}
+  .line-draw{animation:lineDraw 1.5s ease forwards}
+
+  /* Spotlight sweep */
+  @keyframes spotlight{0%{opacity:0;transform:translate(-20%,-20%) rotate(-15deg)} 40%{opacity:0.07} 100%{opacity:0;transform:translate(120%,80%) rotate(-15deg)}}
+  .spotlight{animation:spotlight 8s ease-in-out infinite}
 `;
 
 // ─── OPTIMIZED BACKGROUND — memoized, no blur filters, fewer layers ────────────
@@ -384,6 +405,169 @@ function SceneryCloud({ scale=1 }: { scale?:number }) {
     </svg>
   );
 }
+
+// ── New section illustrations ─────────────────────────────────────────────────
+
+// Animated phone call → AI → lead flow portrait
+const IlluCallFlow = memo(function IlluCallFlow() {
+  return (
+    <svg width="100%" height="200" viewBox="0 0 360 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Phone ringing */}
+      <rect x="20" y="60" width="60" height="100" rx="10" fill="rgba(249,115,22,0.08)" stroke="rgba(249,115,22,0.3)" strokeWidth="1.5"/>
+      <rect x="28" y="72" width="44" height="68" rx="4" fill="rgba(249,115,22,0.12)"/>
+      <circle cx="50" cy="65" r="3" fill="rgba(249,115,22,0.4)"/>
+      <circle cx="50" cy="155" r="5" fill="rgba(249,115,22,0.25)"/>
+      {/* Call waves */}
+      {[1,2,3].map(i=>(
+        <motion.path key={i} d={`M${84+i*14},90 Q${90+i*14},110 ${84+i*14},130`}
+          fill="none" stroke="rgba(249,115,22,0.4)" strokeWidth="1.8" strokeLinecap="round"
+          animate={{opacity:[0,1,0]}} transition={{duration:1.5,repeat:Infinity,delay:i*0.3}}/>
+      ))}
+      {/* Arrow */}
+      <motion.path d="M138,110 L168,110" stroke="rgba(249,115,22,0.5)" strokeWidth="2"
+        strokeDasharray="6 4" animate={{strokeDashoffset:[0,-20]}}
+        transition={{duration:1,repeat:Infinity,ease:"linear"}}/>
+      <polygon points="168,106 176,110 168,114" fill="rgba(249,115,22,0.6)"/>
+      {/* AI brain */}
+      <motion.circle cx="210" cy="110" r="32" fill="rgba(249,115,22,0.07)" stroke="rgba(249,115,22,0.25)" strokeWidth="1.5"
+        animate={{scale:[1,1.06,1]}} transition={{duration:2.5,repeat:Infinity}}/>
+      <motion.circle cx="210" cy="110" r="40" fill="none" stroke="rgba(249,115,22,0.1)" strokeWidth="1"
+        animate={{scale:[1,1.1,1],opacity:[0.5,1,0.5]}} transition={{duration:3,repeat:Infinity}}/>
+      <text x="210" y="115" textAnchor="middle" fontSize="18" fill="rgba(249,115,22,0.8)" fontFamily="sans-serif" fontWeight="800">AI</text>
+      {/* Mini badges around AI */}
+      {[{angle:0,label:"SMS"},{angle:72,label:"WA"},{angle:144,label:"CRM"},{angle:216,label:"ADS"},{angle:288,label:"CALL"}].map((b,i)=>{
+        const r = Math.PI*2*i/5 - Math.PI/2;
+        const x = 210+Math.cos(r)*54, y = 110+Math.sin(r)*54;
+        return (
+          <motion.g key={b.label} animate={{opacity:[0.5,1,0.5]}} transition={{duration:2,repeat:Infinity,delay:i*0.4}}>
+            <circle cx={x} cy={y} r="13" fill="rgba(249,115,22,0.1)" stroke="rgba(249,115,22,0.25)" strokeWidth="1"/>
+            <text x={x} y={y+3} textAnchor="middle" fontSize="6" fill="rgba(249,115,22,0.8)" fontFamily="sans-serif" fontWeight="700">{b.label}</text>
+          </motion.g>
+        );
+      })}
+      {/* Arrow out */}
+      <motion.path d="M252,110 L282,110" stroke="rgba(249,115,22,0.5)" strokeWidth="2"
+        strokeDasharray="6 4" animate={{strokeDashoffset:[0,-20]}}
+        transition={{duration:1,repeat:Infinity,ease:"linear",delay:0.5}}/>
+      <polygon points="282,106 290,110 282,114" fill="rgba(249,115,22,0.6)"/>
+      {/* Booked badge */}
+      <motion.rect x="296" y="82" width="56" height="56" rx="12" fill="rgba(34,197,94,0.1)" stroke="rgba(34,197,94,0.35)" strokeWidth="1.5"
+        animate={{scale:[1,1.05,1]}} transition={{duration:2,repeat:Infinity,delay:1}}/>
+      <motion.path d="M310,110 l7,7 14-14" fill="none" stroke="rgba(34,197,94,0.85)" strokeWidth="2.5" strokeLinecap="round"
+        initial={{pathLength:0}} animate={{pathLength:1}} transition={{duration:0.6,repeat:Infinity,repeatDelay:2.5}}/>
+      <text x="324" y="130" textAnchor="middle" fontSize="7" fill="rgba(34,197,94,0.8)" fontFamily="sans-serif" fontWeight="700">BOOKED</text>
+    </svg>
+  );
+});
+
+// Storm + response time clock illustration
+const IlluStormClock = memo(function IlluStormClock() {
+  return (
+    <svg width="100%" height="160" viewBox="0 0 340 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Storm cloud */}
+      <motion.g animate={{x:[0,4,0]}} transition={{duration:4,repeat:Infinity,ease:"easeInOut"}}>
+        <ellipse cx="90" cy="64" rx="50" ry="28" fill="rgba(100,100,130,0.15)" stroke="rgba(100,100,150,0.25)" strokeWidth="1.2"/>
+        <ellipse cx="110" cy="52" rx="34" ry="22" fill="rgba(100,100,130,0.12)" stroke="rgba(100,100,150,0.2)" strokeWidth="1"/>
+        <ellipse cx="70" cy="56" rx="26" ry="18" fill="rgba(100,100,130,0.1)"/>
+        {/* Lightning */}
+        <motion.path d="M95,80 L82,102 L90,102 L78,124" fill="none" stroke="rgba(249,115,22,0.9)" strokeWidth="2.5" strokeLinecap="round"
+          animate={{opacity:[0,1,0,1,0]}} transition={{duration:2,repeat:Infinity,repeatDelay:1.5}}/>
+      </motion.g>
+      {/* "5 MIN" clock */}
+      <circle cx="200" cy="80" r="42" fill="rgba(249,115,22,0.06)" stroke="rgba(249,115,22,0.25)" strokeWidth="1.5"/>
+      <circle cx="200" cy="80" r="3" fill="rgba(249,115,22,0.6)"/>
+      {/* Clock ticks */}
+      {[0,30,60,90,120,150,180,210,240,270,300,330].map((deg,i)=>{
+        const r=Math.PI*deg/180, long=i%3===0;
+        return <line key={i} x1={200+Math.cos(r)*32} y1={80+Math.sin(r)*32}
+          x2={200+Math.cos(r)*(long?26:29)} y2={80+Math.sin(r)*(long?26:29)}
+          stroke="rgba(249,115,22,0.3)" strokeWidth={long?1.5:1}/>;
+      })}
+      {/* Minute hand (at 5 min = 30deg) */}
+      <motion.line x1="200" y1="80" x2="220" y2="63" stroke="rgba(249,115,22,0.8)" strokeWidth="2.5" strokeLinecap="round"
+        animate={{rotate:[0,360]}} transition={{duration:10,repeat:Infinity,ease:"linear"}}
+        style={{transformOrigin:"200px 80px"}}/>
+      <line x1="200" y1="80" x2="200" y2="56" stroke="rgba(249,115,22,0.4)" strokeWidth="2" strokeLinecap="round"/>
+      <text x="200" y="106" textAnchor="middle" fontSize="9" fill="rgba(249,115,22,0.7)" fontFamily="sans-serif" fontWeight="700">RESPOND IN 5 MIN</text>
+      {/* X mark — "too late" */}
+      <motion.g animate={{opacity:[1,0.3,1]}} transition={{duration:2,repeat:Infinity,delay:1}}>
+        <circle cx="290" cy="80" r="30" fill="rgba(239,68,68,0.06)" stroke="rgba(239,68,68,0.25)" strokeWidth="1.2"/>
+        <path d="M276,66 L304,94 M304,66 L276,94" stroke="rgba(239,68,68,0.6)" strokeWidth="2.5" strokeLinecap="round"/>
+        <text x="290" y="122" textAnchor="middle" fontSize="8" fill="rgba(239,68,68,0.6)" fontFamily="sans-serif" fontWeight="600">5 HRS LATER</text>
+      </motion.g>
+    </svg>
+  );
+});
+
+// Revenue bar + growth portrait  
+const IlluRevenue = memo(function IlluRevenue() {
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const vals =   [22,   28,   24,   38,   45,   52,   48,   65,   72,   80,   88,   98];
+  const max = 98;
+  return (
+    <svg width="100%" height="180" viewBox="0 0 380 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="revBar" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="rgba(249,115,22,0.8)"/>
+          <stop offset="100%" stopColor="rgba(249,115,22,0.15)"/>
+        </linearGradient>
+        <linearGradient id="revArea" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="rgba(249,115,22,0.2)"/>
+          <stop offset="100%" stopColor="rgba(249,115,22,0)"/>
+        </linearGradient>
+      </defs>
+      {/* Grid lines */}
+      {[25,50,75,100].map(pct=>{
+        const y = 140-(pct/100)*110;
+        return <line key={pct} x1="30" y1={y} x2="370" y2={y} stroke="rgba(0,0,0,0.05)" strokeWidth="1"/>;
+      })}
+      {/* Bars */}
+      {vals.map((v,i)=>{
+        const h=(v/max)*110, x=34+i*28;
+        return (
+          <motion.rect key={i} x={x} y={140-h} width="18" height={h} rx="3" fill="url(#revBar)"
+            initial={{scaleY:0}} whileInView={{scaleY:1}} viewport={{once:true}}
+            transition={{delay:i*0.06,duration:0.5,ease:[0.16,1,0.3,1]}}
+            style={{transformOrigin:`${x+9}px 140px`}}/>
+        );
+      })}
+      {/* Area + line */}
+      <motion.polyline points={vals.map((v,i)=>`${43+i*28},${140-(v/max)*110}`).join(" ")}
+        fill="none" stroke="rgba(249,115,22,0.6)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+        initial={{pathLength:0}} whileInView={{pathLength:1}} viewport={{once:true}}
+        transition={{duration:1.5,ease:[0.16,1,0.3,1]}}/>
+      {/* Labels */}
+      {months.map((m,i)=>(
+        <text key={m} x={43+i*28} y="158" textAnchor="middle" fontSize="6" fill="rgba(0,0,0,0.25)" fontFamily="sans-serif">{m}</text>
+      ))}
+      {/* Badge */}
+      <motion.rect x="300" y="12" width="68" height="30" rx="8" fill="rgba(34,197,94,0.1)" stroke="rgba(34,197,94,0.3)" strokeWidth="1.2"
+        animate={{scale:[1,1.05,1]}} transition={{duration:2,repeat:Infinity}}/>
+      <text x="334" y="28" textAnchor="middle" fontSize="11" fill="rgba(34,197,94,0.9)" fontFamily="sans-serif" fontWeight="700">+247%</text>
+      <text x="334" y="38" textAnchor="middle" fontSize="7" fill="rgba(34,197,94,0.6)" fontFamily="sans-serif">Revenue</text>
+    </svg>
+  );
+});
+
+// Step connector illustration for How It Works
+const IlluStepConnector = memo(function IlluStepConnector() {
+  return (
+    <svg width="100%" height="40" viewBox="0 0 800 40" fill="none" className="hidden md:block" xmlns="http://www.w3.org/2000/svg">
+      {/* Line connecting 3 steps */}
+      <motion.line x1="133" y1="20" x2="400" y2="20" stroke="rgba(249,115,22,0.25)" strokeWidth="1.5" strokeDasharray="6 4"
+        initial={{pathLength:0}} whileInView={{pathLength:1}} viewport={{once:true}}
+        transition={{duration:1,delay:0.5}}/>
+      <motion.line x1="400" y1="20" x2="667" y2="20" stroke="rgba(249,115,22,0.25)" strokeWidth="1.5" strokeDasharray="6 4"
+        initial={{pathLength:0}} whileInView={{pathLength:1}} viewport={{once:true}}
+        transition={{duration:1,delay:1}}/>
+      {[133,400,667].map((x,i)=>(
+        <motion.circle key={x} cx={x} cy={20} r={8} fill="rgba(249,115,22,0.15)" stroke="rgba(249,115,22,0.4)" strokeWidth="1.5"
+          initial={{scale:0}} whileInView={{scale:1}} viewport={{once:true}}
+          transition={{delay:0.3+i*0.5,type:"spring"}}/>
+      ))}
+    </svg>
+  );
+});
 
 // PERF: Memoized — heavy SVG that never changes
 const RoofHouseIllustration = memo(function RoofHouseIllustration({ size = 200 }: { size?: number }) {
@@ -1533,8 +1717,18 @@ function HomePage({ goto }: { goto:(p:Page)=>void }) {
             <Reveal>
               <p style={{...SF,color:ORANGE}} className="text-xs font-semibold uppercase tracking-widest mb-4">The problem</p>
               <h2 style={{...IF,fontStyle:"italic",fontSize:"clamp(36px,4.5vw,64px)"}} className="text-gray-900 leading-[0.93]">Roofing leads<br/>go cold <em style={{color:ORANGE}}>in minutes.</em></h2>
-              <div className="mt-10 flex justify-center"><RoofHouseIllustration size={140}/></div>
+              <div className="mt-10 flex justify-center">
+                <motion.div whileHover={{scale:1.06}} transition={{duration:0.3}}>
+                  <RoofHouseIllustration size={140}/>
+                </motion.div>
+              </div>
               <p style={SF} className="mt-3 text-xs uppercase tracking-widest text-gray-300">Each missed call = lost job</p>
+              {/* Mini stat */}
+              <motion.div style={{marginTop:20,background:"rgba(249,115,22,0.06)",border:`1px solid ${ORANGE_BORDER}`,borderRadius:12,padding:"12px 16px"}}
+                initial={{opacity:0,y:10}} whileInView={{opacity:1,y:0}} viewport={{once:true}} transition={{delay:0.4}}>
+                <p style={{...IF,fontStyle:"italic",color:ORANGE,fontSize:28,lineHeight:1}}>78%</p>
+                <p style={{...SF,fontSize:11,color:"#6b7280",marginTop:4}}>of homeowners hire the first contractor to respond</p>
+              </motion.div>
             </Reveal>
           </div>
           <div style={{borderTop:"1px solid rgba(0,0,0,0.06)"}}>
@@ -1554,41 +1748,74 @@ function HomePage({ goto }: { goto:(p:Page)=>void }) {
       </section>
 
       {/* How it works */}
-      <section className="py-24 px-6" style={{background:"rgba(255,255,255,0.28)",backdropFilter:"blur(8px)",position:"relative",zIndex:4}}>
+      <section className="py-28 px-6 overflow-hidden" style={{background:"rgba(255,255,255,0.28)",backdropFilter:"blur(8px)",position:"relative",zIndex:4}}>
+        {/* Spotlight sweep */}
+        <div className="spotlight absolute inset-0 pointer-events-none" style={{background:"linear-gradient(135deg,rgba(249,115,22,0.06) 0%,transparent 60%)",width:"60%",height:"60%",top:"10%",left:"5%"}}/>
         <div className="mx-auto max-w-6xl">
-          <Reveal className="text-center mb-16">
+          <Reveal className="text-center mb-6">
             <p style={{...SF,color:ORANGE}} className="text-xs font-semibold uppercase tracking-widest mb-4">How it works</p>
-            <h2 style={{...IF,fontStyle:"italic",fontSize:"clamp(32px,4vw,56px)"}} className="text-gray-900 leading-tight">Every lead.<br/><em style={{color:ORANGE}}>Handled.</em></h2>
-            <p style={SF} className="mt-4 text-gray-500 max-w-lg mx-auto">A roofing lead comes in. The AI picks it up instantly, qualifies it, and follows up automatically — all without you touching a thing.</p>
+            <h2 style={{...IF,fontStyle:"italic",fontSize:"clamp(32px,4vw,56px)"}} className="text-gray-900 leading-tight">Every lead.<br/><em style={{color:ORANGE}}>Handled automatically.</em></h2>
+            <p style={SF} className="mt-4 text-gray-500 max-w-lg mx-auto">From the moment a homeowner calls or clicks — roofY's AI takes over instantly, qualifies them, and books the estimate without you lifting a finger.</p>
           </Reveal>
-          <div className="grid gap-5 md:grid-cols-3">
+
+          {/* Big call-flow illustration */}
+          <Reveal y={30} delay={0.1} className="mb-12">
+            <div className="rounded-2xl px-6 pt-6 pb-2" style={{background:"rgba(255,255,255,0.62)",backdropFilter:"blur(14px)",border:"1px solid rgba(255,255,255,0.92)"}}>
+              <p style={{...SF,color:ORANGE,fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",marginBottom:4}}>Live call flow</p>
+              <IlluCallFlow/>
+            </div>
+          </Reveal>
+
+          {/* Step connector */}
+          <IlluStepConnector/>
+
+          <div className="grid gap-5 md:grid-cols-3 mb-14">
             {STEPS.map((s,i)=>(
               <Reveal key={i} delay={i*0.15} y={55}>
-                <GlowCard className="rounded-2xl p-8 cursor-default h-full" style={{background:"rgba(255,255,255,0.62)",backdropFilter:"blur(14px)",border:"1px solid rgba(255,255,255,0.92)"}}>
-                  <span style={{...IF,fontStyle:"italic",fontSize:"3.5rem",color:`rgba(249,115,22,0.18)`}} className="block mb-4 leading-none">{s.n}</span>
+                <GlowCard className="rounded-2xl p-8 cursor-default h-full" style={{background:"rgba(255,255,255,0.72)",backdropFilter:"blur(14px)",border:"1px solid rgba(255,255,255,0.92)"}}>
+                  {/* Animated number */}
+                  <motion.span style={{...IF,fontStyle:"italic",fontSize:"3.5rem",color:"rgba(249,115,22,0.18)",display:"block",lineHeight:1,marginBottom:16}}
+                    initial={{opacity:0,scale:0.5}} whileInView={{opacity:1,scale:1}} viewport={{once:true}}
+                    transition={{delay:0.2+i*0.15,type:"spring",stiffness:200}}>
+                    {s.n}
+                  </motion.span>
                   <h3 style={{...IF,fontStyle:"italic"}} className="text-xl text-gray-900 mb-3">{s.title}</h3>
                   <p style={SF} className="text-sm text-gray-500 leading-relaxed">{s.desc}</p>
+                  {/* Bottom accent line */}
+                  <motion.div style={{height:2,background:`linear-gradient(90deg,${ORANGE},transparent)`,borderRadius:2,marginTop:20}}
+                    initial={{scaleX:0,originX:0}} whileInView={{scaleX:1}} viewport={{once:true}}
+                    transition={{delay:0.5+i*0.15,duration:0.8}}/>
                 </GlowCard>
               </Reveal>
             ))}
           </div>
-          <div className="mt-14 grid gap-6 md:grid-cols-2">
+
+          {/* 3-panel data cards */}
+          <div className="grid gap-6 md:grid-cols-3 mb-12">
+            <Reveal y={30} delay={0.0}>
+              <div className="rounded-2xl p-6 h-full" style={{background:"rgba(255,255,255,0.62)",backdropFilter:"blur(14px)",border:"1px solid rgba(255,255,255,0.92)"}}>
+                <p style={{...SF,color:ORANGE,fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",marginBottom:6}}>Response speed</p>
+                <p style={{...IF,fontStyle:"italic",fontSize:20}} className="text-gray-900 mb-4">Reply in <em style={{color:ORANGE}}>under 60 sec.</em></p>
+                <IlluStormClock/>
+              </div>
+            </Reveal>
             <Reveal y={30} delay={0.1}>
-              <div className="rounded-2xl p-6" style={{background:"rgba(255,255,255,0.62)",backdropFilter:"blur(14px)",border:"1px solid rgba(255,255,255,0.92)"}}>
-                <p style={{...SF,color:ORANGE,fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",marginBottom:6}}>Website traffic growth</p>
-                <p style={{...IF,fontStyle:"italic",fontSize:22}} className="text-gray-900 mb-4">Leads find you<br/><em style={{color:ORANGE}}>around the clock.</em></p>
+              <div className="rounded-2xl p-6 h-full" style={{background:"rgba(255,255,255,0.62)",backdropFilter:"blur(14px)",border:"1px solid rgba(255,255,255,0.92)"}}>
+                <p style={{...SF,color:ORANGE,fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",marginBottom:6}}>Traffic growth</p>
+                <p style={{...IF,fontStyle:"italic",fontSize:20}} className="text-gray-900 mb-4">Leads find you <em style={{color:ORANGE}}>24/7.</em></p>
                 <IllustrationViewsChart/>
               </div>
             </Reveal>
             <Reveal y={30} delay={0.2}>
-              <div className="rounded-2xl p-6" style={{background:"rgba(255,255,255,0.62)",backdropFilter:"blur(14px)",border:"1px solid rgba(255,255,255,0.92)"}}>
-                <p style={{...SF,color:ORANGE,fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",marginBottom:6}}>Client acquisition funnel</p>
-                <p style={{...IF,fontStyle:"italic",fontSize:22}} className="text-gray-900 mb-4">Visitors become<br/><em style={{color:ORANGE}}>paying clients.</em></p>
-                <IllustrationClientFunnel/>
+              <div className="rounded-2xl p-6 h-full" style={{background:"rgba(255,255,255,0.62)",backdropFilter:"blur(14px)",border:"1px solid rgba(255,255,255,0.92)"}}>
+                <p style={{...SF,color:ORANGE,fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",marginBottom:6}}>Revenue impact</p>
+                <p style={{...IF,fontStyle:"italic",fontSize:20}} className="text-gray-900 mb-4">Clients who <em style={{color:ORANGE}}>close more.</em></p>
+                <IlluRevenue/>
               </div>
             </Reveal>
           </div>
-          <div className="mt-12 flex justify-center gap-4 flex-wrap">
+
+          <div className="mt-4 flex justify-center gap-4 flex-wrap">
             <MagBtn orange onClick={()=>{ trackLead(); goto("contact"); }}>Start the conversation</MagBtn>
             <MagBtn onClick={()=>goto("pricing")}>See pricing</MagBtn>
           </div>
@@ -1596,27 +1823,46 @@ function HomePage({ goto }: { goto:(p:Page)=>void }) {
       </section>
 
       {/* Services */}
-      <section className="py-24 px-6" style={{position:"relative",zIndex:4}}>
+      <section className="py-28 px-6 overflow-hidden" style={{position:"relative",zIndex:4}}>
         <div className="mx-auto max-w-6xl">
           <div className="mb-16 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <Reveal>
               <p style={{...SF,color:ORANGE}} className="text-xs font-semibold uppercase tracking-widest mb-4">What we build</p>
               <h2 style={{...IF,fontStyle:"italic",fontSize:"clamp(36px,5vw,70px)"}} className="text-gray-900 leading-[0.93]">AI tools built<br/><em style={{color:ORANGE}}>for roofers.</em></h2>
             </Reveal>
-            <motion.button onClick={()=>goto("services")} whileHover={{scale:1.05}}
+            <motion.button onClick={()=>goto("services")} whileHover={{scale:1.05,x:-4}}
               style={{...SF,background:"rgba(255,255,255,0.55)",backdropFilter:"blur(10px)",border:"1px solid rgba(0,0,0,0.08)",borderRadius:12,padding:"10px 20px"}}
               className="text-xs font-medium uppercase tracking-widest text-gray-500 hover:text-gray-900 transition-colors self-start">All services →</motion.button>
           </div>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {SERVICES.map((s,i)=>(
               <Reveal key={i} delay={i*0.09} y={52}>
-                <GlowCard className="rounded-2xl p-8 cursor-default h-full" style={{background:"rgba(255,255,255,0.62)",backdropFilter:"blur(14px)",border:"1px solid rgba(255,255,255,0.9)"}}>
-                  <p style={{...IF,fontStyle:"italic",fontSize:"2.2rem",color:`rgba(249,115,22,0.2)`}} className="mb-4 leading-none">{s.n}</p>
-                  <h3 style={{...IF,fontStyle:"italic"}} className="text-xl text-gray-900 mb-2">{s.title}</h3>
-                  <p style={SF} className="text-sm text-gray-500 leading-relaxed mb-4">{s.desc}</p>
-                  <motion.span whileHover={{scale:1.07}} style={{...SF,background:ORANGE_LIGHT,color:ORANGE,border:`1px solid ${ORANGE_BORDER}`,borderRadius:9999,padding:"4px 12px",display:"inline-block",fontSize:11,fontWeight:600}}>
-                    {s.price}
-                  </motion.span>
+                <GlowCard className="rounded-2xl cursor-default h-full overflow-hidden" style={{background:"rgba(255,255,255,0.72)",backdropFilter:"blur(14px)",border:"1px solid rgba(255,255,255,0.92)"}}>
+                  {/* Top accent bar */}
+                  <motion.div style={{height:3,background:`linear-gradient(90deg,${ORANGE},${ORANGE_DARK},transparent)`}}
+                    initial={{scaleX:0,originX:0}} whileInView={{scaleX:1}} viewport={{once:true}}
+                    transition={{delay:0.1+i*0.09,duration:0.7}}/>
+                  <div style={{padding:"24px 28px 28px"}}>
+                    {/* Number + price row */}
+                    <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",marginBottom:16}}>
+                      <motion.span style={{...IF,fontStyle:"italic",fontSize:"2.8rem",color:"rgba(249,115,22,0.18)",lineHeight:1}}
+                        initial={{opacity:0,y:10}} whileInView={{opacity:1,y:0}} viewport={{once:true}}
+                        transition={{delay:0.15+i*0.09}}>
+                        {s.n}
+                      </motion.span>
+                      <motion.span whileHover={{scale:1.08,y:-2}} style={{...SF,background:ORANGE_LIGHT,color:ORANGE,border:`1px solid ${ORANGE_BORDER}`,borderRadius:9999,padding:"4px 12px",fontSize:11,fontWeight:700,marginTop:6}}>
+                        {s.price}
+                      </motion.span>
+                    </div>
+                    <h3 style={{...IF,fontStyle:"italic"}} className="text-xl text-gray-900 mb-2">{s.title}</h3>
+                    <p style={SF} className="text-sm text-gray-500 leading-relaxed">{s.desc}</p>
+                    {/* Bottom CTA link */}
+                    <motion.button onClick={()=>{ trackLead(); goto("contact"); }}
+                      style={{...SF,marginTop:18,display:"inline-flex",alignItems:"center",gap:6,color:ORANGE,fontSize:12,fontWeight:700,background:"none",border:"none",cursor:"pointer",padding:0}}
+                      whileHover={{x:4}}>
+                      Get started <span style={{fontSize:14}}>→</span>
+                    </motion.button>
+                  </div>
                 </GlowCard>
               </Reveal>
             ))}
@@ -1664,42 +1910,94 @@ function HomePage({ goto }: { goto:(p:Page)=>void }) {
       </section>
 
       {/* Compare */}
-      <section className="py-24 px-6" style={{position:"relative",zIndex:4}}>
+      <section className="py-28 px-6 overflow-hidden" style={{position:"relative",zIndex:4}}>
         <div className="mx-auto max-w-6xl">
-          <Reveal className="mb-14">
-            <p style={{...SF,color:ORANGE}} className="text-xs font-semibold uppercase tracking-widest mb-4">Why roofY</p>
-            <h2 style={{...IF,fontStyle:"italic",fontSize:"clamp(36px,5vw,72px)"}} className="text-gray-900 leading-[0.93]">roofY vs.<br/><em style={{color:ORANGE}}>doing it manually.</em></h2>
-          </Reveal>
-          <Reveal y={38}>
-            <div className="overflow-hidden rounded-2xl" style={{background:"rgba(255,255,255,0.58)",backdropFilter:"blur(16px)",border:"1px solid rgba(255,255,255,0.88)",boxShadow:"0 8px 40px rgba(0,0,0,0.05)"}}>
-              <div className="grid grid-cols-[1.6fr_1fr_1fr]" style={{borderBottom:"1px solid rgba(0,0,0,0.07)",background:`rgba(249,115,22,0.03)`}}>
-                {["Feature","roofY AI","Without AI"].map((h,i)=>(
-                  <div key={h} style={{...SF,borderLeft:i>0?"1px solid rgba(0,0,0,0.05)":undefined}}
-                    className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest ${i===1?"text-orange-500":"text-gray-400"}`}>{h}</div>
+          <div className="grid gap-16 md:grid-cols-[1fr_1.8fr] md:gap-24">
+            {/* Left sticky */}
+            <div className="md:sticky md:top-32 md:self-start">
+              <Reveal>
+                <p style={{...SF,color:ORANGE}} className="text-xs font-semibold uppercase tracking-widest mb-4">Why roofY</p>
+                <h2 style={{...IF,fontStyle:"italic",fontSize:"clamp(36px,4.5vw,62px)"}} className="text-gray-900 leading-[0.93] mb-8">roofY vs.<br/><em style={{color:ORANGE}}>doing it<br/>manually.</em></h2>
+                {/* Animated score cards */}
+                <div style={{display:"flex",flexDirection:"column",gap:10}}>
+                  {[
+                    {label:"Response time",roofY:"< 60s",manual:"Hours",pct:96},
+                    {label:"Lead capture",roofY:"100%",manual:"~40%",pct:85},
+                    {label:"Follow-ups sent",roofY:"Automatic",manual:"Manual",pct:92},
+                  ].map((row,i)=>(
+                    <motion.div key={row.label} style={{background:"rgba(255,255,255,0.62)",backdropFilter:"blur(10px)",border:"1px solid rgba(255,255,255,0.9)",borderRadius:12,padding:"12px 16px"}}
+                      initial={{opacity:0,x:-20}} whileInView={{opacity:1,x:0}} viewport={{once:true}} transition={{delay:i*0.12}}>
+                      <div style={{display:"flex",justifyContent:"space-between",marginBottom:6}}>
+                        <span style={{...SF,fontSize:11,color:"#6b7280"}}>{row.label}</span>
+                        <span style={{...SF,fontSize:11,fontWeight:700,color:ORANGE}}>{row.roofY}</span>
+                      </div>
+                      <div style={{height:4,background:"rgba(0,0,0,0.06)",borderRadius:9999,overflow:"hidden"}}>
+                        <motion.div style={{height:"100%",background:`linear-gradient(90deg,${ORANGE},${ORANGE_DARK})`,borderRadius:9999}}
+                          initial={{width:0}} whileInView={{width:`${row.pct}%`}} viewport={{once:true}}
+                          transition={{delay:0.3+i*0.12,duration:1,ease:[0.16,1,0.3,1]}}/>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+            {/* Right table */}
+            <Reveal y={38}>
+              <div className="overflow-hidden rounded-2xl" style={{background:"rgba(255,255,255,0.68)",backdropFilter:"blur(16px)",border:"1px solid rgba(255,255,255,0.92)",boxShadow:"0 8px 40px rgba(0,0,0,0.05)"}}>
+                <div className="grid grid-cols-[1.6fr_1fr_1fr]" style={{borderBottom:"1px solid rgba(0,0,0,0.07)",background:"rgba(249,115,22,0.03)"}}>
+                  {["Feature","roofY AI","Without AI"].map((h,i)=>(
+                    <div key={h} style={{...SF,borderLeft:i>0?"1px solid rgba(0,0,0,0.05)":undefined}}
+                      className={`px-6 py-4 text-xs font-semibold uppercase tracking-widest ${i===1?"text-orange-500":"text-gray-400"}`}>{h}</div>
+                  ))}
+                </div>
+                {COMPARE.map(([feat,ours,theirs],i)=>(
+                  <motion.div key={i} initial={{opacity:0,x:-18}} whileInView={{opacity:1,x:0}} viewport={{once:true}} transition={{delay:0.06*i,duration:0.5}}
+                    whileHover={{background:"rgba(249,115,22,0.03)"}} className="grid grid-cols-[1.6fr_1fr_1fr]" style={{borderBottom:"1px solid rgba(0,0,0,0.04)"}}>
+                    <div style={SF} className="flex items-center px-6 py-4 text-sm text-gray-500">{feat}</div>
+                    <div style={{...SF,borderLeft:"1px solid rgba(0,0,0,0.04)"}} className="flex items-center gap-2 px-6 py-4 text-sm font-semibold text-orange-600">
+                      <motion.span style={{display:"inline-block"}} animate={{rotate:[0,15,0,-15,0]}} transition={{duration:1,delay:i*0.2+1,repeat:Infinity,repeatDelay:4}}>◆</motion.span>
+                      {ours}
+                    </div>
+                    <div style={{...SF,borderLeft:"1px solid rgba(0,0,0,0.04)"}} className="flex items-center px-6 py-4 text-sm text-gray-400 line-through decoration-red-300">{theirs}</div>
+                  </motion.div>
                 ))}
               </div>
-              {COMPARE.map(([feat,ours,theirs],i)=>(
-                <motion.div key={i} initial={{opacity:0,x:-18}} whileInView={{opacity:1,x:0}} viewport={{once:true}} transition={{delay:0.06*i,duration:0.5}}
-                  whileHover={{background:`rgba(249,115,22,0.03)`}} className="grid grid-cols-[1.6fr_1fr_1fr]" style={{borderBottom:"1px solid rgba(0,0,0,0.04)"}}>
-                  <div style={SF} className="flex items-center px-6 py-4 text-sm text-gray-500">{feat}</div>
-                  <div style={{...SF,borderLeft:"1px solid rgba(0,0,0,0.04)"}} className="flex items-center gap-2 px-6 py-4 text-sm font-medium text-orange-600"><span className="text-orange-400 text-xs">◆</span>{ours}</div>
-                  <div style={{...SF,borderLeft:"1px solid rgba(0,0,0,0.04)"}} className="flex items-center px-6 py-4 text-sm text-gray-400">{theirs}</div>
-                </motion.div>
-              ))}
-            </div>
-          </Reveal>
+            </Reveal>
+          </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="px-6 pb-36 pt-10" style={{position:"relative",zIndex:4}}>
+      <section className="px-6 pb-36 pt-10 overflow-hidden" style={{position:"relative",zIndex:4}}>
         <div className="mx-auto max-w-6xl">
           <DrawLine className="mb-20 w-full"/>
           <div className="grid gap-14 md:grid-cols-2 md:gap-24">
             <Reveal y={65}>
               <h2 style={{...IF,fontStyle:"italic",fontSize:"clamp(52px,7.5vw,110px)"}} className="text-gray-900 leading-[0.88]">A calmer<br/>way to<br/><em style={{color:ORANGE}}>grow.</em></h2>
+              {/* Floating stat pills */}
+              <div style={{marginTop:32,display:"flex",flexDirection:"column",gap:10}}>
+                {[
+                  {icon:"📞",stat:"100%",label:"of calls answered"},
+                  {icon:"⚡",stat:"< 60s",label:"average response time"},
+                  {icon:"🔁",stat:"3×",label:"more revenue with follow-ups"},
+                ].map((item,i)=>(
+                  <motion.div key={item.label} className="float-slow" style={{animationDelay:`${i*0.8}s`}}
+                    initial={{opacity:0,x:-20}} whileInView={{opacity:1,x:0}} viewport={{once:true}} transition={{delay:0.2+i*0.12}}>
+                    <div style={{display:"inline-flex",alignItems:"center",gap:12,background:"rgba(255,255,255,0.65)",backdropFilter:"blur(10px)",border:`1px solid ${ORANGE_BORDER}`,borderRadius:16,padding:"10px 18px"}}>
+                      <span style={{fontSize:18}}>{item.icon}</span>
+                      <span style={{...IF,fontStyle:"italic",fontSize:22,color:ORANGE,lineHeight:1}}>{item.stat}</span>
+                      <span style={{...SF,fontSize:12,color:"#6b7280"}}>{item.label}</span>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </Reveal>
             <Reveal y={42} delay={0.16} className="flex flex-col justify-center">
+              {/* Revenue illustration */}
+              <div style={{borderRadius:16,overflow:"hidden",background:"rgba(255,255,255,0.55)",backdropFilter:"blur(10px)",border:"1px solid rgba(255,255,255,0.9)",padding:"16px 16px 8px",marginBottom:28}}>
+                <p style={{...SF,color:ORANGE,fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.12em",marginBottom:4}}>Typical client revenue after roofY</p>
+                <IlluRevenue/>
+              </div>
               <p style={SF} className="mb-8 text-sm leading-[1.9] text-gray-500">No pressure. No obligation. Just a real conversation about your roofing business and whether roofY is the right fit.<br/><br/><span className="text-gray-900">Most roofing contractors go live within 48 hours.</span> We handle every technical detail — you keep closing jobs.</p>
               <div className="flex flex-wrap gap-3">
                 <MagBtn orange onClick={()=>{ trackLead(); goto("contact"); }}>Start the conversation</MagBtn>
@@ -1978,10 +2276,10 @@ export default function Home() {
         <Nav current={page} goto={goto}/>
         <AnimatePresence mode="wait">
           <motion.main key={page}
-            initial={{opacity:0,y:18}}
-            animate={{opacity:1,y:0}}
-            exit={{opacity:0,y:-18}}
-            transition={{duration:0.35,ease:E}}>
+            initial={{opacity:0,y:24,scale:0.99}}
+            animate={{opacity:1,y:0,scale:1}}
+            exit={{opacity:0,y:-24,scale:0.99}}
+            transition={{duration:0.4,ease:E}}>
             {page==="home"     && <HomePage    goto={goto}/>}
             {page==="pricing"  && <PricingPage goto={goto}/>}
             {page==="services" && <ServicesPage goto={goto}/>}
