@@ -245,54 +245,194 @@ const GLOBAL_CSS = `
   /* Spotlight sweep */
   @keyframes spotlight{0%{opacity:0;transform:translate(-20%,-20%) rotate(-15deg)} 40%{opacity:0.07} 100%{opacity:0;transform:translate(120%,80%) rotate(-15deg)}}
   .spotlight{animation:spotlight 8s ease-in-out infinite}
+
+  /* Particle drift */
+  @keyframes drift1{0%{transform:translate(0,0) scale(1);opacity:0} 15%{opacity:1} 85%{opacity:1} 100%{transform:translate(-60px,-180px) scale(0.4);opacity:0}}
+  @keyframes drift2{0%{transform:translate(0,0) scale(1);opacity:0} 15%{opacity:0.7} 85%{opacity:0.7} 100%{transform:translate(80px,-220px) scale(0.3);opacity:0}}
+  @keyframes drift3{0%{transform:translate(0,0);opacity:0} 20%{opacity:0.8} 80%{opacity:0.8} 100%{transform:translate(-30px,-160px);opacity:0}}
+  .particle-1{animation:drift1 7s ease-in-out infinite}
+  .particle-2{animation:drift2 9s ease-in-out infinite}
+  .particle-3{animation:drift3 6s ease-in-out infinite}
+
+  /* Roof city scroll */
+  @keyframes cityScroll{0%{transform:translateX(0)} 100%{transform:translateX(-50%)}}
+  .city-scroll{animation:cityScroll 60s linear infinite;will-change:transform}
+
+  /* Star twinkle */
+  @keyframes twinkle{0%,100%{opacity:0.15;transform:scale(1)} 50%{opacity:0.7;transform:scale(1.4)}}
+
+  /* Grid pulse */
+  @keyframes gridPulse{0%,100%{opacity:0.018} 50%{opacity:0.038}}
+  .grid-pulse{animation:gridPulse 6s ease-in-out infinite}
+
+  /* Node orbit */
+  @keyframes nodeOrbit{0%{transform:rotate(0deg) translateX(120px) rotate(0deg)} 100%{transform:rotate(360deg) translateX(120px) rotate(-360deg)}}
+  .node-orbit{animation:nodeOrbit 20s linear infinite;will-change:transform}
+  .node-orbit-2{animation:nodeOrbit 32s linear infinite reverse;will-change:transform}
+  .node-orbit-3{animation:nodeOrbit 26s linear infinite;animation-delay:-8s;will-change:transform}
 `;
 
-// ─── OPTIMIZED BACKGROUND — memoized, no blur filters, fewer layers ────────────
-// PERF: memo() prevents re-render when parent state changes (page, annual toggle, etc.)
-// PERF: Removed feGaussianBlur SVG filters — these force software rasterization and kill FPS
-// PERF: Reduced wave layers from 7 to 3
-// PERF: Reduced scenery pieces from 14 to 6 (the ones with most visual impact)
-// PERF: Background is position:fixed so it never repaints on scroll
+// ─── RICH ANIMATED BACKGROUND ────────────────────────────────────────────────
 const RoofingBackground = memo(function RoofingBackground() {
-  return (
-    <div style={{position:"fixed",inset:0,zIndex:0,pointerEvents:"none",overflow:"hidden",background:"#fff8f2"}} aria-hidden>
-      <div style={{position:"absolute",inset:0,background:"linear-gradient(165deg,#fffcf8 0%,#fff6ed 40%,#ffecd6 70%,#fff5ec 100%)"}}/>
+  // Particle positions — stable, not random on each render
+  const particles = [
+    {x:"12%",y:"72%",s:6,d:0},{x:"28%",y:"65%",s:4,d:1.2},{x:"44%",y:"78%",s:5,d:0.5},
+    {x:"58%",y:"68%",s:3,d:2.1},{x:"71%",y:"74%",s:5,d:0.8},{x:"83%",y:"70%",s:4,d:1.6},
+    {x:"19%",y:"55%",s:3,d:3.0},{x:"67%",y:"60%",s:4,d:0.3},{x:"90%",y:"62%",s:3,d:2.4},
+    {x:"38%",y:"50%",s:5,d:1.8},{x:"52%",y:"45%",s:3,d:0.9},{x:"76%",y:"48%",s:4,d:1.4},
+  ];
+  const stars = [
+    {x:"8%",y:"8%",r:1.5,d:0},{x:"22%",y:"4%",r:1,d:0.8},{x:"40%",y:"6%",r:2,d:1.5},
+    {x:"55%",y:"3%",r:1,d:0.4},{x:"68%",y:"7%",r:1.5,d:2.1},{x:"80%",y:"5%",r:1,d:0.7},
+    {x:"92%",y:"9%",r:2,d:1.2},{x:"15%",y:"18%",r:1,d:1.8},{x:"35%",y:"14%",r:1.5,d:0.3},
+    {x:"72%",y:"16%",r:1,d:2.5},{x:"88%",y:"20%",r:1.5,d:0.9},{x:"48%",y:"22%",r:1,d:1.1},
+  ];
 
-      {/* Simplified wave layers — no blur filters */}
-      <svg style={{position:"absolute",bottom:0,left:0,width:"110%",height:"65%",overflow:"visible"}}
-        viewBox="0 0 1440 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+  return (
+    <div style={{position:"fixed",inset:0,zIndex:0,pointerEvents:"none",overflow:"hidden",background:"#fffaf5"}} aria-hidden>
+
+      {/* ── Base gradient ── */}
+      <div style={{position:"absolute",inset:0,background:"linear-gradient(160deg,#fffcf8 0%,#fff7ef 35%,#ffeedd 65%,#fff6ec 100%)"}}/>
+
+      {/* ── Animated grid ── */}
+      <div className="grid-pulse" style={{position:"absolute",inset:0,
+        backgroundImage:"linear-gradient(rgba(249,115,22,1) 1px,transparent 1px),linear-gradient(90deg,rgba(249,115,22,1) 1px,transparent 1px)",
+        backgroundSize:"80px 80px"}}/>
+
+      {/* ── Star field ── */}
+      {stars.map((s,i)=>(
+        <div key={i} style={{position:"absolute",left:s.x,top:s.y,
+          width:s.r*2,height:s.r*2,borderRadius:"50%",
+          background:"rgba(249,115,22,0.6)",
+          animation:`twinkle ${2+i%3}s ease-in-out infinite`,
+          animationDelay:`${s.d}s`}}/>
+      ))}
+
+      {/* ── Floating particles (sparks) ── */}
+      {particles.map((p,i)=>(
+        <div key={i} style={{position:"absolute",left:p.x,top:p.y,
+          width:p.s,height:p.s,borderRadius:"50%",
+          background:`rgba(249,115,22,${0.3+i%3*0.15})`,
+          animation:`drift${1+(i%3)} ${6+i%4}s ease-in-out infinite`,
+          animationDelay:`${p.d}s`}}/>
+      ))}
+
+      {/* ── AI node constellation (top area) ── */}
+      <div style={{position:"absolute",top:"8%",right:"8%",width:280,height:280}}>
+        <svg width="280" height="280" viewBox="0 0 280 280" fill="none">
+          {/* Center AI node */}
+          <circle cx="140" cy="140" r="22" fill="rgba(249,115,22,0.08)" stroke="rgba(249,115,22,0.2)" strokeWidth="1.2"/>
+          <circle cx="140" cy="140" r="14" fill="rgba(249,115,22,0.12)" stroke="rgba(249,115,22,0.3)" strokeWidth="1"/>
+          <text x="140" y="144" textAnchor="middle" fontSize="10" fill="rgba(249,115,22,0.5)" fontFamily="sans-serif" fontWeight="700">AI</text>
+          {/* Orbit rings */}
+          <circle cx="140" cy="140" r="60" fill="none" stroke="rgba(249,115,22,0.08)" strokeWidth="1" strokeDasharray="4 4"/>
+          <circle cx="140" cy="140" r="100" fill="none" stroke="rgba(249,115,22,0.05)" strokeWidth="1" strokeDasharray="6 6"/>
+          {/* Orbiting nodes */}
+          <g className="node-orbit">
+            <circle cx="0" cy="0" r="9" fill="rgba(249,115,22,0.1)" stroke="rgba(249,115,22,0.25)" strokeWidth="1"/>
+            <text x="0" y="3" textAnchor="middle" fontSize="5" fill="rgba(249,115,22,0.6)" fontFamily="sans-serif" fontWeight="700">CRM</text>
+          </g>
+          <g style={{transformOrigin:"140px 140px"}} className="node-orbit-2">
+            <g style={{transform:"translateX(140px) translateY(140px)"}}>
+              <circle cx="0" cy="0" r="8" fill="rgba(249,115,22,0.1)" stroke="rgba(249,115,22,0.2)" strokeWidth="1"/>
+              <text x="0" y="3" textAnchor="middle" fontSize="5" fill="rgba(249,115,22,0.5)" fontFamily="sans-serif" fontWeight="700">SMS</text>
+            </g>
+          </g>
+          <g style={{transformOrigin:"140px 140px"}} className="node-orbit-3">
+            <g style={{transform:"translateX(140px) translateY(140px)"}}>
+              <circle cx="0" cy="0" r="8" fill="rgba(249,115,22,0.1)" stroke="rgba(249,115,22,0.2)" strokeWidth="1"/>
+              <text x="0" y="3" textAnchor="middle" fontSize="5" fill="rgba(249,115,22,0.5)" fontFamily="sans-serif" fontWeight="700">ADS</text>
+            </g>
+          </g>
+          {/* Static connector lines */}
+          <line x1="140" y1="140" x2="200" y2="80" stroke="rgba(249,115,22,0.07)" strokeWidth="1"/>
+          <line x1="140" y1="140" x2="80" y2="90" stroke="rgba(249,115,22,0.07)" strokeWidth="1"/>
+          <line x1="140" y1="140" x2="210" y2="190" stroke="rgba(249,115,22,0.07)" strokeWidth="1"/>
+          <line x1="140" y1="140" x2="70" y2="200" stroke="rgba(249,115,22,0.07)" strokeWidth="1"/>
+        </svg>
+      </div>
+
+      {/* ── Animated rooftop city panorama ── */}
+      <div style={{position:"absolute",bottom:0,left:0,right:0,height:"38%",overflow:"hidden"}}>
+        <div className="city-scroll" style={{display:"flex",alignItems:"flex-end",width:"200%",height:"100%"}}>
+          <svg width="2880" height="220" viewBox="0 0 2880 220" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            {/* House row 1 */}
+            {[0,200,380,560,740,920,1100,1280,1440,1640,1820,2000,2200,2380,2560,2740].map((x,i)=>{
+              const h=[90,110,80,120,95,105,115,85,90,110,80,120,95,105,115,85][i];
+              const w=140+i%3*20;
+              const variant=i%3;
+              return (
+                <g key={x} opacity={0.12+(i%4)*0.03}>
+                  {/* Wall */}
+                  <rect x={x+10} y={220-h} width={w} height={h} fill="rgba(249,115,22,0.6)" rx="2"/>
+                  {/* Roof */}
+                  {variant===0 && <polygon points={`${x},${220-h} ${x+w/2+10},${220-h-40} ${x+w+20},${220-h}`} fill="rgba(194,65,12,0.7)"/>}
+                  {variant===1 && <rect x={x+10} y={220-h-20} width={w} height={20} fill="rgba(194,65,12,0.6)" rx="2"/>}
+                  {variant===2 && <polygon points={`${x+10},${220-h} ${x+w/2+10},${220-h-50} ${x+w+10},${220-h}`} fill="rgba(180,50,5,0.7)"/>}
+                  {/* Windows */}
+                  <rect x={x+20} y={220-h+15} width={20} height={18} fill="rgba(135,206,235,0.3)" rx="2"/>
+                  <rect x={x+50} y={220-h+15} width={20} height={18} fill="rgba(135,206,235,0.25)" rx="2"/>
+                  {w>150 && <rect x={x+80} y={220-h+15} width={20} height={18} fill="rgba(135,206,235,0.2)" rx="2"/>}
+                  {/* Door */}
+                  <rect x={x+w/2} y={220-25} width={22} height={25} fill="rgba(120,60,20,0.5)" rx="2"/>
+                  {/* Chimney */}
+                  {i%2===0 && <rect x={x+w-30} y={220-h-55} width={14} height={35} fill="rgba(150,70,30,0.4)" rx="1"/>}
+                </g>
+              );
+            })}
+            {/* Ground line */}
+            <line x1="0" y1="219" x2="2880" y2="219" stroke="rgba(249,115,22,0.12)" strokeWidth="1"/>
+            {/* Trees */}
+            {[150,330,510,680,870,1050,1230,1400,1590,1770,1950,2130,2310,2490,2670].map((x,i)=>(
+              <g key={x} opacity={0.09+(i%3)*0.03}>
+                <line x1={x} y1="219" x2={x} y2={170} stroke="rgba(100,60,20,0.5)" strokeWidth="4"/>
+                <ellipse cx={x} cy={165} rx="18" ry="22" fill="rgba(80,160,80,0.4)"/>
+              </g>
+            ))}
+            {/* Flying birds */}
+            {[400,900,1500,2100,2600].map((x,i)=>(
+              <g key={x} opacity="0.15" style={{animation:`cloudDrift ${15+i*3}s ease-in-out infinite alternate`}}>
+                <path d={`M${x},${40+i*12} Q${x+10},${35+i*12} ${x+20},${40+i*12}`} fill="none" stroke="rgba(100,100,100,0.6)" strokeWidth="1.5" strokeLinecap="round"/>
+                <path d={`M${x+22},${40+i*12} Q${x+32},${35+i*12} ${x+42},${40+i*12}`} fill="none" stroke="rgba(100,100,100,0.6)" strokeWidth="1.5" strokeLinecap="round"/>
+              </g>
+            ))}
+          </svg>
+        </div>
+      </div>
+
+      {/* ── Wave layers ── */}
+      <svg style={{position:"absolute",bottom:0,left:0,width:"110%",height:"45%",overflow:"visible"}}
+        viewBox="0 0 1440 400" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <g className="wave-1">
-          <path fill="rgba(180,50,5,0.09)"
-            d="M0,420 C180,320 360,500 540,400 C720,300 900,460 1080,360 C1260,260 1380,400 1440,340 L1440,600 L0,600Z"/>
+          <path fill="rgba(180,50,5,0.07)" d="M0,320 C180,240 360,380 540,300 C720,220 900,360 1080,280 C1260,200 1380,310 1440,260 L1440,400 L0,400Z"/>
         </g>
         <g className="wave-2">
-          <path fill="rgba(249,115,22,0.08)"
-            d="M0,460 C200,360 420,520 660,420 C900,320 1100,480 1300,380 C1420,320 1440,420 1440,380 L1440,600 L0,600Z"/>
+          <path fill="rgba(249,115,22,0.06)" d="M0,350 C200,270 420,400 660,320 C900,240 1100,370 1300,290 C1420,240 1440,330 1440,300 L1440,400 L0,400Z"/>
         </g>
         <g className="wave-3">
-          <path fill="rgba(251,146,60,0.07)"
-            d="M0,490 C240,400 480,540 720,450 C960,360 1140,500 1340,410 C1420,375 1440,450 1440,430 L1440,600 L0,600Z"/>
+          <path fill="rgba(251,146,60,0.055)" d="M0,370 C240,300 480,400 720,340 C960,280 1140,390 1340,320 C1420,285 1440,360 1440,340 L1440,400 L0,400Z"/>
         </g>
       </svg>
 
-      {/* Reduced scenery — 5 pieces instead of 14 */}
-      <div style={{position:"absolute",inset:0}}>
-        <div style={{position:"absolute",bottom:"7%",left:"3%",opacity:0.16}}><SceneryHouse variant="A" scale={0.9}/></div>
-        <div style={{position:"absolute",bottom:"6%",left:"35%",opacity:0.10}}><SceneryHouse variant="C" scale={1.0}/></div>
-        <div style={{position:"absolute",bottom:"7%",left:"48%",opacity:0.14}}><SceneryTruck/></div>
-        <div style={{position:"absolute",bottom:"5%",right:"3%",opacity:0.13}}><SceneryHouse variant="B" scale={0.9}/></div>
-        <div className="anim-sun" style={{position:"absolute",top:"6%",right:"6%",opacity:0.2}}><ScenerySun/></div>
-        <div className="anim-cloud1" style={{position:"absolute",top:"12%",left:"18%",opacity:0.15}}><SceneryCloud scale={1.1}/></div>
-      </div>
+      {/* ── Moving clouds ── */}
+      <div className="anim-cloud1" style={{position:"absolute",top:"10%",left:"5%",opacity:0.18}}><SceneryCloud scale={1.4}/></div>
+      <div className="anim-cloud2" style={{position:"absolute",top:"6%",left:"42%",opacity:0.12}}><SceneryCloud scale={1.0}/></div>
+      <div className="anim-cloud1" style={{position:"absolute",top:"15%",right:"20%",opacity:0.10}}><SceneryCloud scale={0.7}/></div>
 
-      {/* Orbs — reduced blur radius for less GPU work */}
-      <div className="orb-1" style={{position:"absolute",top:"-15%",left:"55%",width:700,height:700,borderRadius:"50%",
-        background:"radial-gradient(circle,rgba(249,115,22,0.07) 0%,transparent 65%)",filter:"blur(60px)"}}/>
-      <div className="orb-2" style={{position:"absolute",top:"25%",left:"-10%",width:500,height:500,borderRadius:"50%",
-        background:"radial-gradient(circle,rgba(234,88,12,0.06) 0%,transparent 65%)",filter:"blur(50px)"}}/>
+      {/* ── Sun ── */}
+      <div className="anim-sun" style={{position:"absolute",top:"5%",left:"8%",opacity:0.22}}><ScenerySun/></div>
 
+      {/* ── Large soft orbs ── */}
+      <div className="orb-1" style={{position:"absolute",top:"-18%",left:"50%",width:750,height:750,borderRadius:"50%",
+        background:"radial-gradient(circle,rgba(249,115,22,0.07) 0%,transparent 65%)",filter:"blur(55px)"}}/>
+      <div className="orb-2" style={{position:"absolute",top:"30%",left:"-12%",width:550,height:550,borderRadius:"50%",
+        background:"radial-gradient(circle,rgba(234,88,12,0.055) 0%,transparent 65%)",filter:"blur(45px)"}}/>
+      <div style={{position:"absolute",bottom:"20%",right:"-8%",width:400,height:400,borderRadius:"50%",
+        background:"radial-gradient(circle,rgba(249,115,22,0.04) 0%,transparent 65%)",filter:"blur(40px)"}}/>
+
+      {/* ── Readable overlay ── */}
       <div style={{position:"absolute",inset:0,
-        background:"linear-gradient(to bottom,rgba(255,248,242,0.72) 0%,rgba(255,248,242,0.08) 45%,rgba(255,248,242,0.04) 65%,rgba(255,248,242,0.6) 100%)"}}/>
+        background:"linear-gradient(to bottom,rgba(255,250,245,0.68) 0%,rgba(255,250,245,0.06) 40%,rgba(255,250,245,0.02) 60%,rgba(255,250,245,0.55) 100%)"}}/>
     </div>
   );
 });
@@ -405,6 +545,152 @@ function SceneryCloud({ scale=1 }: { scale?:number }) {
     </svg>
   );
 }
+
+// ─── HERO PORTRAIT — large detailed illustration ─────────────────────────────
+const HeroPortrait = memo(function HeroPortrait() {
+  return (
+    <svg width="320" height="360" viewBox="0 0 320 360" fill="none" xmlns="http://www.w3.org/2000/svg"
+      style={{filter:"drop-shadow(0 24px 48px rgba(249,115,22,0.16))"}}>
+      <defs>
+        <linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#fff7f0"/><stop offset="100%" stopColor="#fde8d0"/>
+        </linearGradient>
+        <linearGradient id="roof1" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#c2410c"/><stop offset="100%" stopColor="#7c2d12"/>
+        </linearGradient>
+        <linearGradient id="roof2" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#ea580c"/><stop offset="100%" stopColor="#9a3412"/>
+        </linearGradient>
+      </defs>
+
+      {/* Sky */}
+      <rect width="320" height="360" rx="20" fill="url(#sky)"/>
+
+      {/* Sun */}
+      <motion.circle cx="268" cy="52" r="28" fill="rgba(249,115,22,0.18)"
+        animate={{scale:[1,1.08,1],opacity:[0.7,1,0.7]}} transition={{duration:4,repeat:Infinity}}/>
+      <circle cx="268" cy="52" r="18" fill="rgba(249,115,22,0.3)"/>
+      <circle cx="268" cy="52" r="11" fill="rgba(249,115,22,0.55)"/>
+      {[0,45,90,135,180,225,270,315].map((deg,i)=>{
+        const r=Math.PI*deg/180;
+        return <line key={i} x1={268+Math.cos(r)*22} y1={52+Math.sin(r)*22}
+          x2={268+Math.cos(r)*32} y2={52+Math.sin(r)*32}
+          stroke="rgba(249,115,22,0.4)" strokeWidth="2" strokeLinecap="round"/>;
+      })}
+
+      {/* Clouds */}
+      <motion.g animate={{x:[0,8,0]}} transition={{duration:12,repeat:Infinity,ease:"easeInOut"}}>
+        <ellipse cx="80" cy="55" rx="38" ry="16" fill="rgba(255,255,255,0.7)"/>
+        <ellipse cx="100" cy="46" rx="24" ry="15" fill="rgba(255,255,255,0.65)"/>
+        <ellipse cx="62" cy="50" rx="20" ry="12" fill="rgba(255,255,255,0.6)"/>
+      </motion.g>
+      <motion.g animate={{x:[0,-6,0]}} transition={{duration:16,repeat:Infinity,ease:"easeInOut"}}>
+        <ellipse cx="210" cy="38" rx="28" ry="12" fill="rgba(255,255,255,0.5)"/>
+        <ellipse cx="226" cy="31" rx="18" ry="11" fill="rgba(255,255,255,0.45)"/>
+      </motion.g>
+
+      {/* Background house */}
+      <rect x="10" y="200" width="100" height="120" fill="rgba(249,115,22,0.12)" rx="2"/>
+      <polygon points="10,202 60,158 110,202" fill="rgba(194,65,12,0.2)"/>
+      <rect x="20" y="218" width="24" height="20" fill="rgba(135,206,235,0.3)" rx="1"/>
+      <rect x="54" y="218" width="24" height="20" fill="rgba(135,206,235,0.3)" rx="1"/>
+      <rect x="38" y="278" width="22" height="42" fill="rgba(120,60,20,0.2)" rx="1"/>
+
+      {/* Main house */}
+      <rect x="82" y="210" width="180" height="150" rx="3" fill="rgba(255,252,248,0.9)" stroke="rgba(249,115,22,0.2)" strokeWidth="1"/>
+      {/* Roof */}
+      <polygon points="68,212 172,136 286,212" fill="url(#roof1)"/>
+      {/* Roof shingles */}
+      {[0,1,2,3,4,5,6].map(r=>[0,1,2,3,4,5,6,7,8].map(col=>{
+        const x=74+col*24-r*3, y=156+r*8;
+        if(y>211||x<68||x>278) return null;
+        return <rect key={`${r}${col}`} x={x} y={y} width="22" height="6" rx="1"
+          fill={r%2===0?"rgba(154,52,18,0.85)":"rgba(194,65,12,0.7)"}/>;
+      }))}
+
+      {/* Chimney */}
+      <rect x="224" y="148" width="18" height="42" fill="rgba(100,55,25,0.7)" rx="1"/>
+      <rect x="220" y="146" width="26" height="6" fill="rgba(80,40,18,0.8)" rx="1"/>
+      {/* Smoke */}
+      {[0,1,2].map(i=>(
+        <motion.ellipse key={i} cx={233} cy={130-i*14} rx={5+i*3} ry={4+i*2}
+          fill="rgba(200,180,160,0.25)"
+          animate={{y:[-2,2,-2],opacity:[0.4,0.1,0.4]}}
+          transition={{duration:2+i*0.5,repeat:Infinity,delay:i*0.6}}/>
+      ))}
+
+      {/* Windows */}
+      <rect x="95" y="228" width="42" height="36" rx="3" fill="rgba(135,206,235,0.4)" stroke="rgba(249,115,22,0.25)" strokeWidth="1.2"/>
+      <line x1="116" y1="228" x2="116" y2="264" stroke="rgba(249,115,22,0.2)" strokeWidth="1"/>
+      <line x1="95" y1="246" x2="137" y2="246" stroke="rgba(249,115,22,0.2)" strokeWidth="1"/>
+      <rect x="210" y="228" width="42" height="36" rx="3" fill="rgba(135,206,235,0.4)" stroke="rgba(249,115,22,0.25)" strokeWidth="1.2"/>
+      <line x1="231" y1="228" x2="231" y2="264" stroke="rgba(249,115,22,0.2)" strokeWidth="1"/>
+      <line x1="210" y1="246" x2="252" y2="246" stroke="rgba(249,115,22,0.2)" strokeWidth="1"/>
+
+      {/* Door */}
+      <rect x="155" y="282" width="34" height="78" rx="3" fill="rgba(120,65,25,0.55)"/>
+      <path d="M155,284 Q172,272 189,284" fill="rgba(120,65,25,0.45)" stroke="rgba(100,55,20,0.3)" strokeWidth="1"/>
+      <circle cx="182" cy="321" r="3" fill="rgba(249,115,22,0.8)"/>
+
+      {/* ROOFER on roof */}
+      <motion.g animate={{y:[0,-3,0]}} transition={{duration:2,repeat:Infinity,ease:"easeInOut"}}>
+        {/* Body */}
+        <rect x="188" y="173" width="14" height="20" fill="rgba(30,30,30,0.75)" rx="2"/>
+        {/* Head */}
+        <circle cx="195" cy="168" r="8" fill="rgba(220,175,135,0.95)"/>
+        {/* Hard hat */}
+        <ellipse cx="195" cy="163" rx="11" ry="5" fill="rgba(249,115,22,0.9)"/>
+        <rect x="184" y="161" width="22" height="4" rx="2" fill="rgba(234,88,12,0.95)"/>
+        {/* Hammer arm */}
+        <motion.g animate={{rotate:[-20,15,-20]}} transition={{duration:0.65,repeat:Infinity,ease:"easeInOut"}}
+          style={{transformOrigin:"196px 183px"}}>
+          <line x1="202" y1="183" x2="218" y2="170" stroke="rgba(80,50,20,0.7)" strokeWidth="3" strokeLinecap="round"/>
+          <rect x="216" y="166" width="10" height="7" rx="1.5" fill="rgba(60,60,60,0.85)"/>
+        </motion.g>
+        {/* Other arm */}
+        <line x1="188" y1="180" x2="176" y2="175" stroke="rgba(220,175,135,0.8)" strokeWidth="3" strokeLinecap="round"/>
+        {/* Legs */}
+        <line x1="193" y1="193" x2="190" y2="208" stroke="rgba(30,30,30,0.7)" strokeWidth="3.5" strokeLinecap="round"/>
+        <line x1="199" y1="193" x2="202" y2="208" stroke="rgba(30,30,30,0.7)" strokeWidth="3.5" strokeLinecap="round"/>
+        {/* Safety rope */}
+        <motion.path d="M195,192 Q210,215 210,230" fill="none" stroke="rgba(249,115,22,0.4)" strokeWidth="1.5" strokeDasharray="3 2"
+          animate={{opacity:[0.4,0.8,0.4]}} transition={{duration:2,repeat:Infinity}}/>
+      </motion.g>
+
+      {/* AI badge floating */}
+      <motion.g animate={{y:[-4,4,-4],x:[0,3,0]}} transition={{duration:3,repeat:Infinity,ease:"easeInOut"}}>
+        <rect x="228" y="100" width="76" height="44" rx="10" fill="rgba(249,115,22,0.12)" stroke="rgba(249,115,22,0.35)" strokeWidth="1.2"/>
+        <text x="266" y="118" textAnchor="middle" fontSize="9" fill="rgba(249,115,22,0.7)" fontFamily="sans-serif" fontWeight="700">CALL ANSWERED</text>
+        <text x="266" y="132" textAnchor="middle" fontSize="8" fill="rgba(34,197,94,0.8)" fontFamily="sans-serif" fontWeight="600">✓ Lead qualified</text>
+        <circle cx="240" cy="122" r="5" fill="rgba(34,197,94,0.3)"/>
+        <motion.circle cx="240" cy="122" r="8" fill="none" stroke="rgba(34,197,94,0.4)" strokeWidth="1"
+          animate={{scale:[1,1.5,1],opacity:[0.5,0,0.5]}} transition={{duration:1.5,repeat:Infinity}}/>
+      </motion.g>
+
+      {/* Phone signal */}
+      <motion.g animate={{opacity:[0.3,0.9,0.3]}} transition={{duration:1.8,repeat:Infinity}}>
+        <path d="M36,108 Q42,114 36,120" fill="none" stroke="rgba(249,115,22,0.5)" strokeWidth="1.8" strokeLinecap="round"/>
+        <path d="M30,104 Q40,114 30,124" fill="none" stroke="rgba(249,115,22,0.35)" strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M24,100 Q38,114 24,128" fill="none" stroke="rgba(249,115,22,0.2)" strokeWidth="1.2" strokeLinecap="round"/>
+      </motion.g>
+
+      {/* Grass */}
+      <ellipse cx="160" cy="356" rx="155" ry="12" fill="rgba(100,160,60,0.12)"/>
+      <rect x="5" y="350" width="310" height="10" rx="0" fill="rgba(100,160,60,0.08)"/>
+
+      {/* Ladder */}
+      <line x1="82" y1="210" x2="74" y2="290" stroke="rgba(140,80,30,0.5)" strokeWidth="3" strokeLinecap="round"/>
+      <line x1="96" y1="210" x2="88" y2="290" stroke="rgba(140,80,30,0.5)" strokeWidth="3" strokeLinecap="round"/>
+      {[0,1,2,3,4].map(i=>(
+        <line key={i} x1={83+i*0.5} y1={218+i*15} x2={95-i*0.5} y2={218+i*15}
+          stroke="rgba(140,80,30,0.4)" strokeWidth="2" strokeLinecap="round"/>
+      ))}
+
+      {/* roofY watermark */}
+      <text x="160" y="346" textAnchor="middle" fontSize="8" fill="rgba(249,115,22,0.25)" fontFamily="sans-serif" fontWeight="700" letterSpacing="0.15em">roofY.ai</text>
+    </svg>
+  );
+});
 
 // ── New section illustrations ─────────────────────────────────────────────────
 
@@ -1637,9 +1923,9 @@ function HomePage({ goto }: { goto:(p:Page)=>void }) {
               AI Automation for Roofing Contractors
             </motion.span>
           </motion.div>
-          <motion.div initial={{opacity:0,y:30}} animate={{opacity:1,y:0}} transition={{delay:0.6,duration:0.8,ease:E}}
-            className="absolute right-8 top-20 hidden lg:block" style={{zIndex:3}}>
-            <RoofHouseIllustration size={170}/>
+          <motion.div initial={{opacity:0,x:40,scale:0.9}} animate={{opacity:1,x:0,scale:1}} transition={{delay:0.5,duration:1,ease:E}}
+            className="absolute right-4 top-16 hidden lg:block" style={{zIndex:3}}>
+            <HeroPortrait/>
           </motion.div>
           <h1 style={{...IF,fontStyle:"italic",fontSize:"clamp(50px,8vw,112px)",lineHeight:1.15}} className="text-gray-900 tracking-tight mb-6">
             <motion.span style={{display:"block",paddingBottom:"0.05em"}}
