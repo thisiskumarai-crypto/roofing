@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+@import "tailwindcss";
+
+/* =========================
+   ROOT
+========================= */
+:root {
+  --purple: #7c3aed;
+  --purple-soft: rgba(124,58,237,0.15);
+}
+
+/* =========================
+   BASE
+========================= */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background: transparent;
+  color: #111;
+  overflow-x: hidden;
+}
+
+@media (pointer: fine) {
+  *, *::before, *::after {
+    cursor: none !important;
+  }
+}
+
+/* =========================
+   UTILITIES & ANIMATIONS
+========================= */
+.accent {
+  color: var(--purple);
+}
+
+/* Ticker — compositor-only transform */
+@keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* Hammer — reduced motion, simpler */
+@keyframes hammerSwing {
+  0%,100% { transform: rotate(-22deg); transform-origin: 90% 90%; }
+  50%      { transform: rotate(8deg);  transform-origin: 90% 90%; }
+}
+@keyframes cloudDrift {
+  0%   { transform: translateX(0px); }
+  100% { transform: translateX(60px); }
+}
+@keyframes sunPulse {
+  0%,100% { opacity:0.65; transform: scale(1); }
+  50%     { opacity:0.95; transform: scale(1.06); }
+}
+@keyframes workerBob {
+  0%,100% { transform: translateY(0px); }
+  50%     { transform: translateY(-5px); }
+}
+.anim-hammer   { animation: hammerSwing 0.9s ease-in-out infinite; will-change: transform; }
+.anim-cloud1   { animation: cloudDrift 22s ease-in-out infinite alternate; will-change: transform; }
+.anim-cloud2   { animation: cloudDrift 28s ease-in-out infinite alternate-reverse; will-change: transform; }
+.anim-sun      { animation: sunPulse 5s ease-in-out infinite; will-change: opacity, transform; }
+.anim-worker   { animation: workerBob 2.5s ease-in-out infinite; will-change: transform; }
+
+/* PERF: waves — translateX only, compositor-friendly */
+@keyframes wave1 {
+  0%,100% { transform: translateX(0); }
+  50%     { transform: translateX(-5%); }
+}
+@keyframes wave2 {
+  0%,100% { transform: translateX(0); }
+  50%     { transform: translateX(6%); }
+}
+@keyframes wave3 {
+  0%,100% { transform: translateX(0); }
+  50%     { transform: translateX(-8%); }
+}
+.wave-1 { animation: wave1 16s ease-in-out infinite; will-change: transform; }
+.wave-2 { animation: wave2 22s ease-in-out infinite; will-change: transform; }
+.wave-3 { animation: wave3 28s ease-in-out infinite; will-change: transform; }
+
+/* Orbs — gentle drift, reduced translate distances */
+@keyframes orb1 {
+  0%,100%{transform:translate(0,0)} 50%{transform:translate(28px,-20px)}
+}
+@keyframes orb2 {
+  0%,100%{transform:translate(0,0)} 50%{transform:translate(-24px,22px)}
+}
+.orb-1{animation:orb1 32s ease-in-out infinite;will-change:transform}
+.orb-2{animation:orb2 40s ease-in-out infinite;animation-delay:-8s;will-change:transform}
+
+/* Ping — status indicator */
+@keyframes ping{75%,100%{transform:scale(2);opacity:0}}
+.ping{animation:ping 1.2s cubic-bezier(0,0,0.2,1) infinite}
+
+/* Voice ring — smoother, slower */
+@keyframes voiceRing{0%,100%{opacity:.45;transform:scale(1)} 50%{opacity:.06;transform:scale(1.14)}}
+.voice-ring{animation:voiceRing 3.2s ease-in-out infinite}
+
+@keyframes voiceGlow{0%,100%{box-shadow:0 8px 28px rgba(249,115,22,0.38)} 50%{box-shadow:0 14px 48px rgba(249,115,22,0.6)}}
+.voice-btn{animation:voiceGlow 2.4s ease-in-out infinite}
+
+/* Typing dots */
+@keyframes typingBounce{0%,100%{transform:translateY(0);opacity:0.5} 50%{transform:translateY(-4px);opacity:1}}
+.typing-dot{animation:typingBounce .7s ease-in-out infinite}
+.typing-dot:nth-child(2){animation-delay:.18s}
+.typing-dot:nth-child(3){animation-delay:.36s}
+
+/* Scroll cue */
+@keyframes scrollCue{0%,100%{transform:translateY(0);opacity:0.7} 50%{transform:translateY(10px);opacity:1}}
+.scroll-cue{animation:scrollCue 2.2s ease-in-out infinite;will-change:transform}
+
+/* Shimmer text — GPU friendly */
+@keyframes shimmer{0%{background-position:-200% 0} 100%{background-position:200% 0}}
+.shimmer-text{
+  background:linear-gradient(90deg,#f97316 0%,#fbbf24 40%,#f97316 60%,#ea580c 100%);
+  background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:shimmer 3.5s linear infinite
+}
+
+/* Badge pulse */
+@keyframes badgePulse{0%,100%{box-shadow:0 0 0 0 rgba(249,115,22,0.35)} 50%{box-shadow:0 0 0 7px rgba(249,115,22,0)}}
+.badge-pulse{animation:badgePulse 2.4s ease-in-out infinite}
+
+/* Section divider pulse */
+@keyframes dividerPulse{0%,100%{opacity:0.25;transform:scaleX(0.75)} 50%{opacity:0.9;transform:scaleX(1)}}
+.divider-pulse{animation:dividerPulse 3.5s ease-in-out infinite}
+
+/* Float slow — less extreme, smoother */
+@keyframes floatSlow{0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)}}
+.float-slow{animation:floatSlow 5.5s ease-in-out infinite;will-change:transform}
+.float-slow-2{animation:floatSlow 7s ease-in-out infinite;animation-delay:-2.5s;will-change:transform}
+.float-slow-3{animation:floatSlow 4.5s ease-in-out infinite;animation-delay:-1.2s;will-change:transform}
+
+/* Step connector line draw */
+@keyframes lineDraw{from{stroke-dashoffset:200} to{stroke-dashoffset:0}}
+.line-draw{animation:lineDraw 1.6s ease forwards}
+
+/* Spotlight — slower, less intrusive */
+@keyframes spotlight{0%{opacity:0;transform:translate(-20%,-20%) rotate(-15deg)} 40%{opacity:0.05} 100%{opacity:0;transform:translate(120%,80%) rotate(-15deg)}}
+.spotlight{animation:spotlight 10s ease-in-out infinite}
+
+/* Particle drift — fewer, simpler */
+@keyframes drift1{0%{transform:translate(0,0) scale(1);opacity:0} 15%{opacity:1} 85%{opacity:1} 100%{transform:translate(-50px,-160px) scale(0.4);opacity:0}}
+@keyframes drift2{0%{transform:translate(0,0) scale(1);opacity:0} 15%{opacity:0.7} 85%{opacity:0.7} 100%{transform:translate(65px,-200px) scale(0.3);opacity:0}}
+@keyframes drift3{0%{transform:translate(0,0);opacity:0} 20%{opacity:0.8} 80%{opacity:0.8} 100%{transform:translate(-25px,-140px);opacity:0}}
+.particle-1{animation:drift1 8s ease-in-out infinite;will-change:transform,opacity}
+.particle-2{animation:drift2 10s ease-in-out infinite;will-change:transform,opacity}
+.particle-3{animation:drift3 7s ease-in-out infinite;will-change:transform,opacity}
+
+/* City scroll — smooth translateX */
+@keyframes cityScroll{0%{transform:translateX(0)} 100%{transform:translateX(-50%)}}
+.city-scroll{animation:cityScroll 70s linear infinite;will-change:transform}
+
+/* Star twinkle — reduced range */
+@keyframes twinkle{0%,100%{opacity:0.12;transform:scale(1)} 50%{opacity:0.6;transform:scale(1.3)}}
+
+/* Grid pulse — very subtle */
+@keyframes gridPulse{0%,100%{opacity:0.015} 50%{opacity:0.032}}
+.grid-pulse{animation:gridPulse 8s ease-in-out infinite}
+
+/* Node orbit — GPU-only rotation */
+@keyframes nodeOrbit{0%{transform:rotate(0deg) translateX(120px) rotate(0deg)} 100%{transform:rotate(360deg) translateX(120px) rotate(-360deg)}}
+@keyframes nodeOrbit2{0%{transform:rotate(0deg) translateX(80px) rotate(0deg)} 100%{transform:rotate(360deg) translateX(80px) rotate(-360deg)}}
+.node-orbit{animation:nodeOrbit 24s linear infinite;will-change:transform}
+.node-orbit-r{animation:nodeOrbit 32s linear infinite reverse;will-change:transform}
+.node-orbit-2{animation:nodeOrbit2 17s linear infinite;will-change:transform}
+.node-orbit-2r{animation:nodeOrbit2 22s linear infinite reverse;will-change:transform}
+
+/* Data rain — slowed, reduced opacity range */
+@keyframes rain1{0%{transform:translateY(-40px);opacity:0} 12%{opacity:0.5} 88%{opacity:0.5} 100%{transform:translateY(100vh);opacity:0}}
+@keyframes rain2{0%{transform:translateY(-60px);opacity:0} 15%{opacity:0.35} 85%{opacity:0.35} 100%{transform:translateY(100vh);opacity:0}}
+.rain-col-1{animation:rain1 10s linear infinite;will-change:transform}
+.rain-col-2{animation:rain2 14s linear infinite;will-change:transform}
+.rain-col-3{animation:rain1 12s linear infinite;will-change:transform}
+
+/* Horizontal scan line — slower */
+@keyframes scanLine{0%{transform:translateY(-2px);opacity:0} 3%{opacity:0.05} 97%{opacity:0.05} 100%{transform:translateY(100vh);opacity:0}}
+.scan-line{animation:scanLine 15s linear infinite;will-change:transform}
+
+/* Pulse ring */
+@keyframes pulseRing{0%{transform:scale(0.6);opacity:0.4} 100%{transform:scale(2.2);opacity:0}}
+.pulse-ring-a{animation:pulseRing 3.5s ease-out infinite;will-change:transform,opacity}
+.pulse-ring-b{animation:pulseRing 3.5s ease-out infinite;animation-delay:-1.1s;will-change:transform,opacity}
+.pulse-ring-c{animation:pulseRing 3.5s ease-out infinite;animation-delay:-2.2s;will-change:transform,opacity}
+
+/* Warp speed lines */
+@keyframes warpLine{0%{transform:scaleX(0);opacity:0;transform-origin:left} 30%{opacity:0.1} 70%{opacity:0.1} 100%{transform:scaleX(1);opacity:0}}
+.warp-1{animation:warpLine 5s ease-in-out infinite;will-change:transform}
+.warp-2{animation:warpLine 6.5s ease-in-out infinite;animation-delay:-2s;will-change:transform}
+.warp-3{animation:warpLine 4.5s ease-in-out infinite;animation-delay:-3.2s;will-change:transform}
+
+/* Morse / data blink */
+@keyframes morse{0%,100%{opacity:0} 10%,20%{opacity:0.45} 30%,40%{opacity:0} 50%,70%{opacity:0.45} 80%,100%{opacity:0}}
+.morse{animation:morse 3.5s ease-in-out infinite}
+
+/* Float gentle */
+@keyframes floatGent{0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-14px) rotate(1.5deg)}}
+.float-gent{animation:floatGent 8s ease-in-out infinite;will-change:transform}
+.float-gent-2{animation:floatGent 10s ease-in-out infinite;animation-delay:-3.5s;will-change:transform}
+
+/* City lights flicker — simplified */
+@keyframes flicker{0%,100%{opacity:0.55} 45%{opacity:0.18} 55%{opacity:0.55} 72%{opacity:0.28} 80%{opacity:0.55}}
+.flicker{animation:flicker 5s ease-in-out infinite}
+
+/* Slow rotate — much slower = less GPU frames */
+@keyframes slowRot{0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)}}
+.slow-rot{animation:slowRot 100s linear infinite;will-change:transform}
+.slow-rot-r{animation:slowRot 75s linear infinite reverse;will-change:transform}
+
+/* Reduce motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
